@@ -1,193 +1,653 @@
-import React from 'react';
-import { Heart, Activity, ShieldAlert, Award } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
+import { motion } from 'framer-motion'
 
-const AboutUs = () => {
-  const doctors = [
-    {
-      id: 1,
-      name: "Dr. Arundhati Nair",
-      qualifications: "B.A.M.S, M.D. (Ayurveda)",
-      role: "Senior Physician & Founder",
-      desc: "With over 12 years of clinical experience, Dr. Nair specializes in gynecological disorders, pulse diagnosis (Nadi Pariksha), and natural hormone regulation.",
-      avatar: "https://images.unsplash.com/photo-1594824813573-246434de83fb?auto=format&fit=crop&q=80&w=300"
-    },
-    {
-      id: 2,
-      name: "Dr. Vasundhara Sen",
-      qualifications: "B.A.M.S",
-      role: "Postnatal Care Consultant",
-      desc: "Dr. Sen is dedicated to postpartum maternal restoration, core muscle therapy, and tailored infant care guidance utilizing traditional guidelines.",
-      avatar: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=300"
-    }
-  ];
+// ── Scroll reveal hook ────────────────────────────────────────────────────
+function useReveal(threshold = 0.15) {
+  const ref = useRef(null)
+  const [visible, setVisible] = useState(false)
+  useEffect(() => {
+    const el  = ref.current
+    if (!el) return
+    const obs = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) { setVisible(true); obs.unobserve(el) } },
+      { threshold, rootMargin: '0px 0px -50px 0px' }
+    )
+    obs.observe(el)
+    return () => obs.disconnect()
+  }, [threshold])
+  return [ref, visible]
+}
 
-  const philosophy = [
-    {
-      id: 1,
-      icon: <Award className="w-6 h-6 text-gold" />,
-      title: "Authentic Ayurveda",
-      desc: "Strict adherence to classical texts, utilizing unmodified traditional processes and organic herbal extractions."
-    },
-    {
-      id: 2,
-      icon: <Heart className="w-6 h-6 text-gold" />,
-      title: "Women-Focused",
-      desc: "Therapies specifically engineered to balance and nurture the complex hormonal stages of a woman’s life."
-    },
-    {
-      id: 3,
-      icon: <Activity className="w-6 h-6 text-gold" />,
-      title: "Holistic Healing",
-      desc: "Restoring natural balance by integrating pulse diagnosis, herbal medicine, custom diet, and lifestyle shifts."
-    }
-  ];
-
-  const certs = [
-    "AYUSH Standard Certified", "100% Organic Sourced", "NABH Accredited Clinic", 
-    "WHO-GMP Compliant Labs", "Eco-Friendly Packaging", "Cruelty-Free Tested"
-  ];
-
+// ── Reveal wrapper ────────────────────────────────────────────────────────
+function Reveal({ children, delay = 0, direction = 'up' }) {
+  const [ref, visible] = useReveal()
+  const transforms = {
+    up:    visible ? 'translateY(0)'   : 'translateY(40px)',
+    left:  visible ? 'translateX(0)'   : 'translateX(-40px)',
+    right: visible ? 'translateX(0)'   : 'translateX(40px)',
+    scale: visible ? 'scale(1)'        : 'scale(0.94)',
+  }
   return (
-    <div className="min-h-screen bg-white">
-      
-      {/* 1. Hero Banner */}
-      <div className="bg-gradient-to-r from-primary to-primary-light text-white py-20 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(#8AB87A_1px,transparent_1px)] [background-size:32px_32px] opacity-10" />
-        <div className="max-w-4xl mx-auto px-4 text-center relative z-10 space-y-4">
-          <span className="font-accent text-sm text-gold tracking-widest uppercase italic">
-            Rooted in Wisdom, Blossoming in Health
-          </span>
-          <h1 className="font-display text-4xl md:text-5xl font-bold tracking-wide">
-            Our Story & Legacy
-          </h1>
-          <div className="w-16 h-[1.5px] bg-gold mx-auto" />
-        </div>
-      </div>
+    <div ref={ref} style={{
+      opacity:    visible ? 1 : 0,
+      transform:  transforms[direction],
+      transition: `opacity 0.85s ease ${delay}s, transform 0.85s cubic-bezier(0.22,1,0.36,1) ${delay}s`,
+    }}>
+      {children}
+    </div>
+  )
+}
 
-      {/* 2. Our Story */}
-      <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Text */}
-          <div className="space-y-6">
-            <span className="font-accent text-sm text-gold tracking-widest uppercase italic block">
-              Est. 2018
-            </span>
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-textDark tracking-wide leading-tight">
-              Honoring the Ancient Heritage of Healing
-            </h2>
-            <p className="font-body text-sm md:text-base text-textMuted leading-relaxed">
-              Samedha Ayurvedics was founded with a singular, vital mission: to create a clinical sanctuary where women could access pure, uncompromised Ayurvedic treatment customized to their biological needs.
-            </p>
-            <p className="font-body text-sm text-textMuted leading-relaxed">
-              Our name, **Samedha**, translates to "Growth and Strength" in Sanskrit. We believe that true health does not come from synthetic suppression of symptoms, but from nourishing the roots of the body. By combining pulse analysis (Nadi Pariksha) with highly specialized, chemical-free herbal preparations, we guide women back to their natural state of vibrant equilibrium.
-            </p>
-          </div>
-          {/* Image */}
-          <div className="relative rounded-2xl overflow-hidden shadow-lg h-[400px] border border-primary/5">
-            <img
-              src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&q=80&w=800"
-              alt="Ayurvedic Treatment Room"
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-primary/10 mix-blend-multiply" />
-          </div>
+// ── Branch card data ───────────────────────────────────────────
+const BRANCHES = [
+  {
+    id:       1,
+    badge:    'Main Branch',
+    name:     'Samedha Ayurvedics — Kochi',
+    address:  'Ground Floor, XYZ Building, MG Road, Ernakulam, Kochi — 682 016',
+    phone:    '+91 98765 43210',
+    email:    'kochi@samedha.com',
+    hours:    'Mon – Sat: 9:00 AM – 6:00 PM\nSunday: 10:00 AM – 2:00 PM',
+    image:    'https://images.unsplash.com/photo-1519823551278-64ac92734fb1?w=700&q=80',
+    mapUrl:   'https://maps.google.com/?q=Kochi+Kerala',
+    highlight: 'Our flagship centre — fully equipped with all Panchakarma facilities, consultation rooms, and herbal pharmacy.',
+    features: ['Panchakarma Suite', 'Herbal Pharmacy', 'Consultation Rooms', 'Relaxation Lounge'],
+    color:    '#2D5A27',
+  },
+  {
+    id:       2,
+    badge:    'Branch',
+    name:     'Samedha Ayurvedics — Infopark',
+    address:  '2nd Floor, ABC Tower, Infopark Campus, Kakkanad, Kochi — 682 030',
+    phone:    '+91 98765 43211',
+    email:    'infopark@samedha.com',
+    hours:    'Mon – Sat: 9:00 AM – 6:00 PM\nSunday: Closed',
+    image:    'https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?w=700&q=80',
+    mapUrl:   'https://maps.google.com/?q=Infopark+Kakkanad+Kerala',
+    highlight: 'Serving the Infopark tech community with convenient weekday appointments and express wellness programs.',
+    features: ['Express Consultations', 'Stress Relief Programs', 'Herbal Products', 'Online Booking'],
+    color:    '#4A7C3F',
+  },
+]
+
+// ── Philosophy pillars ────────────────────────────────────────────────────
+const PHILOSOPHY = [
+  {
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+      </svg>
+    ),
+    title: 'Authentic Ayurveda',
+    desc:  'Every treatment follows classical Ayurvedic texts. We use only genuine herbal formulations sourced from certified suppliers.',
+  },
+  {
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+        <circle cx="9" cy="7" r="4"/>
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+      </svg>
+    ),
+    title: 'For Every Individual',
+    desc:  'We welcome all — men, women, children and seniors. Every treatment plan is personalised to your unique body constitution.',
+  },
+  {
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+      </svg>
+    ),
+    title: 'Holistic Healing',
+    desc:  'We address root causes, not just symptoms. Body, mind and spirit are treated as one — for lasting, sustainable wellness.',
+  },
+]
+
+// ── Team ──────────────────────────────────────────────────────────────────
+const TEAM = [
+  { name: 'Dr. Arundhati Nair', role: 'Chief Ayurvedic Physician', exp: '12+ yrs', initials: 'AN' },
+  { name: 'Dr. Vasundhara Sen', role: 'Panchakarma Specialist', exp: '8+ yrs', initials: 'VS' },
+  { name: 'Dr. Devika Raj', role: 'Wellness & Lifestyle Advisor', exp: '6+ yrs', initials: 'DR' },
+]
+
+export default function OurStory() {
+  return (
+    <>
+      {/* ── Hero Banner ─────────────────────────────────────────────── */}
+      <section style={{
+        background: 'linear-gradient(135deg, #1A3A15 0%, #2D5A27 60%, #1A3A15 100%)',
+        padding: 'clamp(80px, 12vw, 140px) 24px 80px',
+        position: 'relative',
+        overflow: 'hidden',
+        textAlign: 'center',
+      }}>
+        {/* Decorative radial glow */}
+        <div style={{
+          position: 'absolute', inset: 0,
+          backgroundImage: 'radial-gradient(ellipse at 70% 50%, rgba(201,168,76,0.15) 0%, transparent 60%)',
+          pointerEvents: 'none',
+        }} />
+        {/* Ghost large text watermark */}
+        <div style={{
+          position: 'absolute', bottom: -20, left: '50%',
+          transform: 'translateX(-50%)',
+          fontFamily: '"Cormorant Garamond", serif',
+          fontSize: 'clamp(4rem, 12vw, 9rem)',
+          fontWeight: 300, color: 'rgba(255,255,255,0.04)',
+          whiteSpace: 'nowrap', pointerEvents: 'none', userSelect: 'none',
+        }}>
+          Our Story
         </div>
+
+        <motion.p
+          initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          style={{
+            fontFamily: '"DM Sans", sans-serif', fontSize: '0.68rem',
+            letterSpacing: '0.4em', color: 'rgba(138,184,122,0.85)',
+            textTransform: 'uppercase', marginBottom: '16px',
+          }}
+        >
+          Who We Are
+        </motion.p>
+
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.35, duration: 0.8 }}
+          style={{
+            fontFamily: '"Cormorant Garamond", Georgia, serif',
+            fontSize: 'clamp(2.8rem, 6vw, 5rem)',
+            fontWeight: 300, color: '#FAFAF7',
+            lineHeight: 1.15, marginBottom: '16px',
+          }}
+        >
+          Rooted in Nature,<br />
+          <em style={{ fontStyle: 'italic', color: '#C9A84C' }}>Thriving in Health</em>
+        </motion.h1>
+
+        <motion.p
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+          transition={{ delay: 0.55 }}
+          style={{
+            fontFamily: '"Lora", serif', fontStyle: 'italic',
+            fontSize: '1.1rem', color: 'rgba(250,250,247,0.55)',
+          }}
+        >
+          Ancient wisdom. Modern wellness. Two locations in Kerala.
+        </motion.p>
       </section>
 
-      {/* 3. Philosophy */}
-      <section className="py-16 bg-cream/30 border-y border-cream">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-xl mx-auto mb-12">
-            <h2 className="font-display text-3xl font-bold text-textDark tracking-wide">
-              Our Core Philosophy
+      {/* ── Our Story text + image ───────────────────────────────────── */}
+      <section style={{ backgroundColor: '#FAFAF7', padding: '80px 24px' }}>
+        <div style={{
+          maxWidth: 1200, margin: '0 auto',
+          display: 'grid', gridTemplateColumns: '1fr 1fr',
+          gap: 'clamp(32px, 6vw, 80px)', alignItems: 'center',
+        }}
+          className="story-grid"
+        >
+          <Reveal direction="left">
+            <p style={{
+              fontFamily: '"DM Sans", sans-serif', fontSize: '0.68rem',
+              letterSpacing: '0.4em', color: '#2D5A27',
+              textTransform: 'uppercase', marginBottom: '12px',
+            }}>
+              Our Beginning
+            </p>
+            <h2 style={{
+              fontFamily: '"Cormorant Garamond", Georgia, serif',
+              fontSize: 'clamp(2rem, 3.5vw, 3rem)',
+              fontWeight: 300, color: '#1A2E16',
+              lineHeight: 1.2, marginBottom: '24px',
+            }}>
+              The{' '}
+              <em style={{ fontStyle: 'italic', color: '#2D5A27' }}>
+                Samedha Ayurvedics
+              </em>{' '}
+              Difference
             </h2>
-            <div className="w-10 h-[1.5px] bg-gold mx-auto mt-3" />
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {philosophy.map((item) => (
-              <div key={item.id} className="bg-white p-8 rounded-2xl border border-primary/5 shadow-sm space-y-4 hover:shadow-md transition-shadow">
-                <div className="w-12 h-12 bg-cream rounded-full flex items-center justify-center">
-                  {item.icon}
-                </div>
-                <h3 className="font-display text-lg font-bold text-textDark">
-                  {item.title}
-                </h3>
-                <p className="font-body text-xs md:text-sm text-textMuted leading-relaxed">
-                  {item.desc}
+            {[
+              'Founded with a deep belief in Ayurveda\'s transformative power, Samedha Ayurvedics began as a clinical sanctuary dedicated exclusively to women\'s holistic wellness in Kerala.',
+              'Over the years, we have served hundreds of women — from young professionals managing hormonal stress, to mothers seeking postnatal care, to individuals recovering from chronic conditions.',
+              'Our approach blends the timeless wisdom of classical Ayurvedic texts with contemporary understanding of human physiology, creating deeply personalised healing experiences for every woman.',
+            ].map((para, i) => (
+              <Reveal key={i} delay={i * 0.12}>
+                <p style={{
+                  fontFamily: '"DM Sans", sans-serif',
+                  fontSize: 'clamp(0.92rem, 1.4vw, 1rem)',
+                  color: '#6B7C69', lineHeight: 1.85,
+                  marginBottom: '16px',
+                }}>
+                  {para}
                 </p>
-              </div>
+              </Reveal>
             ))}
-          </div>
-        </div>
-      </section>
+            <Reveal delay={0.4}>
+              <Link to="/appointment" style={{
+                display: 'inline-flex', alignItems: 'center', gap: '8px',
+                padding: '12px 28px', marginTop: '8px',
+                background: '#2D5A27', color: '#fff',
+                fontFamily: '"DM Sans", sans-serif', fontWeight: 500,
+                fontSize: '0.88rem', borderRadius: '50px',
+                textDecoration: 'none',
+                boxShadow: '0 8px 24px rgba(45,90,39,0.25)',
+              }}>
+                Book a Consultation
+              </Link>
+            </Reveal>
+          </Reveal>
 
-      {/* 4. Team Doctors */}
-      <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-xl mx-auto mb-16">
-          <h2 className="font-display text-3xl font-bold text-textDark tracking-wide">
-            Our Specialized Doctors
-          </h2>
-          <div className="w-10 h-[1.5px] bg-gold mx-auto mt-3" />
-          <p className="font-body text-xs md:text-sm text-textMuted mt-4">
-            Consult with certified BAMS medical practitioners dedicated to women's care.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-4xl mx-auto">
-          {doctors.map((doc) => (
-            <div key={doc.id} className="glass-panel p-8 rounded-2xl flex flex-col md:flex-row items-center gap-6 border border-primary/5">
+          <Reveal direction="right" delay={0.15}>
+            <div style={{ position: 'relative' }}>
               <img
-                src={doc.avatar}
-                alt={doc.name}
-                className="w-28 h-28 rounded-full object-cover border-4 border-gold/40 shadow-md shrink-0"
+                src="https://images.unsplash.com/photo-1519823551278-64ac92734fb1?w=700&q=80"
+                alt="Samedha Ayurvedics clinic interior"
+                loading="lazy"
+                style={{
+                  width: '100%', height: 'clamp(300px, 40vw, 460px)',
+                  objectFit: 'cover', borderRadius: '20px',
+                  boxShadow: '0 20px 60px rgba(26,46,22,0.18)',
+                }}
               />
-              <div className="space-y-2 text-center md:text-left">
-                <div>
-                  <h3 className="font-display text-xl font-bold text-textDark leading-none">
-                    {doc.name}
-                  </h3>
-                  <span className="font-body text-[10px] text-gold font-bold tracking-wider uppercase mt-1 block">
-                    {doc.qualifications}
-                  </span>
-                </div>
-                <p className="font-body text-xs text-primary font-semibold">
-                  {doc.role}
+              {/* Floating stat badge */}
+              <div style={{
+                position: 'absolute', bottom: '-20px', left: '-20px',
+                background: '#2D5A27', borderRadius: '16px',
+                padding: '16px 24px',
+                boxShadow: '0 8px 28px rgba(45,90,39,0.3)',
+              }}>
+                <p style={{
+                  fontFamily: '"Cormorant Garamond", serif',
+                  fontSize: '2rem', fontWeight: 400,
+                  color: '#C9A84C', lineHeight: 1,
+                }}>
+                  500+
                 </p>
-                <p className="font-body text-xs text-textMuted leading-relaxed">
-                  {doc.desc}
+                <p style={{
+                  fontFamily: '"DM Sans", sans-serif',
+                  fontSize: '0.72rem', color: 'rgba(250,250,247,0.7)',
+                  marginTop: '4px',
+                }}>
+                  Patients healed
                 </p>
               </div>
             </div>
-          ))}
+          </Reveal>
         </div>
+
+        {/* Mobile grid fix */}
+        <style>{`
+          @media (max-width: 768px) {
+            .story-grid { grid-template-columns: 1fr !important; }
+          }
+        `}</style>
       </section>
 
-      {/* 5. Certifications Marquee */}
-      <section className="py-8 bg-textDark overflow-hidden border-t border-gold/20">
-        <div className="relative w-full flex items-center overflow-x-hidden">
-          {/* Scroll block */}
-          <div className="flex space-x-12 animate-marquee whitespace-nowrap text-white font-body text-xs uppercase tracking-widest">
-            {/* Set 1 */}
-            {certs.map((cert, idx) => (
-              <div key={idx} className="flex items-center space-x-2 shrink-0">
-                <span className="w-2 h-2 bg-gold rounded-full" />
-                <span>{cert}</span>
-              </div>
-            ))}
-            {/* Set 2 (duplicates for loop wrapping) */}
-            {certs.map((cert, idx) => (
-              <div key={`dup-${idx}`} className="flex items-center space-x-2 shrink-0">
-                <span className="w-2 h-2 bg-gold rounded-full" />
-                <span>{cert}</span>
-              </div>
+      {/* ── TWO BRANCHES SECTION ─────────────────────────────────────── */}
+      <section style={{
+        backgroundColor: '#F4F0E8',
+        padding: '80px 24px',
+        position: 'relative', overflow: 'hidden',
+      }}>
+        {/* Section bg watermark */}
+        <div style={{
+          position: 'absolute', top: '50%', left: '50%',
+          transform: 'translate(-50%,-50%)',
+          fontFamily: '"Cormorant Garamond", serif',
+          fontSize: 'clamp(5rem, 15vw, 12rem)',
+          fontWeight: 300, color: 'rgba(45,90,39,0.035)',
+          whiteSpace: 'nowrap', pointerEvents: 'none', userSelect: 'none',
+        }}>
+          Our Branches
+        </div>
+
+        <div style={{ maxWidth: 1200, margin: '0 auto', position: 'relative', zIndex: 1 }}>
+          {/* Header */}
+          <Reveal>
+            <div style={{ textAlign: 'center', marginBottom: '56px' }}>
+              <p style={{
+                fontFamily: '"DM Sans", sans-serif', fontSize: '0.68rem',
+                letterSpacing: '0.4em', color: '#2D5A27',
+                textTransform: 'uppercase', marginBottom: '12px',
+              }}>
+                Our Locations
+              </p>
+              <h2 style={{
+                fontFamily: '"Cormorant Garamond", Georgia, serif',
+                fontSize: 'clamp(2.2rem, 4vw, 3.5rem)',
+                fontWeight: 300, color: '#1A2E16', lineHeight: 1.2,
+              }}>
+                Two Branches,{' '}
+                <em style={{ fontStyle: 'italic', color: '#2D5A27' }}>One Purpose</em>
+              </h2>
+              <div style={{
+                width: '48px', height: '2px',
+                background: '#C9A84C',
+                margin: '20px auto 0',
+              }} />
+            </div>
+          </Reveal>
+
+          {/* Branch cards */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 500px), 1fr))',
+            gap: '32px',
+          }}>
+            {BRANCHES.map((branch, i) => (
+              <Reveal key={branch.id} direction={i === 0 ? 'left' : 'right'} delay={i * 0.15}>
+                <div style={{
+                  background: '#FAFAF7',
+                  borderRadius: '24px',
+                  overflow: 'hidden',
+                  boxShadow: '0 8px 40px rgba(26,46,22,0.10)',
+                  border: '1px solid rgba(45,90,39,0.07)',
+                  transition: 'transform 0.4s ease, box-shadow 0.4s ease',
+                }}
+                  onMouseEnter={e => {
+                    e.currentTarget.style.transform = 'translateY(-6px)'
+                    e.currentTarget.style.boxShadow = '0 20px 60px rgba(26,46,22,0.18)'
+                  }}
+                  onMouseLeave={e => {
+                    e.currentTarget.style.transform = 'translateY(0)'
+                    e.currentTarget.style.boxShadow = '0 8px 40px rgba(26,46,22,0.10)'
+                  }}
+                >
+                  {/* Branch image */}
+                  <div style={{ position: 'relative', height: '220px', overflow: 'hidden' }}>
+                    <img
+                      src={branch.image}
+                      alt={branch.name}
+                      loading="lazy"
+                      style={{
+                        width: '100%', height: '100%', objectFit: 'cover',
+                        transition: 'transform 0.7s ease',
+                      }}
+                      onMouseEnter={e => e.target.style.transform = 'scale(1.06)'}
+                      onMouseLeave={e => e.target.style.transform = 'scale(1)'}
+                    />
+                    <div style={{
+                      position: 'absolute', inset: 0,
+                      background: `linear-gradient(180deg, transparent 40%, ${branch.color}cc 100%)`,
+                    }} />
+                    {/* Badge */}
+                    <span style={{
+                      position: 'absolute', top: '16px', left: '16px',
+                      background: '#C9A84C', color: '#1A2E16',
+                      fontFamily: '"DM Sans", sans-serif',
+                      fontSize: '0.72rem', fontWeight: 600,
+                      padding: '5px 14px', borderRadius: '50px',
+                      letterSpacing: '0.05em',
+                    }}>
+                      {branch.badge}
+                    </span>
+                    {/* Branch name over image bottom */}
+                    <h3 style={{
+                      position: 'absolute', bottom: '16px', left: '20px', right: '20px',
+                      fontFamily: '"Cormorant Garamond", serif',
+                      fontSize: '1.5rem', fontWeight: 400,
+                      color: '#FAFAF7', lineHeight: 1.2,
+                    }}>
+                      {branch.name}
+                    </h3>
+                  </div>
+
+                  {/* Branch details */}
+                  <div style={{ padding: '24px 28px 28px' }}>
+                    <p style={{
+                      fontFamily: '"Lora", serif', fontStyle: 'italic',
+                      fontSize: '0.9rem', color: '#6B7C69',
+                      lineHeight: 1.7, marginBottom: '20px',
+                      borderLeft: `3px solid ${branch.color}`,
+                      paddingLeft: '14px',
+                    }}>
+                      {branch.highlight}
+                    </p>
+
+                    {/* Info rows */}
+                    {[
+                      { icon: '📍', label: 'Address', value: branch.address },
+                      { icon: '📞', label: 'Phone',   value: branch.phone },
+                      { icon: '✉️', label: 'Email',   value: branch.email },
+                      { icon: '🕐', label: 'Hours',   value: branch.hours },
+                    ].map(row => (
+                      <div key={row.label} style={{
+                        display: 'flex', gap: '12px', marginBottom: '12px',
+                        alignItems: 'flex-start',
+                      }}>
+                        <span style={{ fontSize: '0.9rem', marginTop: '2px', flexShrink: 0 }}>
+                          {row.icon}
+                        </span>
+                        <div>
+                          <p style={{
+                            fontFamily: '"DM Sans", sans-serif',
+                            fontSize: '0.68rem', fontWeight: 600,
+                            color: '#2D5A27', textTransform: 'uppercase',
+                            letterSpacing: '0.08em', marginBottom: '2px',
+                          }}>
+                            {row.label}
+                          </p>
+                          <p style={{
+                            fontFamily: '"DM Sans", sans-serif',
+                            fontSize: '0.88rem', color: '#6B7C69',
+                            lineHeight: 1.55, whiteSpace: 'pre-line',
+                          }}>
+                            {row.value}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+
+                    {/* Feature tags */}
+                    <div style={{
+                      display: 'flex', flexWrap: 'wrap', gap: '8px',
+                      marginTop: '16px', paddingTop: '16px',
+                      borderTop: '1px solid rgba(45,90,39,0.08)',
+                    }}>
+                      {branch.features.map(f => (
+                        <span key={f} style={{
+                          fontFamily: '"DM Sans", sans-serif',
+                          fontSize: '0.72rem', fontWeight: 500,
+                          padding: '5px 12px',
+                          background: 'rgba(45,90,39,0.07)',
+                          color: '#2D5A27',
+                          borderRadius: '50px',
+                          border: '1px solid rgba(45,90,39,0.12)',
+                        }}>
+                          {f}
+                        </span>
+                      ))}
+                    </div>
+
+                    {/* Direction CTA */}
+                    <a
+                      href={branch.mapUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        display: 'inline-flex', alignItems: 'center', gap: '6px',
+                        marginTop: '20px',
+                        padding: '10px 22px',
+                        background: branch.color, color: '#fff',
+                        fontFamily: '"DM Sans", sans-serif',
+                        fontSize: '0.82rem', fontWeight: 500,
+                        borderRadius: '50px', textDecoration: 'none',
+                        transition: 'opacity 0.3s',
+                      }}
+                      onMouseEnter={e => e.currentTarget.style.opacity = '0.85'}
+                      onMouseLeave={e => e.currentTarget.style.opacity = '1'}
+                    >
+                      Get Directions →
+                    </a>
+                  </div>
+                </div>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-    </div>
-  );
-};
+      {/* ── Philosophy ───────────────────────────────────────────────── */}
+      <section style={{ backgroundColor: '#FAFAF7', padding: '80px 24px' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+          <Reveal>
+            <div style={{ textAlign: 'center', marginBottom: '52px' }}>
+              <p style={{
+                fontFamily: '"DM Sans", sans-serif', fontSize: '0.68rem',
+                letterSpacing: '0.4em', color: '#2D5A27',
+                textTransform: 'uppercase', marginBottom: '12px',
+              }}>Our Philosophy</p>
+              <h2 style={{
+                fontFamily: '"Cormorant Garamond", Georgia, serif',
+                fontSize: 'clamp(2rem, 3.5vw, 3rem)',
+                fontWeight: 300, color: '#1A2E16',
+              }}>
+                Three Pillars of{' '}
+                <em style={{ fontStyle: 'italic', color: '#2D5A27' }}>Healing</em>
+              </h2>
+            </div>
+          </Reveal>
 
-export default AboutUs;
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gap: '24px',
+          }}>
+            {PHILOSOPHY.map(({ icon, title, desc }, i) => (
+              <Reveal key={title} delay={i * 0.14}>
+                <div style={{
+                  background: '#fff',
+                  borderRadius: '20px',
+                  padding: '36px 28px',
+                  textAlign: 'center',
+                  boxShadow: '0 4px 24px rgba(26,46,22,0.07)',
+                  border: '1px solid rgba(45,90,39,0.07)',
+                  transition: 'box-shadow 0.4s, transform 0.4s',
+                }}
+                  onMouseEnter={e => {
+                    e.currentTarget.style.boxShadow = '0 16px 48px rgba(26,46,22,0.14)'
+                    e.currentTarget.style.transform = 'translateY(-4px)'
+                  }}
+                  onMouseLeave={e => {
+                    e.currentTarget.style.boxShadow = '0 4px 24px rgba(26,46,22,0.07)'
+                    e.currentTarget.style.transform = 'translateY(0)'
+                  }}
+                >
+                  <div style={{
+                    width: '56px', height: '56px',
+                    borderRadius: '50%',
+                    background: 'rgba(45,90,39,0.08)',
+                    color: '#2D5A27',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    margin: '0 auto 20px',
+                  }}>
+                    {icon}
+                  </div>
+                  <h3 style={{
+                    fontFamily: '"Cormorant Garamond", serif',
+                    fontSize: '1.4rem', fontWeight: 400,
+                    color: '#1A2E16', marginBottom: '12px',
+                  }}>
+                    {title}
+                  </h3>
+                  <p style={{
+                    fontFamily: '"DM Sans", sans-serif',
+                    fontSize: '0.88rem', color: '#6B7C69',
+                    lineHeight: 1.6,
+                  }}>
+                    {desc}
+                  </p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Team Section ────────────────────────────────────────────── */}
+      <section style={{ backgroundColor: '#FAFAF7', padding: '80px 24px 100px' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+          <Reveal>
+            <div style={{ textAlign: 'center', marginBottom: '52px' }}>
+              <p style={{
+                fontFamily: '"DM Sans", sans-serif', fontSize: '0.68rem',
+                letterSpacing: '0.4em', color: '#2D5A27',
+                textTransform: 'uppercase', marginBottom: '12px',
+              }}>Our Experts</p>
+              <h2 style={{
+                fontFamily: '"Cormorant Garamond", Georgia, serif',
+                fontSize: 'clamp(2rem, 3.5vw, 3rem)',
+                fontWeight: 300, color: '#1A2E16',
+              }}>
+                Meet Our{' '}
+                <em style={{ fontStyle: 'italic', color: '#2D5A27' }}>Physicians</em>
+              </h2>
+            </div>
+          </Reveal>
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gap: '32px',
+            justifyContent: 'center',
+          }}>
+            {TEAM.map((member, i) => (
+              <Reveal key={member.name} delay={i * 0.12}>
+                <div style={{
+                  background: '#fff',
+                  borderRadius: '20px',
+                  padding: '40px 24px',
+                  textAlign: 'center',
+                  boxShadow: '0 4px 24px rgba(26,46,22,0.07)',
+                  border: '1px solid rgba(45,90,39,0.07)',
+                }}>
+                  <div style={{
+                    width: '80px', height: '80px',
+                    borderRadius: '50%',
+                    background: 'linear-gradient(135deg, #2D5A27, #4A7C3F)',
+                    color: '#FFF',
+                    fontSize: '1.5rem', fontWeight: 300,
+                    fontFamily: '"Cormorant Garamond", serif',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    margin: '0 auto 24px',
+                    boxShadow: '0 8px 20px rgba(45,90,39,0.2)',
+                  }}>
+                    {member.initials}
+                  </div>
+                  <h3 style={{
+                    fontFamily: '"Cormorant Garamond", serif',
+                    fontSize: '1.4rem', fontWeight: 400,
+                    color: '#1A2E16', marginBottom: '6px',
+                  }}>
+                    {member.name}
+                  </h3>
+                  <p style={{
+                    fontFamily: '"DM Sans", sans-serif',
+                    fontSize: '0.8rem', fontWeight: 600,
+                    color: '#C9A84C', textTransform: 'uppercase',
+                    letterSpacing: '0.05em', marginBottom: '12px',
+                  }}>
+                    {member.role}
+                  </p>
+                  <span style={{
+                    fontFamily: '"DM Sans", sans-serif',
+                    fontSize: '0.75rem', color: '#6B7C69',
+                    background: 'rgba(45,90,39,0.06)',
+                    padding: '4px 12px', borderRadius: '20px',
+                  }}>
+                    Experience: {member.exp}
+                  </span>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+    </>
+  )
+}

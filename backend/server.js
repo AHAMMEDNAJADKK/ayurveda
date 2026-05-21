@@ -5,6 +5,7 @@ const nodemailer = require('nodemailer');
 const connectDB = require('./config/db');
 const appointmentRoutes = require('./routes/appointmentRoutes');
 const adminRoutes = require('./routes/adminRoutes');
+const authRoutes = require('./routes/authRoutes');
 
 // Load environment variables
 dotenv.config();
@@ -21,6 +22,7 @@ app.use(express.json());
 // Routes
 app.use('/api/appointments', appointmentRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/auth', authRoutes);
 
 // Contact Form Endpoint (Nodemailer)
 app.post('/api/contact', async (req, res) => {
@@ -51,7 +53,7 @@ app.post('/api/contact', async (req, res) => {
 
       const mailOptions = {
         from: `"${name}" <${email}>`,
-        to: process.env.CONTACT_RECEIVER_EMAIL || 'admin@samedha.com',
+        to: process.env.CONTACT_RECEIVER_EMAIL || 'admin@healthcareayurveda.com',
         subject: `🌿 Contact Inquiry: ${subject}`,
         text: `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\n\nMessage:\n${message}`
       };
@@ -80,7 +82,7 @@ app.post('/api/contact', async (req, res) => {
 
 // Root route
 app.get('/', (req, res) => {
-  res.send('Samedha Ayurvedics API is running...');
+  res.send('Health Care Ayurveda API is running...');
 });
 
 // Error handling middleware

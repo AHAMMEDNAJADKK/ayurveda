@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import ProductCard from '../components/products/ProductCard';
 import { Search, Filter, Leaf } from 'lucide-react';
 
@@ -9,7 +9,7 @@ const Products = () => {
   const products = [
     {
       id: 1,
-      name: "Samedha Hormone Balance Syrup",
+      name: "HCA Hormone Balance Syrup",
       category: "Women's Health",
       image: "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format&fit=crop&q=80&w=600",
       shortDesc: "Supports female hormonal balance, regulates menstrual cycles, and relieves symptoms of PCOS and bloating naturally.",
@@ -95,7 +95,7 @@ const Products = () => {
             <Leaf className="w-8 h-8 text-gold animate-bounce" />
           </div>
           <h1 className="font-display text-4xl md:text-5xl font-bold tracking-wide">
-            Samedha Botanical Apothecary
+            HCA Botanical Apothecary
           </h1>
           <p className="font-body text-sm md:text-base text-accent max-w-lg mx-auto">
             100% natural, laboratory-tested herbal formulations prepared following classical ayurvedic texts.

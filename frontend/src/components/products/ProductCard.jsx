@@ -1,4 +1,3 @@
-import React from 'react';
 import { ShoppingBag, Check } from 'lucide-react';
 import toast from 'react-hot-toast';
 

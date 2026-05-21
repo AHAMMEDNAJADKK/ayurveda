@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { MapPin, Phone, Mail, Clock } from 'lucide-react';
 
@@ -94,12 +93,12 @@ const Footer = () => {
               <li className="flex items-start space-x-2.5">
                 <MapPin size={16} className="text-accent mt-1 shrink-0" />
                 <span className="leading-relaxed">
-                  Samedha Wellness Plaza, 12th Main Road, Sector 4, Bangalore, KA, India - 560034
+                  Samedha Ayurvedics Clinic, Kochi, Kerala, India - 682016
                 </span>
               </li>
               <li className="flex items-center space-x-2.5">
                 <Phone size={16} className="text-accent shrink-0" />
-                <span>+91 99999 99999</span>
+                <span>+91 8714 600 995</span>
               </li>
               <li className="flex items-center space-x-2.5">
                 <Mail size={16} className="text-accent shrink-0" />

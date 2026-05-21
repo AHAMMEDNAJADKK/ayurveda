@@ -11,7 +11,7 @@ const loginAdmin = async (req, res) => {
     return res.status(400).json({ success: false, message: 'Please provide email and password' });
   }
 
-  const adminEmail = process.env.ADMIN_EMAIL || 'admin@samedha.com';
+  const adminEmail = process.env.ADMIN_EMAIL || 'admin@healthcareayurveda.com';
   const adminPasswordHash = process.env.ADMIN_PASSWORD;
 
   if (email.toLowerCase() !== adminEmail.toLowerCase()) {
@@ -19,9 +19,9 @@ const loginAdmin = async (req, res) => {
   }
 
   try {
-    // If no password hash is provided in env, default back to hashed 'SamedhaAdmin2026!'
-    // Hash: $2a$10$Wqj4xK6E2F6b7Q/KkO/5Nu3Jt.51oIeM1zJ864w/sVuxFh94a28n.
-    const hashToCompare = adminPasswordHash || '$2a$10$Wqj4xK6E2F6b7Q/KkO/5Nu3Jt.51oIeM1zJ864w/sVuxFh94a28n.';
+    // If no password hash is provided in env, default back to hashed 'HcaAdmin2026!'
+    // Hash: $2a$10$dwHG4o3J1rl3/Pflx/rsFe4Q9X3I0XgUVVNaz1FyvxAEnEEnLjt/q
+    const hashToCompare = adminPasswordHash || '$2a$10$dwHG4o3J1rl3/Pflx/rsFe4Q9X3I0XgUVVNaz1FyvxAEnEEnLjt/q';
     const isMatch = await bcrypt.compare(password, hashToCompare);
 
     if (!isMatch) {
@@ -30,7 +30,7 @@ const loginAdmin = async (req, res) => {
 
     const token = jwt.sign(
       { email: adminEmail },
-      process.env.JWT_SECRET || 'super_secret_samedha_key_2026_987654321',
+      process.env.JWT_SECRET || 'super_secret_hca_key_2026_987654321',
       { expiresIn: '30d' }
     );
 

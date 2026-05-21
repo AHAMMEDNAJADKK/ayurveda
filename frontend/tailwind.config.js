@@ -8,15 +8,25 @@ export default {
     extend: {
       colors: {
         primary: {
-          DEFAULT: '#2D5A27', // Deep forest green
-          light: '#4A7C3F',  // Mid green
+          DEFAULT: '#2B5219', // deep forest green
+          light: '#3E7A2A',
+          dark: '#182F0F',
         },
-        accent: '#8AB87A',   // Soft sage
-        gold: '#C9A84C',     // Warm gold
-        white: '#FAFAF7',    // Off-white natural
-        cream: '#F4F0E8',    // Warm cream
-        textDark: '#1A2E16', // Near-black green
-        textMuted: '#6B7C69' // Muted sage text
+        accent: {
+          DEFAULT: '#7FB069', // sage leaf green
+          light: '#A8C89A',
+        },
+        gold: {
+          DEFAULT: '#C8A96E', // warm gold
+          light: '#E4D4A8',
+        },
+        cream: '#F2EDE3',     // warm parchment
+        offWhite: '#F9F6F0',  // body background
+        warmWhite: '#FFFDF8',
+        white: '#FFFDF8',     // Map standard white to warmWhite/off-white if appropriate
+        textDark: '#1B2E14',
+        textBody: '#3D4F35',
+        textMuted: '#7A8C72',
       },
       fontFamily: {
         display: ['"Cormorant Garamond"', 'serif'],

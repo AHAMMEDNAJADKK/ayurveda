@@ -1,47 +1,62 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&family=Lora:ital@1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&family=Lora:ital,wght@0,400;0,600;1,400;1,600&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --primary:        #2D5A27;
-  --primary-light:  #4A7C3F;
-  --accent:         #8AB87A;
-  --gold:           #C9A84C;
-  --white:          #FAFAF7;
-  --cream:          #F4F0E8;
-  --text-dark:      #1A2E16;
-  --text-muted:     #6B7C69;
+  /* Primary greens — match HCA's forest green */
+  --primary:          #2B5219;   /* deep forest green  */
+  --primary-light:    #3E7A2A;
+  --primary-dark:     #182F0F;
+  --accent:           #7FB069;   /* sage leaf green    */
+  --accent-light:     #A8C89A;
+
+  /* Warm neutrals — match HCA's cream/off-white */
+  --gold:             #C8A96E;   /* warm gold          */
+  --gold-light:       #E4D4A8;
+  --cream:            #F2EDE3;   /* warm parchment     */
+  --off-white:        #F9F6F0;   /* body background    */
+  --warm-white:       #FFFDF8;
+
+  /* Text */
+  --text-dark:        #1B2E14;
+  --text-body:        #3D4F35;
+  --text-muted:       #7A8C72;
+
+  /* Functional */
+  --border-soft:      rgba(43, 82, 25, 0.12);
+  --shadow-green:     0 8px 40px rgba(43, 82, 25, 0.15);
+  --shadow-hover:     0 20px 60px rgba(43, 82, 25, 0.22);
 }
 
 body {
   font-family: 'DM Sans', sans-serif;
-  background-color: var(--white);
-  color: var(--text-dark);
+  background-color: var(--off-white);
+  color: var(--text-body);
   overflow-x: hidden;
   scroll-behavior: smooth;
 }
 
 /* Glassmorphism utility */
 .glass-panel {
-  background: rgba(250, 250, 247, 0.7);
+  background: rgba(255, 253, 248, 0.7);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(45, 90, 39, 0.08);
+  border: 1px solid rgba(43, 82, 25, 0.08);
 }
 
 .glass-panel-dark {
-  background: rgba(26, 46, 22, 0.85);
+  background: rgba(24, 47, 15, 0.85);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(250, 250, 247, 0.1);
+  border: 1px solid rgba(255, 253, 248, 0.1);
 }
 
 /* Arched shield layout container */
 .brand-shield-shape {
   border-radius: 120px 120px 24px 24px;
-  box-shadow: 0 20px 40px rgba(26, 46, 22, 0.06);
+  box-shadow: 0 20px 40px rgba(24, 47, 15, 0.06);
 }
 
 /* Rotating text alignments */
@@ -117,7 +132,7 @@ body {
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--white);
+  background: var(--off-white);
 }
 ::-webkit-scrollbar-thumb {
   background: var(--accent);
@@ -125,4 +140,57 @@ body {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: var(--primary);
+}
+
+/* Horizontal auto-scroll (products carousel) */
+@keyframes scrollLeft {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+@keyframes scrollRight {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}
+.scroll-left  { animation: scrollLeft  35s linear infinite; }
+.scroll-right { animation: scrollRight 35s linear infinite; }
+.scroll-pause:hover .scroll-left,
+.scroll-pause:hover .scroll-right { animation-play-state: paused; }
+
+/* Section reveal — stagger children */
+.stagger-children > *:nth-child(1) { transition-delay: 0.1s; }
+.stagger-children > *:nth-child(2) { transition-delay: 0.2s; }
+.stagger-children > *:nth-child(3) { transition-delay: 0.3s; }
+.stagger-children > *:nth-child(4) { transition-delay: 0.4s; }
+
+/* Smooth section fade-up (all sections use this) */
+.section-reveal {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 0.9s cubic-bezier(0.22,1,0.36,1),
+              transform 0.9s cubic-bezier(0.22,1,0.36,1);
+}
+.section-reveal.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Image hover lift */
+.img-hover {
+  transition: transform 0.6s cubic-bezier(0.22,1,0.36,1),
+              box-shadow 0.4s ease;
+}
+.img-hover:hover {
+  transform: scale(1.04) translateY(-4px);
+  box-shadow: var(--shadow-hover);
+}
+
+/* All direct page sections render above the leaf canvas */
+main > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Hero specifically needs higher z — it has its own dark overlay */
+section:first-child {
+  z-index: 2;
 }

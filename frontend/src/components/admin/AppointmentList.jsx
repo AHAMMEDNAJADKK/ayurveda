@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { Search, Filter, Calendar, LogOut, Download, ChevronLeft, ChevronRight, UserCheck, CheckCircle2, Clock } from 'lucide-react';
@@ -9,6 +9,7 @@ const AppointmentList = ({ token, onLogout }) => {
   const [page, setPage] = useState(1);
   const [pages, setPages] = useState(1);
   const [search, setSearch] = useState('');
+  const [activeSearch, setActiveSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
@@ -16,7 +17,7 @@ const AppointmentList = ({ token, onLogout }) => {
 
   const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
-  const fetchAppointments = async () => {
+  const fetchAppointments = useCallback(async () => {
     setLoading(true);
     try {
       const config = {
@@ -24,7 +25,7 @@ const AppointmentList = ({ token, onLogout }) => {
         params: {
           page,
           limit: 10,
-          search,
+          search: activeSearch,
           status: statusFilter,
           startDate,
           endDate
@@ -49,17 +50,27 @@ const AppointmentList = ({ token, onLogout }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [token, page, activeSearch, statusFilter, startDate, endDate, onLogout, apiUrl]);
 
   useEffect(() => {
-    fetchAppointments();
-  }, [page, statusFilter, startDate, endDate]);
+    let active = true;
+    const load = async () => {
+      await Promise.resolve();
+      if (active) {
+        fetchAppointments();
+      }
+    };
+    load();
+    return () => {
+      active = false;
+    };
+  }, [fetchAppointments]);
 
   // Debounced search trigger (on enter or button press, or simple manual trigger)
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     setPage(1);
-    fetchAppointments();
+    setActiveSearch(search);
   };
 
   const handleStatusUpdate = async (id, newStatus) => {
@@ -105,7 +116,7 @@ const AppointmentList = ({ token, onLogout }) => {
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement('a');
       link.href = url;
-      link.setAttribute('download', 'samedha_appointments.csv');
+      link.setAttribute('download', 'hca_appointments.csv');
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -125,7 +136,7 @@ const AppointmentList = ({ token, onLogout }) => {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white p-6 rounded-2xl border border-primary/5 shadow-sm">
         <div>
           <h1 className="font-display text-2xl md:text-3xl font-bold text-textDark">
-            Samedha Dashboard
+            Samedha Ayurvedics Portal
           </h1>
           <p className="text-xs text-textMuted mt-1">
             Secure administrative control portal for patient bookings
@@ -251,10 +262,10 @@ const AppointmentList = ({ token, onLogout }) => {
             </div>
 
             {/* Reset buttons */}
-            {(search || statusFilter || startDate || endDate) && (
+            {(search || activeSearch || statusFilter || startDate || endDate) && (
               <button
                 onClick={() => {
-                  setSearch(''); setStatusFilter(''); setStartDate(''); setEndDate(''); setPage(1);
+                  setSearch(''); setActiveSearch(''); setStatusFilter(''); setStartDate(''); setEndDate(''); setPage(1);
                 }}
                 className="text-xs text-red-500 font-bold hover:underline"
               >

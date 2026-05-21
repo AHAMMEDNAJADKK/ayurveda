@@ -6,14 +6,14 @@ const {
   updateAppointmentStatus,
   exportAppointmentsCSV
 } = require('../controllers/appointmentController');
-const { protect } = require('../middleware/auth');
+const { protect, admin } = require('../middleware/auth');
 
 // Auth route
 router.post('/login', loginAdmin);
 
 // Protected appointment dashboard routes
-router.get('/appointments', protect, getAppointments);
-router.get('/appointments/export', protect, exportAppointmentsCSV);
-router.patch('/appointments/:id', protect, updateAppointmentStatus);
+router.get('/appointments', protect, admin, getAppointments);
+router.get('/appointments/export', protect, admin, exportAppointmentsCSV);
+router.patch('/appointments/:id', protect, admin, updateAppointmentStatus);
 
 module.exports = router;
