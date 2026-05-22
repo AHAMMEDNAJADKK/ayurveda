@@ -2,7 +2,7 @@ import { Fragment } from 'react';
 
 const taglines = [
   "Authentic Kerala Ayurveda",
-  "Women's Wellness Specialists",
+  "Holistic Wellness for All",
   "100% Organic Herbal Formulations",
   "Expert Ayurvedic Physicians",
   "Holistic Panchakarma Therapies",

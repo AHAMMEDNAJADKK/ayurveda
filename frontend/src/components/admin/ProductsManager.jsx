@@ -2,16 +2,16 @@ import { useState } from 'react';
 import { Plus, Pencil, Trash2, X, Save, PackageOpen } from 'lucide-react';
 import toast from 'react-hot-toast';
 
-const CATEGORIES = ["Women's Health", "Mental Wellness", "Postnatal Care", "Skin Care", "Immunity", "Digestive Health", "Joint & Bone", "Other"];
+const CATEGORIES = ["General Wellness", "Mental Wellness", "Postnatal Care", "Skin Care", "Immunity", "Digestive Health", "Joint & Bone", "Other"];
 
 const DEFAULT_PRODUCTS = [
   {
     id: 1,
-    name: "HCA Hormone Balance Syrup",
-    category: "Women's Health",
+    name: "Hormone Balance Syrup",
+    category: "General Wellness",
     image: "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format&fit=crop&q=80&w=600",
-    shortDesc: "Supports female hormonal balance, regulates menstrual cycles, and relieves symptoms of PCOS and bloating naturally.",
-    benefits: ["Regulates estrogen levels", "Relieves bloating & cramps", "100% ashoka & lodhra extract"],
+    shortDesc: "Supports hormonal balance, regulates metabolism, and relieves symptoms of hormonal imbalance naturally.",
+    benefits: ["Regulates hormone levels", "Relieves bloating & fatigue", "100% ashoka & lodhra extract"],
     price: 380,
     badge: "Bestseller"
   },
@@ -47,10 +47,10 @@ const DEFAULT_PRODUCTS = [
   },
   {
     id: 5,
-    name: "Immunity Booster Kadha",
+    name: "Ashwagandha Vitality Tonic",
     category: "Immunity",
-    image: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&q=80&w=600",
-    shortDesc: "Ancient Ayurvedic decoction with Tulsi, Giloy and Amla that boosts natural immunity and fights seasonal infections.",
+    image: "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?auto=format&fit=crop&q=80&w=600",
+    shortDesc: "Daily tonic to boost stamina, build immune response, and supply essential botanical micro-nutrients for everyone.",
     benefits: ["Enhances immune defense", "Clears respiratory tract", "Rich in Vitamin C & antioxidants"],
     price: 220,
     badge: ""
@@ -68,7 +68,7 @@ const DEFAULT_PRODUCTS = [
 ];
 
 const EMPTY_FORM = {
-  name: '', category: "Women's Health", image: '', shortDesc: '',
+  name: '', category: "General Wellness", image: '', shortDesc: '',
   benefits: ['', '', ''], price: '', badge: ''
 };
 

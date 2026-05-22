@@ -4,13 +4,13 @@ import { ChevronDown, HelpCircle } from 'lucide-react';
 const faqs = [
   {
     id: 1,
-    question: "What makes Samedha Ayurvedics unique?",
-    answer: "We specialize in women's holistic wellness, combining traditional Kerala Ayurvedic practices with modern laboratory-tested botanical remedies. Our therapies are tailor-made for female physiology, postnatal care, and hormonal support."
+    question: "What makes Health Care Ayurveda unique?",
+    answer: "We combine traditional Kerala Ayurvedic practices with modern laboratory-tested botanical remedies. Our therapies address the root causes of stress, hormonal imbalance, skin health, digestive issues, and overall wellness — personalised for every individual."
   },
   {
     id: 2,
     question: "Are the treatments suitable for all age groups?",
-    answer: "Yes, our consultations and natural remedies cover women across all lifecycles — from puberty and menstrual regulation to postnatal recovery and menopausal support. Every treatment plan is customized by our certified female physicians."
+    answer: "Yes, our consultations and natural remedies serve patients across all age groups and genders — from children and young adults to seniors. Every treatment plan is customised by our certified Ayurvedic physicians based on individual body constitution."
   },
   {
     id: 3,
@@ -30,7 +30,7 @@ const faqs = [
   {
     id: 6,
     question: "What is your rescheduling policy?",
-    answer: "If you need to reschedule or cancel an appointment, please contact us at least 2 hours in advance via our Kochi helpline number (+91 484 234 5678) or WhatsApp so we can allocate the slot to another client."
+    answer: "If you need to reschedule or cancel an appointment, please contact us at least 2 hours in advance via our helpline number (+91 95396 91757) or WhatsApp so we can allocate the slot to another client."
   }
 ];
 

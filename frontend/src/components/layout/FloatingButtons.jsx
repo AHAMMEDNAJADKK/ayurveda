@@ -2,8 +2,8 @@ import { Phone } from 'lucide-react';
 
 const FloatingButtons = () => {
   // Grab numbers from import.meta.env (Vite standard) or fallback
-  const whatsappNumber = import.meta.env.VITE_WHATSAPP_NUMBER || '919999999999';
-  const phoneNumber = import.meta.env.VITE_PHONE_NUMBER || '+919999999999';
+  const whatsappNumber = import.meta.env.VITE_WHATSAPP_NUMBER || '919539691757';
+  const phoneNumber = import.meta.env.VITE_PHONE_NUMBER || '+919539691757';
 
   return (
     <div className="fixed bottom-6 right-6 z-40 flex flex-col space-y-4">

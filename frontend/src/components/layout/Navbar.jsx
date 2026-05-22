@@ -23,13 +23,8 @@ const Navbar = () => {
 
   // Close mobile menu on route change
   useEffect(() => {
-    if (isOpen) {
-      const timer = setTimeout(() => {
-        setIsOpen(false);
-      }, 0);
-      return () => clearTimeout(timer);
-    }
-  }, [location, isOpen]);
+    setIsOpen(false);
+  }, [location]);
 
   const leftLinks = [
     { name: 'Story', path: '/about' },
@@ -103,10 +98,10 @@ const Navbar = () => {
                 </svg>
                 <div className="text-left">
                   <span className="font-display text-base font-bold tracking-wide text-primary block leading-none">
-                    SAMEDHA
+                    HCA
                   </span>
                   <span className="font-accent text-[8px] tracking-widest text-gold uppercase block mt-1 leading-none">
-                    Ayurvedics
+                    Health Care Ayurveda
                   </span>
                 </div>
               </Link>
@@ -136,10 +131,10 @@ const Navbar = () => {
                 </svg>
                 <div className="text-left">
                   <span className="font-display text-base font-bold tracking-wide text-primary block leading-none">
-                    SAMEDHA
+                    HCA
                   </span>
                   <span className="font-accent text-[8px] tracking-widest text-gold uppercase block mt-1 leading-none">
-                    Ayurvedics
+                    Health Care Ayurveda
                   </span>
                 </div>
               </Link>
@@ -229,6 +224,7 @@ const Navbar = () => {
             <Link
               key={link.name}
               to={link.path}
+              onClick={() => setIsOpen(false)}
               className={`block px-3 py-2 rounded-md font-body text-base font-medium transition-colors duration-200 ${
                 isActive(link.path)
                   ? 'bg-cream text-primary font-bold'
@@ -243,6 +239,7 @@ const Navbar = () => {
             {!user ? (
               <Link
                 to="/login"
+                onClick={() => setIsOpen(false)}
                 className="flex items-center justify-center font-body text-base font-semibold text-textMuted hover:text-primary transition-colors py-2"
               >
                 Log In
@@ -256,13 +253,17 @@ const Navbar = () => {
                   {isAdmin && (
                     <Link
                       to="/admin"
+                      onClick={() => setIsOpen(false)}
                       className="flex-1 text-center font-body text-sm font-bold text-white bg-accent hover:bg-accent/95 py-2.5 rounded-full"
                     >
                       Admin
                     </Link>
                   )}
                   <button
-                    onClick={logout}
+                    onClick={() => {
+                      logout();
+                      setIsOpen(false);
+                    }}
                     className="flex-grow font-body text-sm font-semibold bg-cream text-textDark hover:bg-red-50 hover:text-red-600 py-2.5 rounded-full transition-all"
                   >
                     Logout
@@ -273,6 +274,7 @@ const Navbar = () => {
 
             <Link
               to="/appointment"
+              onClick={() => setIsOpen(false)}
               className="flex items-center justify-center space-x-2 w-full bg-primary hover:bg-primary-light text-white font-body text-base font-medium px-5 py-3 rounded-full shadow-md transition-all duration-200"
             >
               <Calendar size={18} />

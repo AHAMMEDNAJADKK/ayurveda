@@ -1,9 +1,11 @@
 import { useState, useEffect, useRef, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import toast from 'react-hot-toast';
 import { AuthContext } from '../context/AuthContext';
 import { Phone, ShieldCheck, ArrowRight, ArrowLeft, RefreshCw, Leaf } from 'lucide-react';
+import api from '../services/api';
+import { auth } from '../config/firebase';
+import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
 
 const Login = () => {
   const { login, user } = useContext(AuthContext);
@@ -16,7 +18,8 @@ const Login = () => {
   const [timer, setTimer] = useState(0);
 
   const inputRefs = useRef([]);
-  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+  const recaptchaVerifierRef = useRef(null);
+  const confirmationResultRef = useRef(null);
 
   // Redirect if already logged in
   useEffect(() => {
@@ -28,6 +31,16 @@ const Login = () => {
       }
     }
   }, [user, navigate]);
+
+  // Clean up reCAPTCHA verifier on unmount
+  useEffect(() => {
+    return () => {
+      if (recaptchaVerifierRef.current) {
+        recaptchaVerifierRef.current.clear();
+        recaptchaVerifierRef.current = null;
+      }
+    };
+  }, []);
 
   // Countdown timer for OTP resend
   useEffect(() => {
@@ -52,21 +65,40 @@ const Login = () => {
 
     setIsLoading(true);
     try {
-      const response = await axios.post(`${apiUrl}/auth/send-otp`, { phone: cleanPhone });
-      if (response.data.success) {
-        toast.success(response.data.message || 'OTP verification code sent!');
-        setStep(2);
-        setTimer(30); // 30s resend cooldown
-        // Focus first OTP field on transition
-        setTimeout(() => {
-          if (inputRefs.current[0]) {
-            inputRefs.current[0].focus();
+      if (!recaptchaVerifierRef.current) {
+        recaptchaVerifierRef.current = new RecaptchaVerifier(auth, 'recaptcha-container', {
+          size: 'invisible',
+          'expired-callback': () => {
+            toast.error('reCAPTCHA expired, please try again.');
+            if (recaptchaVerifierRef.current) {
+              recaptchaVerifierRef.current.clear();
+              recaptchaVerifierRef.current = null;
+            }
           }
-        }, 100);
+        });
       }
+
+      const formattedPhone = `+91${cleanPhone}`;
+      const appVerifier = recaptchaVerifierRef.current;
+      const confirmationResult = await signInWithPhoneNumber(auth, formattedPhone, appVerifier);
+      confirmationResultRef.current = confirmationResult;
+
+      toast.success('Verification code sent to your phone!');
+      setStep(2);
+      setTimer(30); // 30s resend cooldown
+      // Focus first OTP field on transition
+      setTimeout(() => {
+        if (inputRefs.current[0]) {
+          inputRefs.current[0].focus();
+        }
+      }, 100);
     } catch (error) {
       console.error('Send OTP error:', error);
-      const errMsg = error.response?.data?.message || 'Failed to send OTP. Please try again.';
+      if (recaptchaVerifierRef.current) {
+        recaptchaVerifierRef.current.clear();
+        recaptchaVerifierRef.current = null;
+      }
+      const errMsg = error.message || 'Failed to send verification code. Please try again.';
       toast.error(errMsg);
     } finally {
       setIsLoading(false);
@@ -83,10 +115,18 @@ const Login = () => {
 
     setIsLoading(true);
     try {
+      if (!confirmationResultRef.current) {
+        throw new Error('No active verification session. Please go back and request a new code.');
+      }
+
+      const userCredential = await confirmationResultRef.current.confirm(otpCode);
+      const firebaseUser = userCredential.user;
+      const idToken = await firebaseUser.getIdToken();
+
       const cleanPhone = phone.replace(/[^\d]/g, '');
-      const response = await axios.post(`${apiUrl}/auth/verify-otp`, {
-        phone: cleanPhone,
-        otp: otpCode
+      const response = await api.post('/auth/firebase-login', {
+        idToken,
+        phone: cleanPhone
       });
 
       if (response.data.success) {
@@ -103,7 +143,18 @@ const Login = () => {
       }
     } catch (error) {
       console.error('Verify OTP error:', error);
-      const errMsg = error.response?.data?.message || 'Invalid OTP code. Please try again.';
+      let errMsg = 'Failed to verify OTP. Please try again.';
+      if (error.code === 'auth/invalid-verification-code') {
+        errMsg = 'Invalid OTP code. Please enter the correct code.';
+      } else if (error.code === 'auth/code-expired') {
+        errMsg = 'The OTP code has expired. Please request a new one.';
+      } else if (error.cleanedMessage) {
+        errMsg = error.cleanedMessage;
+      } else if (error.response?.data?.message) {
+        errMsg = error.response.data.message;
+      } else if (error.message) {
+        errMsg = error.message;
+      }
       toast.error(errMsg);
     } finally {
       setIsLoading(false);
@@ -111,7 +162,6 @@ const Login = () => {
   };
 
   const handleOtpChange = (index, value) => {
-    // Keep only numeric characters
     const val = value.replace(/[^\d]/g, '');
     if (!val) {
       const newDigits = [...otpDigits];
@@ -148,13 +198,23 @@ const Login = () => {
       const digits = pastedData.split('');
       setOtpDigits(digits);
       inputRefs.current[5].focus();
-      // Auto-trigger submit
-      setTimeout(() => {
+      
+      setTimeout(async () => {
         setIsLoading(true);
-        axios.post(`${apiUrl}/auth/verify-otp`, {
-          phone: phone.replace(/[^\d]/g, ''),
-          otp: pastedData
-        }).then(response => {
+        try {
+          if (!confirmationResultRef.current) {
+            throw new Error('No active verification session. Please request a new code.');
+          }
+          const userCredential = await confirmationResultRef.current.confirm(pastedData);
+          const firebaseUser = userCredential.user;
+          const idToken = await firebaseUser.getIdToken();
+          
+          const cleanPhone = phone.replace(/[^\d]/g, '');
+          const response = await api.post('/auth/firebase-login', {
+            idToken,
+            phone: cleanPhone
+          });
+          
           if (response.data.success) {
             toast.success('Authentication successful!');
             const { token, user: userData } = response.data;
@@ -165,12 +225,24 @@ const Login = () => {
               navigate('/');
             }
           }
-        }).catch(err => {
-          const errMsg = err.response?.data?.message || 'Invalid OTP code';
+        } catch (err) {
+          console.error('Verify OTP error (paste):', err);
+          let errMsg = 'Failed to verify OTP. Please try again.';
+          if (err.code === 'auth/invalid-verification-code') {
+            errMsg = 'Invalid OTP code. Please enter the correct code.';
+          } else if (err.code === 'auth/code-expired') {
+            errMsg = 'The OTP code has expired. Please request a new one.';
+          } else if (err.cleanedMessage) {
+            errMsg = err.cleanedMessage;
+          } else if (err.response?.data?.message) {
+            errMsg = err.response.data.message;
+          } else if (err.message) {
+            errMsg = err.message;
+          }
           toast.error(errMsg);
-        }).finally(() => {
+        } finally {
           setIsLoading(false);
-        });
+        }
       }, 100);
     }
   };
@@ -179,18 +251,41 @@ const Login = () => {
     if (timer > 0) return;
     setIsLoading(true);
     try {
-      const cleanPhone = phone.replace(/[^\d]/g, '');
-      const response = await axios.post(`${apiUrl}/auth/send-otp`, { phone: cleanPhone });
-      if (response.data.success) {
-        toast.success('A new OTP has been sent to your phone');
-        setOtpDigits(Array(6).fill(''));
-        setTimer(30);
-        if (inputRefs.current[0]) {
-          inputRefs.current[0].focus();
+      if (recaptchaVerifierRef.current) {
+        recaptchaVerifierRef.current.clear();
+        recaptchaVerifierRef.current = null;
+      }
+
+      recaptchaVerifierRef.current = new RecaptchaVerifier(auth, 'recaptcha-container', {
+        size: 'invisible',
+        'expired-callback': () => {
+          toast.error('reCAPTCHA expired, please try again.');
+          if (recaptchaVerifierRef.current) {
+            recaptchaVerifierRef.current.clear();
+            recaptchaVerifierRef.current = null;
+          }
         }
+      });
+
+      const cleanPhone = phone.replace(/[^\d]/g, '');
+      const formattedPhone = `+91${cleanPhone}`;
+      const appVerifier = recaptchaVerifierRef.current;
+      const confirmationResult = await signInWithPhoneNumber(auth, formattedPhone, appVerifier);
+      confirmationResultRef.current = confirmationResult;
+      
+      toast.success('A new OTP has been sent to your phone');
+      setOtpDigits(Array(6).fill(''));
+      setTimer(30);
+      if (inputRefs.current[0]) {
+        inputRefs.current[0].focus();
       }
     } catch (error) {
-      const errMsg = error.response?.data?.message || 'Failed to resend OTP';
+      console.error('Resend OTP error:', error);
+      if (recaptchaVerifierRef.current) {
+        recaptchaVerifierRef.current.clear();
+        recaptchaVerifierRef.current = null;
+      }
+      const errMsg = error.message || 'Failed to resend OTP. Please try again.';
       toast.error(errMsg);
     } finally {
       setIsLoading(false);
@@ -199,6 +294,8 @@ const Login = () => {
 
   return (
     <div className="relative min-h-[85vh] flex items-center justify-center bg-cream/20 py-20 px-4 overflow-hidden">
+      {/* Invisible reCAPTCHA Container */}
+      <div id="recaptcha-container"></div>
       
       {/* Aesthetic Background Accents */}
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/5 rounded-full filter blur-3xl pointer-events-none" />
@@ -342,7 +439,7 @@ const Login = () => {
 
           <div className="mt-8 pt-6 border-t border-cream/50 text-center">
             <span className="text-[10px] font-bold text-gold tracking-widest uppercase font-body block">
-              Samedha Ayurvedics
+              Health Care Ayurveda
             </span>
           </div>
 

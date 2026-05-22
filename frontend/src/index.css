@@ -79,7 +79,8 @@ body {
   transform-style: preserve-3d;
 }
 
-.flip-card:hover .flip-card-inner {
+.flip-card:hover .flip-card-inner,
+.flip-card.flipped .flip-card-inner {
   transform: rotateY(180deg);
 }
 
@@ -193,4 +194,139 @@ main > * {
 /* Hero specifically needs higher z — it has its own dark overlay */
 section:first-child {
   z-index: 2;
+}
+
+/* --- PREMIUM PRODUCT CAROUSEL STYLES --- */
+
+/* Swiper Slide Transition Properties */
+.product-showcase-slider .swiper-slide {
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), filter 0.7s ease;
+  transform: scale(0.9);
+  opacity: 0.55;
+  filter: blur(1.5px);
+}
+
+.product-showcase-slider .swiper-slide-active {
+  transform: scale(1.05);
+  opacity: 1;
+  z-index: 10;
+  filter: blur(0px);
+}
+
+/* Glassmorphism Card Soft Glow & Shimmer */
+.luxury-card {
+  background: rgba(255, 253, 248, 0.45);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 10px 30px rgba(43, 82, 25, 0.05),
+              inset 0 0 15px rgba(255, 255, 255, 0.5);
+  transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.luxury-card:hover {
+  transform: translateY(-8px);
+  background: rgba(255, 253, 248, 0.65);
+  box-shadow: 0 20px 40px rgba(43, 82, 25, 0.12),
+              0 0 25px rgba(127, 176, 105, 0.2),
+              inset 0 0 20px rgba(255, 255, 255, 0.6);
+  border-color: rgba(127, 176, 105, 0.3);
+}
+
+/* Shine Hover Sweep Effect */
+.shine-hover {
+  position: relative;
+  overflow: hidden;
+}
+
+.shine-hover::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -150%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 45%,
+    rgba(255, 255, 255, 0.25) 48%,
+    rgba(255, 255, 255, 0.4) 50%,
+    rgba(255, 255, 255, 0.25) 52%,
+    transparent 55%
+  );
+  transform: rotate(-35deg);
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+  z-index: 5;
+}
+
+.shine-hover:hover::after {
+  transform: translate(120%, 120%) rotate(-35deg);
+}
+
+/* Floating Animation for product images */
+@keyframes floatImage {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(1deg);
+  }
+}
+
+.animate-float-image {
+  animation: floatImage 5s ease-in-out infinite;
+}
+
+/* Animated Border Shimmer */
+@keyframes borderShimmer {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.shimmer-border {
+  position: relative;
+}
+
+.shimmer-border::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(200, 169, 110, 0.15),
+    rgba(127, 176, 105, 0.35),
+    rgba(200, 169, 110, 0.15)
+  );
+  background-size: 200% auto;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  animation: borderShimmer 4s linear infinite;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+.shimmer-border:hover::before {
+  opacity: 1;
+}
+
+/* Premium Swiper Bullet Customization */
+.product-showcase-slider .swiper-pagination-bullet {
+  background: var(--text-muted);
+  opacity: 0.3;
+  width: 8px;
+  height: 8px;
+  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.product-showcase-slider .swiper-pagination-bullet-active {
+  background: var(--gold);
+  opacity: 1;
+  width: 24px;
+  border-radius: 4px;
 }

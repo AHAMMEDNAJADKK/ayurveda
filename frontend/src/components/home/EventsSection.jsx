@@ -74,7 +74,7 @@ const EventsSection = () => {
         
         {/* Section Header */}
         <div className="text-center space-y-4 mb-12">
-          <span className="text-gold font-serif italic text-lg block">Samedha Ayurvedics Moments</span>
+          <span className="text-gold font-serif italic text-lg block">Health Care Ayurveda Moments</span>
           <h2 className="font-display text-3xl md:text-5xl text-primary font-bold tracking-wide">
             Healing Chronicles
           </h2>

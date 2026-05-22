@@ -49,14 +49,14 @@ const TreatmentsSection = () => {
             </span>
           </div>
           <span className="font-accent text-sm text-gold tracking-widest uppercase italic">
-            Empowering Women's Health
+            Holistic Healing for Everyone
           </span>
           <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-textDark tracking-wide mt-2">
             Specialized Healing Paths
           </h2>
           <div className="w-12 h-[2px] bg-gold mx-auto mt-4" />
           <p className="font-body text-sm md:text-base text-textMuted mt-4 leading-relaxed">
-            Every therapy at Samedha is customized to respect and align with the unique rhythms, stages, and requirements of a woman's body.
+            Every therapy at Health Care Ayurveda is customized to respect and align with the unique rhythms, stages, and requirements of a woman's body.
           </p>
         </div>
 

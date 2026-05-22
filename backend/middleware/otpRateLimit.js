@@ -1,8 +1,10 @@
 const rateLimit = require('express-rate-limit');
 
+const isProduction = process.env.NODE_ENV === 'production';
+
 const otpRateLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 3, // Limit each phone number to 3 OTP requests per windowMs
+  max: isProduction ? 3 : 1000, // Relax rate limits in development
   message: {
     success: false,
     message: 'Too many OTP requests for this phone number. Please try again after 15 minutes.'

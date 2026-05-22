@@ -44,10 +44,10 @@ const BRANCHES = [
   {
     id:       1,
     badge:    'Main Branch',
-    name:     'Samedha Ayurvedics — Kochi',
+    name:     'Health Care Ayurveda — Kochi',
     address:  'Ground Floor, XYZ Building, MG Road, Ernakulam, Kochi — 682 016',
-    phone:    '+91 98765 43210',
-    email:    'kochi@samedha.com',
+    phone:    '+91 95396 91757',
+    email:    'kochi@healthcareayurveda.com',
     hours:    'Mon – Sat: 9:00 AM – 6:00 PM\nSunday: 10:00 AM – 2:00 PM',
     image:    'https://images.unsplash.com/photo-1519823551278-64ac92734fb1?w=700&q=80',
     mapUrl:   'https://maps.google.com/?q=Kochi+Kerala',
@@ -58,10 +58,10 @@ const BRANCHES = [
   {
     id:       2,
     badge:    'Branch',
-    name:     'Samedha Ayurvedics — Infopark',
+    name:     'Health Care Ayurveda — Infopark',
     address:  '2nd Floor, ABC Tower, Infopark Campus, Kakkanad, Kochi — 682 030',
-    phone:    '+91 98765 43211',
-    email:    'infopark@samedha.com',
+    phone:    '+91 95396 91757',
+    email:    'infopark@healthcareayurveda.com',
     hours:    'Mon – Sat: 9:00 AM – 6:00 PM\nSunday: Closed',
     image:    'https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?w=700&q=80',
     mapUrl:   'https://maps.google.com/?q=Infopark+Kakkanad+Kerala',
@@ -207,14 +207,14 @@ export default function OurStory() {
             }}>
               The{' '}
               <em style={{ fontStyle: 'italic', color: '#2D5A27' }}>
-                Samedha Ayurvedics
+                Health Care Ayurveda
               </em>{' '}
               Difference
             </h2>
             {[
-              'Founded with a deep belief in Ayurveda\'s transformative power, Samedha Ayurvedics began as a clinical sanctuary dedicated exclusively to women\'s holistic wellness in Kerala.',
-              'Over the years, we have served hundreds of women — from young professionals managing hormonal stress, to mothers seeking postnatal care, to individuals recovering from chronic conditions.',
-              'Our approach blends the timeless wisdom of classical Ayurvedic texts with contemporary understanding of human physiology, creating deeply personalised healing experiences for every woman.',
+              'Founded with a deep belief in Ayurveda\'s transformative power, Health Care Ayurveda was established as a clinical sanctuary dedicated to holistic wellness for everyone in Kerala.',
+              'Over the years, we have served thousands of patients — men, women, children, and seniors — from young professionals managing stress, to families seeking preventive care, to individuals recovering from chronic conditions.',
+              'Our approach blends the timeless wisdom of classical Ayurvedic texts with a modern understanding of human physiology, creating deeply personalised healing experiences for every individual.',
             ].map((para, i) => (
               <Reveal key={i} delay={i * 0.12}>
                 <p style={{
@@ -246,7 +246,7 @@ export default function OurStory() {
             <div style={{ position: 'relative' }}>
               <img
                 src="https://images.unsplash.com/photo-1519823551278-64ac92734fb1?w=700&q=80"
-                alt="Samedha Ayurvedics clinic interior"
+                alt="Health Care Ayurveda clinic interior"
                 loading="lazy"
                 style={{
                   width: '100%', height: 'clamp(300px, 40vw, 460px)',

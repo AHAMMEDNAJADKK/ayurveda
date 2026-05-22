@@ -1,6 +1,6 @@
 const express = require('express');
 const { body, validationResult } = require('express-validator');
-const { sendOTP, verifyOTP } = require('../controllers/authController');
+const { firebaseLogin } = require('../controllers/authController');
 const otpRateLimiter = require('../middleware/otpRateLimit');
 
 const router = express.Router();
@@ -18,38 +18,18 @@ const validate = (req, res, next) => {
   next();
 };
 
-// @route   POST /api/auth/send-otp
-// @desc    Send OTP to phone
+// @route   POST /api/auth/firebase-login
+// @desc    Verify Firebase ID Token and authenticate
 // @access  Public (Rate limited)
 router.post(
-  '/send-otp',
+  '/firebase-login',
   otpRateLimiter,
   [
-    body('phone')
-      .notEmpty()
-      .withMessage('Phone number is required')
-      .matches(/^\+?\d{10,15}$/)
-      .withMessage('Please enter a valid phone number (10 to 15 digits)')
+    body('idToken').notEmpty().withMessage('Firebase ID token is required'),
+    body('phone').notEmpty().withMessage('Phone number is required')
   ],
   validate,
-  sendOTP
-);
-
-// @route   POST /api/auth/verify-otp
-// @desc    Verify OTP and authenticate
-// @access  Public
-router.post(
-  '/verify-otp',
-  [
-    body('phone').notEmpty().withMessage('Phone number is required'),
-    body('otp')
-      .notEmpty()
-      .withMessage('OTP is required')
-      .isLength({ min: 6, max: 6 })
-      .withMessage('OTP must be exactly 6 digits')
-  ],
-  validate,
-  verifyOTP
+  firebaseLogin
 );
 
 module.exports = router;

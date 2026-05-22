@@ -9,11 +9,11 @@ const Products = () => {
   const products = [
     {
       id: 1,
-      name: "HCA Hormone Balance Syrup",
-      category: "Women's Health",
+      name: "Hormone Balance Syrup",
+      category: "General Wellness",
       image: "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format&fit=crop&q=80&w=600",
-      shortDesc: "Supports female hormonal balance, regulates menstrual cycles, and relieves symptoms of PCOS and bloating naturally.",
-      benefits: ["Regulates estrogen levels", "Relieves bloating & cramps", "100% ashoka & lodhra extract"],
+      shortDesc: "Supports hormonal balance, regulates metabolism, and relieves symptoms of hormonal imbalance naturally.",
+      benefits: ["Regulates hormone levels", "Relieves bloating & fatigue", "100% ashoka & lodhra extract"],
       price: 380,
       badge: "Bestseller"
     },
@@ -49,10 +49,10 @@ const Products = () => {
     },
     {
       id: 5,
-      name: "Ashwagandha Women's Tonic",
+      name: "Ashwagandha Vitality Tonic",
       category: "Immunity",
       image: "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?auto=format&fit=crop&q=80&w=600",
-      shortDesc: "Daily tonic tailored for women to boost stamina, build immune response, and supply essential botanical micro-nutrients.",
+      shortDesc: "Daily tonic to boost stamina, build immune response, and supply essential botanical micro-nutrients for everyone.",
       benefits: ["Enhances daily energy levels", "Strengthens immune defense", "Combats chronic fatigue"],
       price: 340,
       badge: ""
@@ -69,7 +69,7 @@ const Products = () => {
     }
   ];
 
-  const categories = ['All', "Women's Health", 'Skin Care', 'Mental Wellness', 'Postnatal Care', 'Immunity', 'Digestion'];
+  const categories = ['All', 'General Wellness', 'Skin Care', 'Mental Wellness', 'Postnatal Care', 'Immunity', 'Digestion'];
 
   // Filter products
   const filteredProducts = products.filter(product => {

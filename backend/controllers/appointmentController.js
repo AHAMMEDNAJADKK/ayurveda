@@ -1,5 +1,4 @@
 const Appointment = require('../models/Appointment');
-const { sendWhatsAppMessage } = require('../services/whatsappService');
 
 // Standard JSON response wrapper
 const respond = (res, statusCode, success, message, data = null, extra = {}) => {
@@ -72,8 +71,10 @@ const createAppointment = async (req, res) => {
 Please confirm this appointment in the admin dashboard.
 `;
 
-    // Fire WhatsApp service asynchronously to prevent delaying user response
-    sendWhatsAppMessage(messageText);
+    // Log booking notification in console for development/admin alerts
+    console.log('\n--- NEW APPOINTMENT BOOKING NOTIFICATION ---');
+    console.log(messageText.trim());
+    console.log('--------------------------------------------\n');
 
     return respond(res, 201, true, 'Appointment booked successfully', {
       id: appointment._id,

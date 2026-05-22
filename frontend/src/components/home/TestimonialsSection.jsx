@@ -12,28 +12,36 @@ const TestimonialsSection = () => {
       id: 1,
       name: "Priya S.",
       role: "New Mother",
-      text: "Samedha has changed my life. The Postnatal Care therapy and restorative oils helped me regain strength, pelvic stability, and calm my exhaustion within weeks. The therapists are so gentle and knowledgeable.",
+      text: "Health Care Ayurveda has changed my life. The Postnatal Care therapy and restorative oils helped me regain strength, pelvic stability, and calm my exhaustion within weeks. The therapists are so gentle and knowledgeable.",
       rating: 5,
       avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=150"
     },
     {
       id: 2,
+      name: "Rajan M.",
+      role: "Business Executive",
+      text: "I visited Health Care Ayurveda for chronic back pain and stress management. The Shirodhara treatment was life-changing — my stress levels dropped dramatically. Their physicians are thorough, caring, and highly knowledgeable.",
+      rating: 5,
+      avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=150"
+    },
+    {
+      id: 3,
       name: "Anjali R.",
       role: "Software Engineer",
-      text: "I was struggling with chronic anxiety and severe hormonal acne due to work stress. The combination of Shirodhara and customized Mukha Lepa face packs completely cleared my skin and gave me my peace back.",
+      text: "I was struggling with chronic anxiety due to work stress. The combination of Shirodhara and customized herbal face packs completely cleared my skin and gave me my peace back. Truly holistic healing!",
       rating: 5,
       avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=150"
     },
     {
-      id: 3,
+      id: 4,
       name: "Meera K.",
       role: "Classical Dancer & Artist",
-      text: "The Rejuvenation Therapy at Samedha is pure bliss. It’s not just a spa, it’s deep biological reset. The herbal steam bath and targeted oil massage restored my range of motion and joint flexibility. Highly recommend!",
+      text: "The Rejuvenation Therapy at Health Care Ayurveda is pure bliss. It's not just a spa, it's a deep biological reset. The herbal steam bath and targeted oil massage restored my range of motion and flexibility. Highly recommend!",
       rating: 5,
       avatar: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&q=80&w=150"
     },
     {
-      id: 4,
+      id: 5,
       name: "Dr. Shalini V.",
       role: "Professor",
       text: "As an academic, I spent hours sitting, leading to chronic back pain. The customized heat treatments and spine care massage here relieved my stiffness entirely. Their pure herbal tonics are highly effective.",

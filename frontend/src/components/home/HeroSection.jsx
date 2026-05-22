@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Calendar, Compass } from 'lucide-react';
-import FallingLeaves from '../effects/FallingLeaves';
 
 const HeroSection = () => {
   const [scrollY, setScrollY] = useState(0);
@@ -28,11 +27,6 @@ const HeroSection = () => {
         {/* Soft forest green gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-white/90 via-cream/80 to-white/95 mix-blend-multiply" />
         <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-transparent to-primary/10" />
-      </div>
-
-      {/* ── Falling Leaves Animation Layer ──────────────────────────── */}
-      <div className="absolute inset-0 z-10 pointer-events-none">
-        <FallingLeaves />
       </div>
 
       {/* ── Animated Floating Herb/Leaf SVG Particles ───────────────── */}
@@ -113,16 +107,16 @@ const HeroSection = () => {
 
           {/* Sub-tagline */}
           <span className="inline-block font-accent text-sm md:text-base text-gold tracking-widest uppercase mb-3">
-            Samedha Ayurvedics
+            Health Care Ayurveda
           </span>
 
           {/* Main Title */}
           <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-textDark tracking-wide leading-tight mb-2">
-            Only for Women
+            Heal. Restore. Thrive.
           </h1>
           
           <p className="font-body text-sm md:text-base text-textMuted max-w-sm mx-auto mb-8 leading-relaxed">
-            Discover a sanctuary of customized healing, specialized therapies, and natural rejuvenation crafted specifically for the female body and spirit.
+            Discover a sanctuary of authentic healing, specialized Ayurvedic therapies, and natural rejuvenation for every individual — men, women, and families.
           </p>
 
           {/* Call to Actions */}

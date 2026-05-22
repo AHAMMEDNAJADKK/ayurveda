@@ -3,8 +3,8 @@ import { Leaf } from 'lucide-react';
 const productsRow1 = [
   {
     id: 1,
-    name: "HCA Hormone Balance Syrup",
-    category: "Women's Health",
+    name: "Hormone Balance Syrup",
+    category: "General Wellness",
     image: "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format&fit=crop&q=80&w=600",
     price: 380,
     badge: "Bestseller"
@@ -38,7 +38,7 @@ const productsRow1 = [
 const productsRow2 = [
   {
     id: 5,
-    name: "Ashwagandha Women's Tonic",
+    name: "Ashwagandha Vitality Tonic",
     category: "Immunity",
     image: "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?auto=format&fit=crop&q=80&w=600",
     price: 340,
@@ -123,7 +123,7 @@ const SignatureProducts = () => {
           Our Botanical Apothecary
         </h2>
         <p className="font-body text-textMuted max-w-xl mx-auto text-sm md:text-base">
-          100% natural, laboratory-tested herbal formulations prepared following classical Ayurvedic recipes to heal and restore women's vitality.
+          100% natural, laboratory-tested herbal formulations prepared following classical Ayurvedic recipes to heal and restore vitality for everyone.
         </p>
       </div>
 

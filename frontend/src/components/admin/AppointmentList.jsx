@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
-import axios from 'axios';
 import toast from 'react-hot-toast';
 import { Search, Filter, Calendar, LogOut, Download, ChevronLeft, ChevronRight, UserCheck, CheckCircle2, Clock } from 'lucide-react';
+import api from '../../services/api';
 
 const AppointmentList = ({ token, onLogout }) => {
   const [appointments, setAppointments] = useState([]);
@@ -15,13 +15,10 @@ const AppointmentList = ({ token, onLogout }) => {
   const [endDate, setEndDate] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
-
   const fetchAppointments = useCallback(async () => {
     setLoading(true);
     try {
-      const config = {
-        headers: { Authorization: `Bearer ${token}` },
+      const response = await api.get('/admin/appointments', {
         params: {
           page,
           limit: 10,
@@ -30,9 +27,7 @@ const AppointmentList = ({ token, onLogout }) => {
           startDate,
           endDate
         }
-      };
-
-      const response = await axios.get(`${apiUrl}/admin/appointments`, config);
+      });
 
       if (response.data.success) {
         setAppointments(response.data.data);
@@ -45,12 +40,12 @@ const AppointmentList = ({ token, onLogout }) => {
         toast.error('Session expired. Please log in again.');
         onLogout();
       } else {
-        toast.error('Failed to load appointments.');
+        toast.error(error.cleanedMessage || 'Failed to load appointments.');
       }
     } finally {
       setLoading(false);
     }
-  }, [token, page, activeSearch, statusFilter, startDate, endDate, onLogout, apiUrl]);
+  }, [page, activeSearch, statusFilter, startDate, endDate, onLogout]);
 
   useEffect(() => {
     let active = true;
@@ -76,14 +71,9 @@ const AppointmentList = ({ token, onLogout }) => {
   const handleStatusUpdate = async (id, newStatus) => {
     const toastId = toast.loading('Updating status...');
     try {
-      const config = {
-        headers: { Authorization: `Bearer ${token}` }
-      };
-      
-      const response = await axios.patch(
-        `${apiUrl}/admin/appointments/${id}`,
-        { status: newStatus },
-        config
+      const response = await api.patch(
+        `/admin/appointments/${id}`,
+        { status: newStatus }
       );
 
       if (response.data.success) {
@@ -92,25 +82,22 @@ const AppointmentList = ({ token, onLogout }) => {
       }
     } catch (error) {
       console.error('Status update error:', error);
-      toast.error('Failed to update status', { id: toastId });
+      toast.error(error.cleanedMessage || 'Failed to update status', { id: toastId });
     }
   };
 
   const handleCSVExport = async () => {
     toast.loading('Preparing CSV export...');
     try {
-      const config = {
-        headers: { Authorization: `Bearer ${token}` },
+      const response = await api.get('/admin/appointments/export', {
         params: {
           search,
           status: statusFilter,
           startDate,
           endDate
         },
-        responseType: 'blob' // Important to handle stream/file file
-      };
-
-      const response = await axios.get(`${apiUrl}/admin/appointments/export`, config);
+        responseType: 'blob'
+      });
       
       // Create direct file download trigger
       const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -126,30 +113,12 @@ const AppointmentList = ({ token, onLogout }) => {
     } catch (error) {
       console.error('CSV export failed:', error);
       toast.dismiss();
-      toast.error('Failed to export CSV file.');
+      toast.error(error.cleanedMessage || 'Failed to export CSV file.');
     }
   };
 
   return (
     <div className="space-y-8 font-body">
-      {/* Header bar */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white p-6 rounded-2xl border border-primary/5 shadow-sm">
-        <div>
-          <h1 className="font-display text-2xl md:text-3xl font-bold text-textDark">
-            Samedha Ayurvedics Portal
-          </h1>
-          <p className="text-xs text-textMuted mt-1">
-            Secure administrative control portal for patient bookings
-          </p>
-        </div>
-        <button
-          onClick={onLogout}
-          className="flex items-center space-x-2 bg-cream hover:bg-red-50 hover:text-red-600 text-textDark px-4 py-2 rounded-xl text-sm font-semibold transition-all"
-        >
-          <LogOut size={16} />
-          <span>Sign Out</span>
-        </button>
-      </div>
 
       {/* Statistics Panels Grid */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import DatePicker from 'react-datepicker';
-import axios from 'axios';
 import toast from 'react-hot-toast';
+import api from '../../services/api';
 import { Calendar, User, Phone, Info, Clock, CheckCircle2, Copy, FileText } from 'lucide-react';
 
 import "react-datepicker/dist/react-datepicker.css";
@@ -76,8 +76,7 @@ const AppointmentForm = () => {
         date: appointmentDate,
       };
 
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
-      const response = await axios.post(`${apiUrl}/appointments`, payload);
+      const response = await api.post('/appointments', payload);
 
       if (response.data.success) {
         toast.success("Appointment booked successfully!", { id: toastId });
@@ -88,7 +87,7 @@ const AppointmentForm = () => {
     } catch (error) {
       console.error('Booking error:', error);
       toast.error(
-        error.response?.data?.message || "Server connection failed. Please try again.",
+        error.cleanedMessage || "Server connection failed. Please try again.",
         { id: toastId }
       );
     } finally {
@@ -158,7 +157,7 @@ const AppointmentForm = () => {
         </div>
 
         <p className="font-body text-xs text-textMuted leading-relaxed mb-6">
-          A confirmation alert has been triggered for the clinic director. We will reach out to you if there is any adjustment needed. Thank you for choosing Samedha Ayurvedics.
+          A confirmation alert has been triggered for the clinic director. We will reach out to you if there is any adjustment needed. Thank you for choosing Health Care Ayurveda.
         </p>
 
         <button
