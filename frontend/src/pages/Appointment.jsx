@@ -1,4 +1,3 @@
-import React from 'react';
 import AppointmentForm from '../components/appointment/AppointmentForm';
 import { Leaf } from 'lucide-react';
 

@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Calendar, Key } from 'lucide-react';
+import { Menu, X, Calendar } from 'lucide-react';
+import { AuthContext } from '../../context/AuthContext';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
+  const { user, logout, isAdmin } = useContext(AuthContext);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,88 +26,39 @@ const Navbar = () => {
     setIsOpen(false);
   }, [location]);
 
-  const navLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'Products', path: '/products' },
-    { name: 'About Us', path: '/about' },
-    { name: 'Contact Us', path: '/contact' }
+  const leftLinks = [
+    { name: 'Story', path: '/about' },
+    { name: 'Treatments', path: '/treatments' },
+    { name: 'Products', path: '/products' }
   ];
 
+  const rightLinks = [
+    { name: 'Contact', path: '/contact' }
+  ];
+
+  const allLinks = [...leftLinks, ...rightLinks];
   const isActive = (path) => location.pathname === path;
 
   return (
     <nav
       className={`sticky top-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'py-3 bg-white/80 backdrop-blur-md shadow-sm border-b border-primary/10'
+          ? 'py-3 bg-white/90 backdrop-blur-md shadow-sm border-b border-primary/10'
           : 'py-5 bg-transparent'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          {/* Logo */}
-          <Link to="/" className="flex items-center space-x-3 group">
-            <svg
-              className="w-12 h-12 text-primary transition-transform duration-500 group-hover:rotate-12"
-              viewBox="0 0 100 100"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              {/* Premium botanical circle */}
-              <circle cx="50" cy="50" r="45" stroke="currentColor" strokeWidth="1.5" strokeDasharray="3 3" className="opacity-70" />
-              <circle cx="50" cy="50" r="41" stroke="currentColor" strokeWidth="0.5" className="opacity-40" />
-              
-              {/* Monogram S leaf shape */}
-              <path
-                d="M52 28C52 28 35 28 35 43C35 55 52 52 52 64C52 74 41 74 38 74"
-                stroke="currentColor"
-                strokeWidth="4.5"
-                strokeLinecap="round"
-                className="transition-colors duration-300 group-hover:text-primary-light"
-              />
-              <path
-                d="M48 26C48 26 65 26 65 41C65 53 48 50 48 62C48 72 59 72 62 72"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeDasharray="1 3"
-                className="opacity-80"
-              />
-              {/* Elegant organic leaves sprouting */}
-              <path
-                d="M52 28C55 20 48 16 42 22C38 26 44 32 52 28Z"
-                fill="currentColor"
-                fillOpacity="0.2"
-                stroke="currentColor"
-                strokeWidth="1"
-              />
-              <path
-                d="M48 72C45 80 52 84 58 78C62 74 56 68 48 72Z"
-                fill="currentColor"
-                fillOpacity="0.2"
-                stroke="currentColor"
-                strokeWidth="1"
-              />
-            </svg>
-            <div>
-              <span className="font-display text-2xl font-semibold tracking-wide text-primary block leading-none">
-                SAMEDHA
-              </span>
-              <span className="font-accent text-[10px] tracking-widest text-gold uppercase block mt-1 leading-none">
-                Ayurvedics
-              </span>
-            </div>
-          </Link>
-
-          {/* Desktop Navigation Links */}
-          <div className="hidden md:flex items-center space-x-8">
-            {navLinks.map((link) => (
+          
+          {/* 1. Left Links Column (Desktop) */}
+          <div className="hidden md:flex items-center space-x-8 w-1/3 justify-start">
+            {leftLinks.map((link) => (
               <Link
                 key={link.name}
                 to={link.path}
                 className={`font-body text-sm font-medium tracking-wide transition-colors duration-300 relative py-1 ${
                   isActive(link.path)
-                    ? 'text-primary'
+                    ? 'text-primary font-semibold'
                     : 'text-textMuted hover:text-primary'
                 }`}
               >
@@ -117,36 +70,142 @@ const Navbar = () => {
             ))}
           </div>
 
-          {/* Action Buttons */}
-          <div className="hidden md:flex items-center space-x-4">
-            <Link
-              to="/admin"
-              className="p-2 text-textMuted hover:text-primary transition-colors duration-300"
-              title="Admin Dashboard"
-            >
-              <Key size={18} />
-            </Link>
+          {/* 2. Center Brand Area (Desktop/Mobile Logo on sub-pages) */}
+          <div className="flex justify-center md:w-1/3">
+            {/* Show logo on non-homepages; on homepage it remains transparent for the hero arch card */}
+            {location.pathname !== '/' ? (
+              <Link to="/" className="flex items-center space-x-3 group">
+                <svg
+                  className="w-10 h-10 text-primary transition-transform duration-500 group-hover:rotate-12"
+                  viewBox="0 0 100 100"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle cx="50" cy="50" r="45" stroke="currentColor" strokeWidth="1.5" strokeDasharray="3 3" className="opacity-70" />
+                  <path
+                    d="M52 28C52 28 35 28 35 43C35 55 52 52 52 64C52 74 41 74 38 74"
+                    stroke="currentColor"
+                    strokeWidth="4.5"
+                    strokeLinecap="round"
+                  />
+                  <path
+                    d="M52 28C55 20 48 16 42 22C38 26 44 32 52 28Z"
+                    fill="currentColor"
+                    fillOpacity="0.2"
+                    stroke="currentColor"
+                    strokeWidth="1"
+                  />
+                </svg>
+                <div className="text-left">
+                  <span className="font-display text-base font-bold tracking-wide text-primary block leading-none">
+                    HCA
+                  </span>
+                  <span className="font-accent text-[8px] tracking-widest text-gold uppercase block mt-1 leading-none">
+                    Health Care Ayurveda
+                  </span>
+                </div>
+              </Link>
+            ) : (
+              /* Logo for mobile view on homepage (hidden on desktop) */
+              <Link to="/" className="flex items-center space-x-3 group md:hidden">
+                <svg
+                  className="w-10 h-10 text-primary"
+                  viewBox="0 0 100 100"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle cx="50" cy="50" r="45" stroke="currentColor" strokeWidth="1.5" strokeDasharray="3 3" className="opacity-70" />
+                  <path
+                    d="M52 28C52 28 35 28 35 43C35 55 52 52 52 64C52 74 41 74 38 74"
+                    stroke="currentColor"
+                    strokeWidth="4.5"
+                    strokeLinecap="round"
+                  />
+                  <path
+                    d="M52 28C55 20 48 16 42 22C38 26 44 32 52 28Z"
+                    fill="currentColor"
+                    fillOpacity="0.2"
+                    stroke="currentColor"
+                    strokeWidth="1"
+                  />
+                </svg>
+                <div className="text-left">
+                  <span className="font-display text-base font-bold tracking-wide text-primary block leading-none">
+                    HCA
+                  </span>
+                  <span className="font-accent text-[8px] tracking-widest text-gold uppercase block mt-1 leading-none">
+                    Health Care Ayurveda
+                  </span>
+                </div>
+              </Link>
+            )}
+          </div>
+
+          {/* 3. Right Links & Action Buttons (Desktop) */}
+          <div className="hidden md:flex items-center space-x-6 w-1/3 justify-end">
+            {rightLinks.map((link) => (
+              <Link
+                key={link.name}
+                to={link.path}
+                className={`font-body text-sm font-medium tracking-wide transition-colors duration-300 relative py-1 ${
+                  isActive(link.path)
+                    ? 'text-primary font-semibold'
+                    : 'text-textMuted hover:text-primary'
+                }`}
+              >
+                {link.name}
+                {isActive(link.path) && (
+                  <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-gold rounded-full" />
+                )}
+              </Link>
+            ))}
+
+            {/* Auth Link / Status */}
+            {!user ? (
+              <Link
+                to="/login"
+                className="font-body text-sm font-semibold text-textMuted hover:text-primary transition-colors py-2 px-3 border border-transparent hover:border-primary/10 rounded-full"
+              >
+                Log In
+              </Link>
+            ) : (
+              <div className="flex items-center space-x-4">
+                {isAdmin ? (
+                  <Link
+                    to="/admin"
+                    className="font-body text-sm font-bold text-primary hover:text-primary-light transition-colors"
+                  >
+                    Admin
+                  </Link>
+                ) : (
+                  <span className="font-body text-xs text-textMuted font-medium">
+                    +91 {user.phone.substring(user.phone.length - 10)}
+                  </span>
+                )}
+                <button
+                  onClick={logout}
+                  className="font-body text-xs font-semibold bg-cream text-textDark hover:bg-red-50 hover:text-red-600 px-3.5 py-1.5 rounded-full transition-all border border-primary/5 hover:border-red-100"
+                >
+                  Logout
+                </button>
+              </div>
+            )}
+
             <Link
               to="/appointment"
-              className="flex items-center space-x-2 bg-primary hover:bg-primary-light text-white font-body text-sm font-medium px-5 py-2.5 rounded-full transition-all duration-300 shadow-md hover:shadow-lg border border-primary/20 hover:-translate-y-0.5"
+              className="flex items-center space-x-2 bg-primary hover:bg-primary-light text-white font-body text-xs font-medium px-5 py-2.5 rounded-full transition-all duration-300 shadow-md hover:shadow-lg border border-primary/20 hover:-translate-y-0.5"
             >
-              <Calendar size={16} />
+              <Calendar size={14} />
               <span>Book Appointment</span>
             </Link>
           </div>
 
           {/* Mobile menu button */}
           <div className="md:hidden flex items-center space-x-2">
-            <Link
-              to="/admin"
-              className="p-2 text-textMuted hover:text-primary"
-              title="Admin Dashboard"
-            >
-              <Key size={18} />
-            </Link>
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="p-2 rounded-md text-primary hover:bg-cream transition-colors duration-200 focus:outline-none"
+              aria-label="Toggle Menu"
             >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -161,22 +220,61 @@ const Navbar = () => {
         }`}
       >
         <div className="px-4 pt-3 pb-6 space-y-3">
-          {navLinks.map((link) => (
+          {allLinks.map((link) => (
             <Link
               key={link.name}
               to={link.path}
+              onClick={() => setIsOpen(false)}
               className={`block px-3 py-2 rounded-md font-body text-base font-medium transition-colors duration-200 ${
                 isActive(link.path)
-                  ? 'bg-cream text-primary'
+                  ? 'bg-cream text-primary font-bold'
                   : 'text-textMuted hover:bg-white/50 hover:text-primary'
               }`}
             >
               {link.name}
             </Link>
           ))}
-          <div className="pt-4 border-t border-cream">
+          
+          <div className="pt-4 border-t border-cream flex flex-col space-y-3">
+            {!user ? (
+              <Link
+                to="/login"
+                onClick={() => setIsOpen(false)}
+                className="flex items-center justify-center font-body text-base font-semibold text-textMuted hover:text-primary transition-colors py-2"
+              >
+                Log In
+              </Link>
+            ) : (
+              <div className="flex flex-col items-center space-y-2 py-1">
+                <span className="font-body text-sm text-textMuted font-semibold">
+                  {isAdmin ? 'Logged in as Admin' : `Phone: +91 ${user.phone.substring(user.phone.length - 10)}`}
+                </span>
+                <div className="flex space-x-3 w-full">
+                  {isAdmin && (
+                    <Link
+                      to="/admin"
+                      onClick={() => setIsOpen(false)}
+                      className="flex-1 text-center font-body text-sm font-bold text-white bg-accent hover:bg-accent/95 py-2.5 rounded-full"
+                    >
+                      Admin
+                    </Link>
+                  )}
+                  <button
+                    onClick={() => {
+                      logout();
+                      setIsOpen(false);
+                    }}
+                    className="flex-grow font-body text-sm font-semibold bg-cream text-textDark hover:bg-red-50 hover:text-red-600 py-2.5 rounded-full transition-all"
+                  >
+                    Logout
+                  </button>
+                </div>
+              </div>
+            )}
+
             <Link
               to="/appointment"
+              onClick={() => setIsOpen(false)}
               className="flex items-center justify-center space-x-2 w-full bg-primary hover:bg-primary-light text-white font-body text-base font-medium px-5 py-3 rounded-full shadow-md transition-all duration-200"
             >
               <Calendar size={18} />

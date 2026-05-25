@@ -5,6 +5,7 @@ const nodemailer = require('nodemailer');
 const connectDB = require('./config/db');
 const appointmentRoutes = require('./routes/appointmentRoutes');
 const adminRoutes = require('./routes/adminRoutes');
+const authRoutes = require('./routes/authRoutes');
 
 // Load environment variables
 dotenv.config();
@@ -12,15 +13,40 @@ dotenv.config();
 // Connect to MongoDB
 connectDB();
 
+// Initialize Firebase Admin SDK
+require('./config/firebaseAdmin');
+
 const app = express();
 
-// Middlewares
-app.use(cors());
+// Configure CORS with production-level options
+const allowedOrigins = [
+  process.env.CLIENT_URL || 'http://localhost:5173',
+  'http://localhost:3000',
+  'http://127.0.0.1:5173'
+];
+
+const corsOptions = {
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like mobile apps, postman, or curl)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.includes(origin) || process.env.NODE_ENV !== 'production') {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+  optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Routes
 app.use('/api/appointments', appointmentRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/auth', authRoutes);
 
 // Contact Form Endpoint (Nodemailer)
 app.post('/api/contact', async (req, res) => {
@@ -51,7 +77,7 @@ app.post('/api/contact', async (req, res) => {
 
       const mailOptions = {
         from: `"${name}" <${email}>`,
-        to: process.env.CONTACT_RECEIVER_EMAIL || 'admin@samedha.com',
+        to: process.env.CONTACT_RECEIVER_EMAIL || 'admin@healthcareayurveda.com',
         subject: `🌿 Contact Inquiry: ${subject}`,
         text: `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\n\nMessage:\n${message}`
       };
@@ -80,7 +106,7 @@ app.post('/api/contact', async (req, res) => {
 
 // Root route
 app.get('/', (req, res) => {
-  res.send('Samedha Ayurvedics API is running...');
+  res.send('Health Care Ayurveda API is running...');
 });
 
 // Error handling middleware

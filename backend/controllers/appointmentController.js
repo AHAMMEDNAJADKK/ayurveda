@@ -1,5 +1,14 @@
 const Appointment = require('../models/Appointment');
-const { sendWhatsAppMessage } = require('../services/whatsappService');
+
+// Standard JSON response wrapper
+const respond = (res, statusCode, success, message, data = null, extra = {}) => {
+  return res.status(statusCode).json({
+    success,
+    message,
+    ...(data !== null && { data }),
+    ...extra
+  });
+};
 
 // Helper to format date as DD/MM/YYYY
 const formatDate = (date) => {
@@ -14,29 +23,44 @@ const createAppointment = async (req, res) => {
   const { name, phone, age, date, timeSlot, healthDetails } = req.body;
 
   if (!name || !phone || !age || !date || !timeSlot || !healthDetails) {
-    return res.status(400).json({ success: false, message: 'Please provide all required fields' });
+    return respond(res, 400, false, 'Please provide all required fields');
   }
 
   if (healthDetails.length < 20) {
-    return res.status(400).json({ success: false, message: 'Health details must be at least 20 characters long' });
+    return respond(res, 400, false, 'Health details must be at least 20 characters long');
   }
 
   try {
+    // Normalize date to 00:00:00 local time to prevent timezone offsets causing double booking or slot conflicts
+    const normalizedDate = new Date(date);
+    normalizedDate.setHours(0, 0, 0, 0);
+
+    // Check for Slot Conflict: Status 'pending' or 'confirmed' for same date & timeSlot
+    const slotConflict = await Appointment.findOne({
+      date: normalizedDate,
+      timeSlot,
+      status: { $in: ['pending', 'confirmed'] }
+    });
+
+    if (slotConflict) {
+      return respond(res, 409, false, 'This slot is already booked. Please select another time or date.');
+    }
+
     const appointment = new Appointment({
       name,
       phone,
       age,
-      date,
+      date: normalizedDate,
       timeSlot,
       healthDetails
     });
 
     await appointment.save();
 
-    // Trigger WhatsApp notification template
-    const formattedDate = formatDate(date);
+    // Trigger WhatsApp notification template for HCA rebranding
+    const formattedDate = formatDate(normalizedDate);
     const messageText = `
-🌿 *New Appointment — Samedha Ayurvedics*
+🌿 *New Appointment — Health Care Ayurveda*
 ━━━━━━━━━━━━━━━━
 👤 Name: ${name}
 📞 Phone: ${phone}
@@ -44,27 +68,25 @@ const createAppointment = async (req, res) => {
 📅 Date: ${formattedDate} at ${timeSlot}
 🩺 Health Details: ${healthDetails}
 ━━━━━━━━━━━━━━━━
-Please confirm the appointment.
+Please confirm this appointment in the admin dashboard.
 `;
 
-    // Fire WhatsApp service asynchronously to prevent delaying user response
-    sendWhatsAppMessage(messageText);
+    // Log booking notification in console for development/admin alerts
+    console.log('\n--- NEW APPOINTMENT BOOKING NOTIFICATION ---');
+    console.log(messageText.trim());
+    console.log('--------------------------------------------\n');
 
-    return res.status(201).json({
-      success: true,
-      message: 'Appointment booked successfully',
-      data: {
-        id: appointment._id,
-        confirmationId: appointment.confirmationId,
-        name: appointment.name,
-        date: appointment.date,
-        timeSlot: appointment.timeSlot,
-        status: appointment.status
-      }
+    return respond(res, 201, true, 'Appointment booked successfully', {
+      id: appointment._id,
+      confirmationId: appointment.confirmationId,
+      name: appointment.name,
+      date: appointment.date,
+      timeSlot: appointment.timeSlot,
+      status: appointment.status
     });
   } catch (error) {
     console.error('Create appointment error:', error);
-    return res.status(500).json({ success: false, message: 'Server error booking appointment' });
+    return respond(res, 500, false, 'Server error booking appointment');
   }
 };
 
@@ -96,10 +118,11 @@ const getAppointments = async (req, res) => {
     if (startDate || endDate) {
       query.date = {};
       if (startDate) {
-        query.date.$gte = new Date(startDate);
+        const start = new Date(startDate);
+        start.setHours(0, 0, 0, 0);
+        query.date.$gte = start;
       }
       if (endDate) {
-        // Set end date to end of the day
         const end = new Date(endDate);
         end.setHours(23, 59, 59, 999);
         query.date.$lte = end;
@@ -128,9 +151,7 @@ const getAppointments = async (req, res) => {
       date: { $gte: startOfToday, $lte: endOfToday }
     });
 
-    return res.status(200).json({
-      success: true,
-      data: appointments,
+    return respond(res, 200, true, 'Appointments retrieved successfully', appointments, {
       pagination: {
         total,
         page,
@@ -146,7 +167,7 @@ const getAppointments = async (req, res) => {
     });
   } catch (error) {
     console.error('Get appointments error:', error);
-    return res.status(500).json({ success: false, message: 'Server error retrieving appointments' });
+    return respond(res, 500, false, 'Server error retrieving appointments');
   }
 };
 
@@ -157,27 +178,23 @@ const updateAppointmentStatus = async (req, res) => {
   const { status } = req.body;
 
   if (!status || !['pending', 'confirmed', 'completed'].includes(status)) {
-    return res.status(400).json({ success: false, message: 'Please provide a valid status' });
+    return respond(res, 400, false, 'Please provide a valid status');
   }
 
   try {
     const appointment = await Appointment.findById(req.params.id);
 
     if (!appointment) {
-      return res.status(404).json({ success: false, message: 'Appointment not found' });
+      return respond(res, 404, false, 'Appointment not found');
     }
 
     appointment.status = status;
     await appointment.save();
 
-    return res.status(200).json({
-      success: true,
-      message: `Appointment status updated to ${status}`,
-      data: appointment
-    });
+    return respond(res, 200, true, `Appointment status updated to ${status}`, appointment);
   } catch (error) {
     console.error('Update status error:', error);
-    return res.status(500).json({ success: false, message: 'Server error updating appointment status' });
+    return respond(res, 500, false, 'Server error updating appointment status');
   }
 };
 
@@ -188,7 +205,6 @@ const exportAppointmentsCSV = async (req, res) => {
   try {
     const { status, search, startDate, endDate } = req.query;
 
-    // Same filter logic for exporting
     const query = {};
     if (status) query.status = status;
     if (search) {
@@ -199,7 +215,11 @@ const exportAppointmentsCSV = async (req, res) => {
     }
     if (startDate || endDate) {
       query.date = {};
-      if (startDate) query.date.$gte = new Date(startDate);
+      if (startDate) {
+        const start = new Date(startDate);
+        start.setHours(0, 0, 0, 0);
+        query.date.$gte = start;
+      }
       if (endDate) {
         const end = new Date(endDate);
         end.setHours(23, 59, 59, 999);
@@ -220,7 +240,7 @@ const exportAppointmentsCSV = async (req, res) => {
     });
 
     res.setHeader('Content-Type', 'text/csv');
-    res.setHeader('Content-Disposition', 'attachment; filename=samedha_appointments.csv');
+    res.setHeader('Content-Disposition', 'attachment; filename=hca_appointments.csv');
     return res.status(200).send(csvContent);
   } catch (error) {
     console.error('CSV export error:', error);

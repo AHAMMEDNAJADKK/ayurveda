@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { MapPin, Phone, Mail, Clock } from 'lucide-react';
 
@@ -23,19 +22,16 @@ const Footer = () => {
               </svg>
               <div>
                 <span className="font-display text-xl font-bold tracking-wider text-white block leading-none">
-                  SAMEDHA
+                  HEALTH CARE
                 </span>
                 <span className="font-accent text-[9px] tracking-widest text-gold uppercase block mt-1 leading-none">
-                  Ayurvedics
+                  Ayurveda
                 </span>
               </div>
             </div>
             <p className="font-body text-sm text-textMuted leading-relaxed max-w-xs">
-              Dedicated exclusively to women's holistic wellness, restoring balance, vitality, and root radiant beauty through authentic ayurvedic practice.
+              Dedicated to holistic wellness for everyone — restoring balance, vitality, and natural beauty through authentic Ayurvedic practice.
             </p>
-            <div className="pt-2 text-xs font-accent italic text-gold">
-              "Only for Women"
-            </div>
           </div>
 
           {/* Quick Links */}
@@ -94,16 +90,16 @@ const Footer = () => {
               <li className="flex items-start space-x-2.5">
                 <MapPin size={16} className="text-accent mt-1 shrink-0" />
                 <span className="leading-relaxed">
-                  Samedha Wellness Plaza, 12th Main Road, Sector 4, Bangalore, KA, India - 560034
+                  Health Care Ayurveda Clinic, Kochi, Kerala, India - 682016
                 </span>
               </li>
               <li className="flex items-center space-x-2.5">
                 <Phone size={16} className="text-accent shrink-0" />
-                <span>+91 99999 99999</span>
+                <span>+91 9539 691 757</span>
               </li>
               <li className="flex items-center space-x-2.5">
                 <Mail size={16} className="text-accent shrink-0" />
-                <span>contact@samedha.com</span>
+                <span>contact@healthcareayurveda.com</span>
               </li>
             </ul>
           </div>
@@ -112,9 +108,9 @@ const Footer = () => {
 
         {/* Bottom bar */}
         <div className="mt-12 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center text-xs text-white/40 font-body">
-          <p>© {new Date().getFullYear()} Samedha Ayurvedics. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Health Care Ayurveda. All rights reserved.</p>
           <div className="flex space-x-4 mt-4 md:mt-0">
-            <span className="text-gold/60 font-accent italic">Empowering Women’s Health Naturally</span>
+            <span className="text-gold/60 font-accent italic">Empowering Health Naturally for All</span>
             <span>·</span>
             <Link to="/admin" className="hover:text-accent transition-colors">Admin Login</Link>
           </div>

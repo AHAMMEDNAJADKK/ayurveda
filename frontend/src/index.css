@@ -1,47 +1,139 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&family=Lora:ital@1&display=swap');
+/* ─── Ayurvedic Brand Typography ── loaded via <link> in index.html ──────── */
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --primary:        #2D5A27;
-  --primary-light:  #4A7C3F;
-  --accent:         #8AB87A;
-  --gold:           #C9A84C;
-  --white:          #FAFAF7;
-  --cream:          #F4F0E8;
-  --text-dark:      #1A2E16;
-  --text-muted:     #6B7C69;
+  /* ── Primary greens — HCA forest green palette ──────────────────────────── */
+  --primary:          #2B5219;   /* deep forest green                          */
+  --primary-light:    #3E7A2A;
+  --primary-dark:     #182F0F;
+  --accent:           #7FB069;   /* sage leaf green                            */
+  --accent-light:     #A8C89A;
+
+  /* ── Warm neutrals — HCA cream/off-white ──────────────────────────────── */
+  --gold:             #C8A96E;   /* warm gold                                  */
+  --gold-earthy:      #b8860b;   /* earthy gold for headings                   */
+  --gold-light:       #E4D4A8;
+  --cream:            #F2EDE3;   /* warm parchment                             */
+  --off-white:        #F9F6F0;   /* body background                            */
+  --warm-white:       #FFFDF8;
+
+  /* ── Text ───────────────────────────────────────────────────────────────── */
+  --text-dark:        #1B2E14;
+  --text-body:        #3a3a3a;   /* warm charcoal — per brand spec             */
+  --text-muted:       #7A8C72;
+  --heading-green:    #2d5a27;   /* deep forest green for headings             */
+  --heading-gold:     #b8860b;   /* earthy gold for accent headings            */
+
+  /* ── Typography Scale ───────────────────────────────────────────────────── */
+  --font-h1:          clamp(52px, 6vw, 64px);
+  --font-h2:          clamp(36px, 4.5vw, 42px);
+  --font-h3:          clamp(26px, 3vw, 32px);
+  --font-h4:          clamp(20px, 2.2vw, 24px);
+  --font-body:        clamp(16px, 1.2vw, 18px);
+  --line-height-body: 1.8;
+
+  /* ── Functional ─────────────────────────────────────────────────────────── */
+  --border-soft:      rgba(43, 82, 25, 0.12);
+  --shadow-green:     0 8px 40px rgba(43, 82, 25, 0.15);
+  --shadow-hover:     0 20px 60px rgba(43, 82, 25, 0.22);
 }
 
 body {
-  font-family: 'DM Sans', sans-serif;
-  background-color: var(--white);
-  color: var(--text-dark);
+  font-family: 'Poppins', system-ui, sans-serif;
+  font-size: var(--font-body);
+  font-weight: 400;
+  line-height: var(--line-height-body);
+  background-color: var(--off-white);
+  color: var(--text-body);
   overflow-x: hidden;
   scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Ayurvedic Brand Typography Hierarchy ───────────────────────────────────── */
+
+h1, .h1 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: var(--font-h1);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--heading-green);
+}
+
+h2, .h2 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: var(--font-h2);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.005em;
+  color: var(--heading-green);
+}
+
+h3, .h3 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: var(--font-h3);
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--heading-green);
+}
+
+h4, .h4 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: var(--font-h4);
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--heading-gold);
+  letter-spacing: 0.02em;
+}
+
+p, .body-text {
+  font-family: 'Poppins', system-ui, sans-serif;
+  font-size: var(--font-body);
+  font-weight: 300;
+  line-height: var(--line-height-body);
+  color: var(--text-body);
+}
+
+/* Accent / subheading italic style */
+.font-accent-heading {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  color: var(--heading-gold);
+}
+
+/* Button / CTA typography */
+button, .btn {
+  font-family: 'Poppins', system-ui, sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.04em;
 }
 
 /* Glassmorphism utility */
 .glass-panel {
-  background: rgba(250, 250, 247, 0.7);
+  background: rgba(255, 253, 248, 0.7);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(45, 90, 39, 0.08);
+  border: 1px solid rgba(43, 82, 25, 0.08);
 }
 
 .glass-panel-dark {
-  background: rgba(26, 46, 22, 0.85);
+  background: rgba(24, 47, 15, 0.85);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(250, 250, 247, 0.1);
+  border: 1px solid rgba(255, 253, 248, 0.1);
 }
 
 /* Arched shield layout container */
 .brand-shield-shape {
   border-radius: 120px 120px 24px 24px;
-  box-shadow: 0 20px 40px rgba(26, 46, 22, 0.06);
+  box-shadow: 0 20px 40px rgba(24, 47, 15, 0.06);
 }
 
 /* Rotating text alignments */
@@ -64,7 +156,8 @@ body {
   transform-style: preserve-3d;
 }
 
-.flip-card:hover .flip-card-inner {
+.flip-card:hover .flip-card-inner,
+.flip-card.flipped .flip-card-inner {
   transform: rotateY(180deg);
 }
 
@@ -92,24 +185,47 @@ body {
   transform: translateY(0);
 }
 
-/* Animated particle leaves positioning */
-@keyframes float-leaf-1 {
-  0%, 100% { transform: translateY(0) rotate(0deg) translateX(0); }
-  33% { transform: translateY(-15px) rotate(15deg) translateX(8px); }
-  66% { transform: translateY(10px) rotate(-10deg) translateX(-5px); }
+/* ── Antigravity Leaf Keyframes (leaves rise upward) ──────────────────────── */
+@keyframes antigravity-rise {
+  0%   { transform: translateY(0)      translateX(0)    rotate(0deg);   opacity: 0; }
+  5%   { opacity: 1; }
+  50%  { transform: translateY(-50vh)  translateX(var(--drift-mid))  rotate(180deg); }
+  95%  { opacity: 0.7; }
+  100% { transform: translateY(-110vh) translateX(var(--drift-end))  rotate(360deg); opacity: 0; }
 }
 
-@keyframes float-leaf-2 {
-  0%, 100% { transform: translateY(0) rotate(0deg) translateX(0); }
-  50% { transform: translateY(-25px) rotate(-20deg) translateX(-10px); }
+/* Used by JS-spawned DOM leaves */
+.ag-leaf {
+  position: fixed;
+  bottom: -60px;
+  pointer-events: none;
+  will-change: transform, opacity;
+  filter: drop-shadow(1px 2px 3px rgba(0, 0, 0, 0.15));
+  animation: antigravity-rise linear forwards;
+  z-index: 9;
 }
 
+/* Static decorative leaf class used in hero/section backgrounds */
 .animate-leaf-1 {
-  animation: float-leaf-1 9s ease-in-out infinite;
+  animation: antigravity-rise 12s ease-in-out infinite;
+  --drift-mid: 20px;
+  --drift-end: 40px;
 }
 
 .animate-leaf-2 {
-  animation: float-leaf-2 12s ease-in-out infinite;
+  animation: antigravity-rise 16s ease-in-out infinite;
+  --drift-mid: -25px;
+  --drift-end: -50px;
+}
+
+/* Accessibility: disable all animations for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .ag-leaf,
+  .animate-leaf-1,
+  .animate-leaf-2 {
+    animation: none !important;
+    display: none !important;
+  }
 }
 
 /* Custom scrollbar styling */
@@ -117,7 +233,7 @@ body {
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--white);
+  background: var(--off-white);
 }
 ::-webkit-scrollbar-thumb {
   background: var(--accent);
@@ -125,4 +241,192 @@ body {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: var(--primary);
+}
+
+/* Horizontal auto-scroll (products carousel) */
+@keyframes scrollLeft {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+@keyframes scrollRight {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}
+.scroll-left  { animation: scrollLeft  35s linear infinite; }
+.scroll-right { animation: scrollRight 35s linear infinite; }
+.scroll-pause:hover .scroll-left,
+.scroll-pause:hover .scroll-right { animation-play-state: paused; }
+
+/* Section reveal — stagger children */
+.stagger-children > *:nth-child(1) { transition-delay: 0.1s; }
+.stagger-children > *:nth-child(2) { transition-delay: 0.2s; }
+.stagger-children > *:nth-child(3) { transition-delay: 0.3s; }
+.stagger-children > *:nth-child(4) { transition-delay: 0.4s; }
+
+/* Smooth section fade-up (all sections use this) */
+.section-reveal {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 0.9s cubic-bezier(0.22,1,0.36,1),
+              transform 0.9s cubic-bezier(0.22,1,0.36,1);
+}
+.section-reveal.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Image hover lift */
+.img-hover {
+  transition: transform 0.6s cubic-bezier(0.22,1,0.36,1),
+              box-shadow 0.4s ease;
+}
+.img-hover:hover {
+  transform: scale(1.04) translateY(-4px);
+  box-shadow: var(--shadow-hover);
+}
+
+/* All direct page sections render above the leaf canvas */
+main > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Hero specifically needs higher z — it has its own dark overlay */
+section:first-child {
+  z-index: 2;
+}
+
+/* --- PREMIUM PRODUCT CAROUSEL STYLES --- */
+
+/* Swiper Slide Transition Properties */
+.product-showcase-slider .swiper-slide {
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transform: scale(0.97);
+  opacity: 0.95;
+  filter: none;
+}
+
+.product-showcase-slider .swiper-slide-active {
+  transform: scale(1.02);
+  opacity: 1;
+  z-index: 10;
+  filter: none;
+}
+
+/* Glassmorphism Card Soft Glow & Shimmer */
+.luxury-card {
+  background: rgba(255, 253, 248, 0.45);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 10px 30px rgba(43, 82, 25, 0.05),
+              inset 0 0 15px rgba(255, 255, 255, 0.5);
+  transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.luxury-card:hover {
+  transform: translateY(-8px);
+  background: rgba(255, 253, 248, 0.65);
+  box-shadow: 0 20px 40px rgba(43, 82, 25, 0.12),
+              0 0 25px rgba(127, 176, 105, 0.2),
+              inset 0 0 20px rgba(255, 255, 255, 0.6);
+  border-color: rgba(127, 176, 105, 0.3);
+}
+
+/* Shine Hover Sweep Effect */
+.shine-hover {
+  position: relative;
+  overflow: hidden;
+}
+
+.shine-hover::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -150%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 45%,
+    rgba(255, 255, 255, 0.25) 48%,
+    rgba(255, 255, 255, 0.4) 50%,
+    rgba(255, 255, 255, 0.25) 52%,
+    transparent 55%
+  );
+  transform: rotate(-35deg);
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+  z-index: 5;
+}
+
+.shine-hover:hover::after {
+  transform: translate(120%, 120%) rotate(-35deg);
+}
+
+/* Floating Animation for product images */
+@keyframes floatImage {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(1deg);
+  }
+}
+
+.animate-float-image {
+  animation: floatImage 5s ease-in-out infinite;
+}
+
+/* Animated Border Shimmer */
+@keyframes borderShimmer {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.shimmer-border {
+  position: relative;
+}
+
+.shimmer-border::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(200, 169, 110, 0.15),
+    rgba(127, 176, 105, 0.35),
+    rgba(200, 169, 110, 0.15)
+  );
+  background-size: 200% auto;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  animation: borderShimmer 4s linear infinite;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+.shimmer-border:hover::before {
+  opacity: 1;
+}
+
+/* Premium Swiper Bullet Customization */
+.product-showcase-slider .swiper-pagination-bullet {
+  background: var(--text-muted);
+  opacity: 0.3;
+  width: 8px;
+  height: 8px;
+  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.product-showcase-slider .swiper-pagination-bullet-active {
+  background: var(--gold);
+  opacity: 1;
+  width: 24px;
+  border-radius: 4px;
 }

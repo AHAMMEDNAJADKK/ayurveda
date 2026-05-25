@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import HeroSection from '../components/home/HeroSection';
 import StatsBar from '../components/home/StatsBar';
 import TreatmentsSection from '../components/home/TreatmentsSection';
+import ProductShowcase from '../components/home/ProductShowcase';
 import TestimonialsSection from '../components/home/TestimonialsSection';
 import { Leaf, Calendar, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -42,18 +43,23 @@ const Home = () => {
         <TreatmentsSection />
       </div>
 
+      {/* Auto-Moving Product Showcase Section */}
+      <div className="reveal-on-scroll">
+        <ProductShowcase />
+      </div>
+
       {/* 4. Brand Philosophy callout (Aesthetic mid-page block) */}
       <section className="reveal-on-scroll py-20 bg-cream/20 border-y border-cream/50 relative overflow-hidden">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="glass-panel p-10 md:p-16 rounded-3xl text-center border-t-2 border-gold/20 shadow-sm relative z-10">
             <span className="font-accent text-sm text-gold tracking-widest uppercase italic block mb-3">
-              The Samedha Promise
+              The Health Care Ayurveda Promise
             </span>
             <h2 className="font-display text-3xl md:text-4xl font-bold text-textDark tracking-wide mb-6">
-              A Sanctuary Crafted Exclusively for Women
+              A Sanctuary of Authentic Healing for All
             </h2>
             <p className="font-body text-sm md:text-base text-textMuted max-w-2xl mx-auto leading-relaxed mb-8">
-              In Ayurveda, a woman's health is the foundation of family and society. Our clinic honors this truth by providing specialized, chemical-free therapies that treat the root causes of hormonal fluctuations, stress, fertility, and skin health.
+              In Ayurveda, health is the greatest wealth. Our clinic honours this timeless truth by providing specialised, chemical-free therapies that address the root causes of stress, hormonal balance, skin health, and recovery — for every person, at every life stage.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link

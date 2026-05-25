@@ -56,4 +56,8 @@ AppointmentSchema.pre('save', async function (next) {
   next();
 });
 
+// Compound indexes for query optimization, sorting, and slot checking
+AppointmentSchema.index({ date: 1, timeSlot: 1, status: 1 });
+AppointmentSchema.index({ phone: 1, status: 1 });
+
 module.exports = mongoose.model('Appointment', AppointmentSchema);

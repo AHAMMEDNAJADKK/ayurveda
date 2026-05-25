@@ -16,7 +16,7 @@ const HeroSection = () => {
   return (
     <div className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-cream/40 py-20">
       
-      {/* Parallax Background Image */}
+      {/* ── Parallax Background Image ────────────────────────────────── */}
       <div
         className="absolute inset-0 z-0 bg-cover bg-center transition-transform duration-75 ease-out scale-105"
         style={{
@@ -29,7 +29,7 @@ const HeroSection = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-transparent to-primary/10" />
       </div>
 
-      {/* Animated Floating Herb/Leaf SVG Particles */}
+      {/* ── Animated Floating Herb/Leaf SVG Particles ───────────────── */}
       <div className="absolute inset-0 z-10 pointer-events-none">
         {/* Leaf 1 */}
         <svg
@@ -69,7 +69,7 @@ const HeroSection = () => {
         </svg>
       </div>
 
-      {/* Rotating vertical text - Left Margin */}
+      {/* ── Rotating vertical text - Left Margin ───────────────────── */}
       <div className="absolute left-6 top-1/2 -translate-y-1/2 hidden lg:flex items-center space-x-2 text-textMuted/60 z-20">
         <span className="h-12 w-[1px] bg-accent/30" />
         <p className="writing-mode-vertical-rl text-xs font-body uppercase tracking-[0.3em] select-none">
@@ -77,7 +77,7 @@ const HeroSection = () => {
         </p>
       </div>
 
-      {/* Rotating vertical text - Right Margin */}
+      {/* ── Rotating vertical text - Right Margin ──────────────────── */}
       <div className="absolute right-6 top-1/2 -translate-y-1/2 hidden lg:flex items-center space-x-2 text-textMuted/60 z-20">
         <p className="writing-mode-vertical-rl text-xs font-body uppercase tracking-[0.3em] select-none">
           Nourish Roots · Radiant Beauty
@@ -85,7 +85,7 @@ const HeroSection = () => {
         <span className="h-12 w-[1px] bg-accent/30" />
       </div>
 
-      {/* Center Shield Card */}
+      {/* ── Center Shield Card ─────────────────────────────────────── */}
       <div className="relative z-20 max-w-xl w-full mx-4 animate-fade-up">
         <div className="glass-panel brand-shield-shape p-10 md:p-14 text-center border-t-2 border-gold/30">
           
@@ -107,16 +107,16 @@ const HeroSection = () => {
 
           {/* Sub-tagline */}
           <span className="inline-block font-accent text-sm md:text-base text-gold tracking-widest uppercase mb-3">
-            Samedha Ayurvedics
+            Health Care Ayurveda
           </span>
 
           {/* Main Title */}
           <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-textDark tracking-wide leading-tight mb-2">
-            Only for Women
+            Heal. Restore. Thrive.
           </h1>
           
           <p className="font-body text-sm md:text-base text-textMuted max-w-sm mx-auto mb-8 leading-relaxed">
-            Discover a sanctuary of customized healing, specialized therapies, and natural rejuvenation crafted specifically for the female body and spirit.
+            Discover a sanctuary of authentic healing, specialized Ayurvedic therapies, and natural rejuvenation for every individual — men, women, and families.
           </p>
 
           {/* Call to Actions */}
