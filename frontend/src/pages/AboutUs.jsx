@@ -53,7 +53,7 @@ const BRANCHES = [
     mapUrl:   'https://maps.google.com/?q=Kochi+Kerala',
     highlight: 'Our flagship centre — fully equipped with all Panchakarma facilities, consultation rooms, and herbal pharmacy.',
     features: ['Panchakarma Suite', 'Herbal Pharmacy', 'Consultation Rooms', 'Relaxation Lounge'],
-    color:    '#2D5A27',
+    color:    '#61aa45',
   },
   {
     id:       2,
@@ -67,7 +67,7 @@ const BRANCHES = [
     mapUrl:   'https://maps.google.com/?q=Infopark+Kakkanad+Kerala',
     highlight: 'Serving the Infopark tech community with convenient weekday appointments and express wellness programs.',
     features: ['Express Consultations', 'Stress Relief Programs', 'Herbal Products', 'Online Booking'],
-    color:    '#4A7C3F',
+    color:    '#4d9035',
   },
 ]
 
@@ -120,7 +120,7 @@ export default function OurStory() {
     <>
       {/* ── Hero Banner ─────────────────────────────────────────────── */}
       <section style={{
-        background: 'linear-gradient(135deg, #1A3A15 0%, #2D5A27 60%, #1A3A15 100%)',
+        background: 'linear-gradient(135deg, #1a3d10 0%, #61aa45 60%, #1a3d10 100%)',
         padding: 'clamp(80px, 12vw, 140px) 24px 80px',
         position: 'relative',
         overflow: 'hidden',
@@ -129,7 +129,7 @@ export default function OurStory() {
         {/* Decorative radial glow */}
         <div style={{
           position: 'absolute', inset: 0,
-          backgroundImage: 'radial-gradient(ellipse at 70% 50%, rgba(201,168,76,0.15) 0%, transparent 60%)',
+          backgroundImage: 'radial-gradient(ellipse at 70% 50%, rgba(0,145,158,0.15) 0%, transparent 60%)',
           pointerEvents: 'none',
         }} />
         {/* Ghost large text watermark */}
@@ -149,7 +149,7 @@ export default function OurStory() {
           transition={{ delay: 0.2 }}
           style={{
             fontFamily: '"DM Sans", sans-serif', fontSize: '0.68rem',
-            letterSpacing: '0.4em', color: 'rgba(138,184,122,0.85)',
+            letterSpacing: '0.4em', color: 'rgba(125,196,94,0.85)',
             textTransform: 'uppercase', marginBottom: '16px',
           }}
         >
@@ -167,7 +167,7 @@ export default function OurStory() {
           }}
         >
           Rooted in Nature,<br />
-          <em style={{ fontStyle: 'italic', color: '#C9A84C' }}>Thriving in Health</em>
+          <em style={{ fontStyle: 'italic', color: '#e0f5f6' }}>Thriving in Health</em>
         </motion.h1>
 
         <motion.p
@@ -183,7 +183,7 @@ export default function OurStory() {
       </section>
 
       {/* ── Our Story text + image ───────────────────────────────────── */}
-      <section style={{ backgroundColor: '#FAFAF7', padding: '80px 24px' }}>
+      <section style={{ backgroundColor: '#edf7e8', padding: '80px 24px' }}>
         <div style={{
           maxWidth: 1200, margin: '0 auto',
           display: 'grid', gridTemplateColumns: '1fr 1fr',
@@ -194,7 +194,7 @@ export default function OurStory() {
           <Reveal direction="left">
             <p style={{
               fontFamily: '"DM Sans", sans-serif', fontSize: '0.68rem',
-              letterSpacing: '0.4em', color: '#2D5A27',
+              letterSpacing: '0.4em', color: '#61aa45',
               textTransform: 'uppercase', marginBottom: '12px',
             }}>
               Our Beginning
@@ -202,11 +202,11 @@ export default function OurStory() {
             <h2 style={{
               fontFamily: '"Cormorant Garamond", Georgia, serif',
               fontSize: 'clamp(2rem, 3.5vw, 3rem)',
-              fontWeight: 300, color: '#1A2E16',
+              fontWeight: 300, color: '#1a3d10',
               lineHeight: 1.2, marginBottom: '24px',
             }}>
               The{' '}
-              <em style={{ fontStyle: 'italic', color: '#2D5A27' }}>
+              <em style={{ fontStyle: 'italic', color: '#61aa45' }}>
                 Health Care Ayurveda
               </em>{' '}
               Difference
@@ -220,7 +220,7 @@ export default function OurStory() {
                 <p style={{
                   fontFamily: '"DM Sans", sans-serif',
                   fontSize: 'clamp(0.92rem, 1.4vw, 1rem)',
-                  color: '#6B7C69', lineHeight: 1.85,
+                  color: '#1a3d10', lineHeight: 1.85,
                   marginBottom: '16px',
                 }}>
                   {para}
@@ -231,11 +231,11 @@ export default function OurStory() {
               <Link to="/appointment" style={{
                 display: 'inline-flex', alignItems: 'center', gap: '8px',
                 padding: '12px 28px', marginTop: '8px',
-                background: '#2D5A27', color: '#fff',
+                background: '#61aa45', color: '#fff',
                 fontFamily: '"DM Sans", sans-serif', fontWeight: 500,
                 fontSize: '0.88rem', borderRadius: '50px',
                 textDecoration: 'none',
-                boxShadow: '0 8px 24px rgba(45,90,39,0.25)',
+                boxShadow: '0 8px 24px rgba(97,170,69,0.25)',
               }}>
                 Book a Consultation
               </Link>
@@ -251,20 +251,20 @@ export default function OurStory() {
                 style={{
                   width: '100%', height: 'clamp(300px, 40vw, 460px)',
                   objectFit: 'cover', borderRadius: '20px',
-                  boxShadow: '0 20px 60px rgba(26,46,22,0.18)',
+                  boxShadow: '0 20px 60px rgba(26,61,16,0.18)',
                 }}
               />
               {/* Floating stat badge */}
               <div style={{
                 position: 'absolute', bottom: '-20px', left: '-20px',
-                background: '#2D5A27', borderRadius: '16px',
+                background: '#61aa45', borderRadius: '16px',
                 padding: '16px 24px',
-                boxShadow: '0 8px 28px rgba(45,90,39,0.3)',
+                boxShadow: '0 8px 28px rgba(97,170,69,0.3)',
               }}>
                 <p style={{
                   fontFamily: '"Cormorant Garamond", serif',
                   fontSize: '2rem', fontWeight: 400,
-                  color: '#C9A84C', lineHeight: 1,
+                  color: '#e0f5f6', lineHeight: 1,
                 }}>
                   500+
                 </p>
@@ -290,7 +290,7 @@ export default function OurStory() {
 
       {/* ── TWO BRANCHES SECTION ─────────────────────────────────────── */}
       <section style={{
-        backgroundColor: '#F4F0E8',
+        backgroundColor: '#e0f5f6',
         padding: '80px 24px',
         position: 'relative', overflow: 'hidden',
       }}>
@@ -300,7 +300,7 @@ export default function OurStory() {
           transform: 'translate(-50%,-50%)',
           fontFamily: '"Cormorant Garamond", serif',
           fontSize: 'clamp(5rem, 15vw, 12rem)',
-          fontWeight: 300, color: 'rgba(45,90,39,0.035)',
+          fontWeight: 300, color: 'rgba(97,170,69,0.035)',
           whiteSpace: 'nowrap', pointerEvents: 'none', userSelect: 'none',
         }}>
           Our Branches
@@ -312,7 +312,7 @@ export default function OurStory() {
             <div style={{ textAlign: 'center', marginBottom: '56px' }}>
               <p style={{
                 fontFamily: '"DM Sans", sans-serif', fontSize: '0.68rem',
-                letterSpacing: '0.4em', color: '#2D5A27',
+                letterSpacing: '0.4em', color: '#61aa45',
                 textTransform: 'uppercase', marginBottom: '12px',
               }}>
                 Our Locations
@@ -320,14 +320,14 @@ export default function OurStory() {
               <h2 style={{
                 fontFamily: '"Cormorant Garamond", Georgia, serif',
                 fontSize: 'clamp(2.2rem, 4vw, 3.5rem)',
-                fontWeight: 300, color: '#1A2E16', lineHeight: 1.2,
+                fontWeight: 300, color: '#1a3d10', lineHeight: 1.2,
               }}>
                 Two Branches,{' '}
-                <em style={{ fontStyle: 'italic', color: '#2D5A27' }}>One Purpose</em>
+                <em style={{ fontStyle: 'italic', color: '#61aa45' }}>One Purpose</em>
               </h2>
               <div style={{
                 width: '48px', height: '2px',
-                background: '#C9A84C',
+                background: '#00919e',
                 margin: '20px auto 0',
               }} />
             </div>
@@ -342,20 +342,20 @@ export default function OurStory() {
             {BRANCHES.map((branch, i) => (
               <Reveal key={branch.id} direction={i === 0 ? 'left' : 'right'} delay={i * 0.15}>
                 <div style={{
-                  background: '#FAFAF7',
+                  background: '#edf7e8',
                   borderRadius: '24px',
                   overflow: 'hidden',
-                  boxShadow: '0 8px 40px rgba(26,46,22,0.10)',
-                  border: '1px solid rgba(45,90,39,0.07)',
+                  boxShadow: '0 8px 40px rgba(26,61,16,0.10)',
+                  border: '1px solid rgba(97,170,69,0.07)',
                   transition: 'transform 0.4s ease, box-shadow 0.4s ease',
                 }}
                   onMouseEnter={e => {
                     e.currentTarget.style.transform = 'translateY(-6px)'
-                    e.currentTarget.style.boxShadow = '0 20px 60px rgba(26,46,22,0.18)'
+                    e.currentTarget.style.boxShadow = '0 20px 60px rgba(26,61,16,0.18)'
                   }}
                   onMouseLeave={e => {
                     e.currentTarget.style.transform = 'translateY(0)'
-                    e.currentTarget.style.boxShadow = '0 8px 40px rgba(26,46,22,0.10)'
+                    e.currentTarget.style.boxShadow = '0 8px 40px rgba(26,61,16,0.10)'
                   }}
                 >
                   {/* Branch image */}
@@ -378,7 +378,7 @@ export default function OurStory() {
                     {/* Badge */}
                     <span style={{
                       position: 'absolute', top: '16px', left: '16px',
-                      background: '#C9A84C', color: '#1A2E16',
+                      background: '#00919e', color: '#ffffff',
                       fontFamily: '"DM Sans", sans-serif',
                       fontSize: '0.72rem', fontWeight: 600,
                       padding: '5px 14px', borderRadius: '50px',
@@ -391,7 +391,7 @@ export default function OurStory() {
                       position: 'absolute', bottom: '16px', left: '20px', right: '20px',
                       fontFamily: '"Cormorant Garamond", serif',
                       fontSize: '1.5rem', fontWeight: 400,
-                      color: '#FAFAF7', lineHeight: 1.2,
+                      color: '#ffffff', lineHeight: 1.2,
                     }}>
                       {branch.name}
                     </h3>
@@ -401,7 +401,7 @@ export default function OurStory() {
                   <div style={{ padding: '24px 28px 28px' }}>
                     <p style={{
                       fontFamily: '"Lora", serif', fontStyle: 'italic',
-                      fontSize: '0.9rem', color: '#6B7C69',
+                      fontSize: '0.9rem', color: '#1a3d10',
                       lineHeight: 1.7, marginBottom: '20px',
                       borderLeft: `3px solid ${branch.color}`,
                       paddingLeft: '14px',
@@ -427,14 +427,14 @@ export default function OurStory() {
                           <p style={{
                             fontFamily: '"DM Sans", sans-serif',
                             fontSize: '0.68rem', fontWeight: 600,
-                            color: '#2D5A27', textTransform: 'uppercase',
+                            color: '#61aa45', textTransform: 'uppercase',
                             letterSpacing: '0.08em', marginBottom: '2px',
                           }}>
                             {row.label}
                           </p>
                           <p style={{
                             fontFamily: '"DM Sans", sans-serif',
-                            fontSize: '0.88rem', color: '#6B7C69',
+                            fontSize: '0.88rem', color: '#1a3d10',
                             lineHeight: 1.55, whiteSpace: 'pre-line',
                           }}>
                             {row.value}
@@ -447,17 +447,17 @@ export default function OurStory() {
                     <div style={{
                       display: 'flex', flexWrap: 'wrap', gap: '8px',
                       marginTop: '16px', paddingTop: '16px',
-                      borderTop: '1px solid rgba(45,90,39,0.08)',
+                      borderTop: '1px solid rgba(97,170,69,0.08)',
                     }}>
                       {branch.features.map(f => (
                         <span key={f} style={{
                           fontFamily: '"DM Sans", sans-serif',
                           fontSize: '0.72rem', fontWeight: 500,
                           padding: '5px 12px',
-                          background: 'rgba(45,90,39,0.07)',
-                          color: '#2D5A27',
+                          background: 'rgba(97,170,69,0.07)',
+                          color: '#61aa45',
                           borderRadius: '50px',
-                          border: '1px solid rgba(45,90,39,0.12)',
+                          border: '1px solid rgba(97,170,69,0.12)',
                         }}>
                           {f}
                         </span>
@@ -493,22 +493,22 @@ export default function OurStory() {
       </section>
 
       {/* ── Philosophy ───────────────────────────────────────────────── */}
-      <section style={{ backgroundColor: '#FAFAF7', padding: '80px 24px' }}>
+      <section style={{ backgroundColor: '#edf7e8', padding: '80px 24px' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
           <Reveal>
             <div style={{ textAlign: 'center', marginBottom: '52px' }}>
               <p style={{
                 fontFamily: '"DM Sans", sans-serif', fontSize: '0.68rem',
-                letterSpacing: '0.4em', color: '#2D5A27',
+                letterSpacing: '0.4em', color: '#61aa45',
                 textTransform: 'uppercase', marginBottom: '12px',
               }}>Our Philosophy</p>
               <h2 style={{
                 fontFamily: '"Cormorant Garamond", Georgia, serif',
                 fontSize: 'clamp(2rem, 3.5vw, 3rem)',
-                fontWeight: 300, color: '#1A2E16',
+                fontWeight: 300, color: '#1a3d10',
               }}>
                 Three Pillars of{' '}
-                <em style={{ fontStyle: 'italic', color: '#2D5A27' }}>Healing</em>
+                <em style={{ fontStyle: 'italic', color: '#61aa45' }}>Healing</em>
               </h2>
             </div>
           </Reveal>
@@ -525,24 +525,24 @@ export default function OurStory() {
                   borderRadius: '20px',
                   padding: '36px 28px',
                   textAlign: 'center',
-                  boxShadow: '0 4px 24px rgba(26,46,22,0.07)',
-                  border: '1px solid rgba(45,90,39,0.07)',
+                  boxShadow: '0 4px 24px rgba(26,61,16,0.07)',
+                  border: '1px solid rgba(97,170,69,0.07)',
                   transition: 'box-shadow 0.4s, transform 0.4s',
                 }}
                   onMouseEnter={e => {
-                    e.currentTarget.style.boxShadow = '0 16px 48px rgba(26,46,22,0.14)'
+                    e.currentTarget.style.boxShadow = '0 16px 48px rgba(26,61,16,0.14)'
                     e.currentTarget.style.transform = 'translateY(-4px)'
                   }}
                   onMouseLeave={e => {
-                    e.currentTarget.style.boxShadow = '0 4px 24px rgba(26,46,22,0.07)'
+                    e.currentTarget.style.boxShadow = '0 4px 24px rgba(26,61,16,0.07)'
                     e.currentTarget.style.transform = 'translateY(0)'
                   }}
                 >
                   <div style={{
                     width: '56px', height: '56px',
                     borderRadius: '50%',
-                    background: 'rgba(45,90,39,0.08)',
-                    color: '#2D5A27',
+                    background: 'rgba(97,170,69,0.08)',
+                    color: '#61aa45',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                     margin: '0 auto 20px',
                   }}>
@@ -551,13 +551,13 @@ export default function OurStory() {
                   <h3 style={{
                     fontFamily: '"Cormorant Garamond", serif',
                     fontSize: '1.4rem', fontWeight: 400,
-                    color: '#1A2E16', marginBottom: '12px',
+                    color: '#1a3d10', marginBottom: '12px',
                   }}>
                     {title}
                   </h3>
                   <p style={{
                     fontFamily: '"DM Sans", sans-serif',
-                    fontSize: '0.88rem', color: '#6B7C69',
+                    fontSize: '0.88rem', color: '#1a3d10',
                     lineHeight: 1.6,
                   }}>
                     {desc}
@@ -570,22 +570,22 @@ export default function OurStory() {
       </section>
 
       {/* ── Team Section ────────────────────────────────────────────── */}
-      <section style={{ backgroundColor: '#FAFAF7', padding: '80px 24px 100px' }}>
+      <section style={{ backgroundColor: '#edf7e8', padding: '80px 24px 100px' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
           <Reveal>
             <div style={{ textAlign: 'center', marginBottom: '52px' }}>
               <p style={{
                 fontFamily: '"DM Sans", sans-serif', fontSize: '0.68rem',
-                letterSpacing: '0.4em', color: '#2D5A27',
+                letterSpacing: '0.4em', color: '#61aa45',
                 textTransform: 'uppercase', marginBottom: '12px',
               }}>Our Experts</p>
               <h2 style={{
                 fontFamily: '"Cormorant Garamond", Georgia, serif',
                 fontSize: 'clamp(2rem, 3.5vw, 3rem)',
-                fontWeight: 300, color: '#1A2E16',
+                fontWeight: 300, color: '#1a3d10',
               }}>
                 Meet Our{' '}
-                <em style={{ fontStyle: 'italic', color: '#2D5A27' }}>Physicians</em>
+                <em style={{ fontStyle: 'italic', color: '#61aa45' }}>Physicians</em>
               </h2>
             </div>
           </Reveal>
@@ -603,41 +603,41 @@ export default function OurStory() {
                   borderRadius: '20px',
                   padding: '40px 24px',
                   textAlign: 'center',
-                  boxShadow: '0 4px 24px rgba(26,46,22,0.07)',
-                  border: '1px solid rgba(45,90,39,0.07)',
+                  boxShadow: '0 4px 24px rgba(26,61,16,0.07)',
+                  border: '1px solid rgba(97,170,69,0.07)',
                 }}>
                   <div style={{
                     width: '80px', height: '80px',
                     borderRadius: '50%',
-                    background: 'linear-gradient(135deg, #2D5A27, #4A7C3F)',
+                    background: 'linear-gradient(135deg, #61aa45, #4d9035)',
                     color: '#FFF',
                     fontSize: '1.5rem', fontWeight: 300,
                     fontFamily: '"Cormorant Garamond", serif',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                     margin: '0 auto 24px',
-                    boxShadow: '0 8px 20px rgba(45,90,39,0.2)',
+                    boxShadow: '0 8px 20px rgba(97,170,69,0.2)',
                   }}>
                     {member.initials}
                   </div>
                   <h3 style={{
                     fontFamily: '"Cormorant Garamond", serif',
                     fontSize: '1.4rem', fontWeight: 400,
-                    color: '#1A2E16', marginBottom: '6px',
+                    color: '#1a3d10', marginBottom: '6px',
                   }}>
                     {member.name}
                   </h3>
                   <p style={{
                     fontFamily: '"DM Sans", sans-serif',
                     fontSize: '0.8rem', fontWeight: 600,
-                    color: '#C9A84C', textTransform: 'uppercase',
+                    color: '#00919e', textTransform: 'uppercase',
                     letterSpacing: '0.05em', marginBottom: '12px',
                   }}>
                     {member.role}
                   </p>
                   <span style={{
                     fontFamily: '"DM Sans", sans-serif',
-                    fontSize: '0.75rem', color: '#6B7C69',
-                    background: 'rgba(45,90,39,0.06)',
+                    fontSize: '0.75rem', color: '#1a3d10',
+                    background: 'rgba(97,170,69,0.06)',
                     padding: '4px 12px', borderRadius: '20px',
                   }}>
                     Experience: {member.exp}
