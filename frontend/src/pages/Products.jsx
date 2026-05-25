@@ -94,10 +94,10 @@ const Products = () => {
           <div className="flex justify-center">
             <Leaf className="w-8 h-8 text-gold animate-bounce" />
           </div>
-          <h1 className="font-display text-4xl md:text-5xl font-bold tracking-wide">
+          <h1 className="font-display text-4xl md:text-5xl font-bold tracking-wide !text-white">
             HCA Botanical Apothecary
           </h1>
-          <p className="font-body text-sm md:text-base text-accent max-w-lg mx-auto">
+          <p className="font-body text-sm md:text-base !text-white/85 max-w-lg mx-auto">
             100% natural, laboratory-tested herbal formulations prepared following classical ayurvedic texts.
           </p>
         </div>

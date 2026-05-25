@@ -29,9 +29,9 @@ export default {
         textMuted: '#7A8C72',
       },
       fontFamily: {
-        display: ['"Cormorant Garamond"', 'serif'],
-        body: ['"DM Sans"', 'sans-serif'],
-        accent: ['Lora', 'serif']
+        display: ['"Playfair Display"', 'Georgia', 'serif'],
+        body: ['Poppins', 'system-ui', 'sans-serif'],
+        accent: ['"Cormorant Garamond"', 'Georgia', 'serif'],
       },
       animation: {
         'pulse-ring': 'pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',

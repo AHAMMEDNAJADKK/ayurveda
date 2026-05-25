@@ -1,238 +1,186 @@
 import { useEffect, useRef } from 'react';
 
-// Color palette for the leaves matching HCA's brand guidelines
+// ─── Antigravity Leaf Animation ─────────────────────────────────────────────
+// Leaves rise upward from the bottom with a gentle sine-wave horizontal drift,
+// slow rotation, and randomized parameters for an organic, premium feel.
+//
+// GPU-accelerated: only uses CSS transform + opacity (no layout thrashing).
+// Respects prefers-reduced-motion: animation is fully disabled for a11y.
+// ────────────────────────────────────────────────────────────────────────────
+
+// ── Leaf palette ─────────────────────────────────────────────────────────────
 const LEAF_COLORS = [
-  '#4A7C3F', // Forest green
-  '#8AB87A', // Sage/accent green
-  '#608A56', // Mid-green
-  '#C8A96E', // Muted gold leaf
+  { fill: '#4a7c3f', opacity: 0.75 }, // deep forest green
+  { fill: '#7db954', opacity: 0.70 }, // vibrant sage green
+  { fill: '#a8d5a2', opacity: 0.65 }, // soft mint green
+  { fill: '#2d6a2d', opacity: 0.80 }, // dark evergreen
+  { fill: '#5a9e4e', opacity: 0.72 }, // medium green
 ];
 
-// Leaf shapes rendered via Canvas path instructions
-const LEAF_SHAPES = [
-  // Teardrop shape (Tulsi style)
-  (ctx) => {
-    ctx.beginPath();
-    ctx.moveTo(0, -12);
-    ctx.bezierCurveTo(8, -8, 10, 0, 6, 8);
-    ctx.bezierCurveTo(3, 12, 0, 12, 0, 12);
-    ctx.bezierCurveTo(0, 12, -3, 12, -6, 8);
-    ctx.bezierCurveTo(-10, 0, -8, -8, 0, -12);
-    ctx.closePath();
-  },
-  // Long slender shape (Neem style)
-  (ctx) => {
-    ctx.beginPath();
-    ctx.moveTo(0, -16);
-    ctx.bezierCurveTo(4, -10, 5, 2, 2, 14);
-    ctx.bezierCurveTo(1, 16, 0, 16, 0, 16);
-    ctx.bezierCurveTo(0, 16, -1, 16, -2, 14);
-    ctx.bezierCurveTo(-5, 2, -4, -10, 0, -16);
-    ctx.closePath();
-  },
-  // Rounder shape (Mint/Sage style)
-  (ctx) => {
-    ctx.beginPath();
-    ctx.moveTo(0, -10);
-    ctx.bezierCurveTo(9, -6, 9, 4, 4, 8);
-    ctx.bezierCurveTo(2, 10, 0, 10, 0, 10);
-    ctx.bezierCurveTo(0, 10, -2, 10, -4, 8);
-    ctx.bezierCurveTo(-9, 4, -9, -6, 0, -10);
-    ctx.closePath();
-  }
+// ── Five distinct leaf SVG shapes ─────────────────────────────────────────────
+// Each returns an SVG path string; all fit within a 40×40 viewBox
+const LEAF_PATHS = [
+  // 1. Classic teardrop / Tulsi leaf
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">
+    <path d="M20 4 C28 8 32 18 28 28 C25 34 20 36 20 36
+             C20 36 15 34 12 28 C8 18 12 8 20 4Z" />
+    <line x1="20" y1="6" x2="20" y2="34" stroke="rgba(255,255,255,0.28)" stroke-width="1" />
+  </svg>`,
+
+  // 2. Slender neem / eucalyptus leaf
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">
+    <path d="M20 3 C24 10 25 20 22 32 C21 36 20 37 20 37
+             C20 37 19 36 18 32 C15 20 16 10 20 3Z" />
+    <line x1="20" y1="5" x2="20" y2="35" stroke="rgba(255,255,255,0.25)" stroke-width="0.9" />
+  </svg>`,
+
+  // 3. Round mint / basil leaf
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">
+    <path d="M20 6 C30 6 34 14 30 24 C27 31 20 34 20 34
+             C20 34 13 31 10 24 C6 14 10 6 20 6Z" />
+    <line x1="20" y1="8" x2="20" y2="32" stroke="rgba(255,255,255,0.3)" stroke-width="1.1" />
+  </svg>`,
+
+  // 4. Asymmetric heart leaf (Paan / Betel)
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">
+    <path d="M20 8 C26 4 34 8 33 17 C32 24 26 30 20 36
+             C14 30 8 24 7 17 C6 8 14 4 20 8Z" />
+    <line x1="20" y1="10" x2="20" y2="34" stroke="rgba(255,255,255,0.27)" stroke-width="1" />
+  </svg>`,
+
+  // 5. Elongated oval / Curry leaf
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">
+    <path d="M20 2 C26 6 29 16 27 26 C25 33 22 38 20 38
+             C18 38 15 33 13 26 C11 16 14 6 20 2Z" />
+    <path d="M20 4 C22 12 22 22 20 36" fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="0.8" />
+    <path d="M20 10 C23 14 24 20 22 28" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="0.6" />
+    <path d="M20 10 C17 14 16 20 18 28" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="0.6" />
+  </svg>`,
 ];
 
-function drawLeafInstance(ctx, leaf) {
-  ctx.save();
-  
-  // Apply blur filter depending on leaf depth for premium photographic parallax focus
-  if (leaf.depth === 0) {
-    ctx.filter = 'blur(2.5px)';
-  } else if (leaf.depth === 1) {
-    ctx.filter = 'blur(0.5px)';
-  } else {
-    ctx.filter = 'none';
-  }
+// ── Leaf config ranges ────────────────────────────────────────────────────────
+const CONFIG = {
+  minLeaves:     12,
+  maxLeaves:     18,
+  minSize:       20,   // px
+  maxSize:       55,   // px
+  minDuration:   8,    // seconds per rise cycle
+  maxDuration:   16,
+  minDrift:     -80,   // px horizontal drift
+  maxDrift:      80,
+  minDelay:      0,    // seconds
+  maxDelay:      6,
+  spawnInterval: 900,  // ms between new leaf spawns
+};
 
-  ctx.globalAlpha = leaf.opacity;
-  ctx.translate(leaf.x, leaf.y);
-  ctx.rotate(leaf.rotation);
-  ctx.scale(leaf.size / 24, leaf.size / 24);
+// ── Utilities ─────────────────────────────────────────────────────────────────
+const rand = (min, max) => Math.random() * (max - min) + min;
+const randInt = (min, max) => Math.floor(rand(min, max + 1));
+const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
-  // Call the shape drawing function
-  LEAF_SHAPES[leaf.shapeIdx](ctx);
-  
-  // Fill color
-  ctx.fillStyle = leaf.color;
-  ctx.fill();
+// ── Spawn a single leaf DOM element ──────────────────────────────────────────
+function spawnLeaf(container) {
+  const size     = rand(CONFIG.minSize, CONFIG.maxSize);
+  const duration = rand(CONFIG.minDuration, CONFIG.maxDuration);
+  const delay    = rand(CONFIG.minDelay, CONFIG.maxDelay);
+  const driftMid = rand(CONFIG.minDrift, CONFIG.maxDrift);
+  const driftEnd = driftMid * rand(1.2, 2.0) * (Math.random() > 0.5 ? 1 : -1);
+  const xStart   = rand(0, window.innerWidth);
+  const color    = pick(LEAF_COLORS);
+  const pathSVG  = pick(LEAF_PATHS);
 
-  // Draw delicate leaf vein
-  ctx.beginPath();
-  ctx.moveTo(0, -12);
-  ctx.lineTo(0, 10);
-  ctx.strokeStyle = 'rgba(255, 255, 255, 0.25)';
-  ctx.lineWidth = 0.8;
-  ctx.stroke();
+  const wrapper = document.createElement('div');
+  wrapper.className = 'ag-leaf';
 
-  ctx.restore();
-}
-
-function createLeaf(width, height, randomY = false, depthValue = null) {
-  // Distribute leaves across three layers of depth
-  // 0: background (small, blurry, slow), 1: midground, 2: foreground (large, sharp, fast)
-  const depth = depthValue !== null ? depthValue : Math.floor(Math.random() * 3);
-  
-  let size, speedY, opacity, parallaxFactor;
-  if (depth === 0) {
-    size = 8 + Math.random() * 6;           // 8px - 14px
-    speedY = 0.35 + Math.random() * 0.3;     // Slow fall
-    opacity = 0.08 + Math.random() * 0.1;    // Very faint
-    parallaxFactor = 0.12;                  // Minimal scroll reaction
-  } else if (depth === 1) {
-    size = 14 + Math.random() * 8;          // 14px - 22px
-    speedY = 0.65 + Math.random() * 0.55;    // Medium speed
-    opacity = 0.16 + Math.random() * 0.14;   // Soft visibility
-    parallaxFactor = 0.35;                  // Moderate scroll reaction
-  } else {
-    size = 22 + Math.random() * 10;         // 22px - 32px
-    speedY = 1.2 + Math.random() * 0.7;     // Fast fall
-    opacity = 0.25 + Math.random() * 0.15;   // Higher contrast
-    parallaxFactor = 0.7;                   // High scroll reaction
-  }
-
-  return {
-    x: Math.random() * width,
-    y: randomY ? Math.random() * height : -40,
-    size,
-    depth,
-    speedY,
-    speedX: (Math.random() - 0.5) * 0.4,
-    rotation: Math.random() * Math.PI * 2,
-    rotSpeed: (Math.random() - 0.5) * 0.02,
-    opacity,
-    color: LEAF_COLORS[Math.floor(Math.random() * LEAF_COLORS.length)],
-    shapeIdx: Math.floor(Math.random() * LEAF_SHAPES.length),
-    swayAngle: Math.random() * Math.PI * 2,
-    swaySpeed: 0.005 + Math.random() * 0.01,
-    swayAmp: 15 + Math.random() * 20,
-    parallaxFactor
-  };
-}
-
-export default function GlobalFallingLeaves() {
-  const canvasRef = useRef(null);
-  const stateRef = useRef({
-    leaves: [],
-    width: 0,
-    height: 0,
-    animId: null,
-    scrollYTarget: 0,
-    scrollYCurrent: 0,
-    lastScrollY: 0
+  // Inline styles that override the CSS base
+  Object.assign(wrapper.style, {
+    width:           `${size}px`,
+    height:          `${size}px`,
+    left:            `${xStart}px`,
+    bottom:          `-${size + 10}px`,
+    opacity:         String(color.opacity),
+    // CSS custom properties used by antigravity-rise keyframe
+    '--drift-mid':   `${driftMid}px`,
+    '--drift-end':   `${driftEnd}px`,
+    animationDuration:        `${duration}s`,
+    animationDelay:           `${delay}s`,
+    animationTimingFunction:  'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
   });
 
+  // Inject the colored SVG
+  const coloredSVG = pathSVG.replace(
+    /<path /g,
+    `<path fill="${color.fill}" `
+  );
+  wrapper.innerHTML = coloredSVG;
+
+  container.appendChild(wrapper);
+
+  // Remove leaf from DOM after its animation ends (avoids DOM bloat)
+  const totalMs = (duration + delay) * 1000 + 200;
+  setTimeout(() => {
+    if (wrapper.parentNode) wrapper.parentNode.removeChild(wrapper);
+  }, totalMs);
+
+  return wrapper;
+}
+
+// ── Main Component ────────────────────────────────────────────────────────────
+export default function GlobalFallingLeaves() {
+  const containerRef = useRef(null);
+
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    const state = stateRef.current;
+    // Respect prefers-reduced-motion — do nothing if user opts out
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-    // Responsive Canvas Resizing
-    function resize() {
-      state.width = window.innerWidth;
-      state.height = window.innerHeight;
-      canvas.width = state.width;
-      canvas.height = state.height;
-    }
-    resize();
+    const container = containerRef.current;
+    if (!container) return;
 
-    // Initial state tracking of scroll
-    state.scrollYTarget = window.scrollY;
-    state.scrollYCurrent = window.scrollY;
-    state.lastScrollY = window.scrollY;
-
-    // Seed initial leaves evenly spread across the screen
-    // Total count scaled by screen size for visual balance
-    const leafCount = Math.min(32, Math.floor((state.width * state.height) / 45000));
-    state.leaves = Array.from({ length: leafCount }, () =>
-      createLeaf(state.width, state.height, true)
-    );
-
-    // Animation Loop
-    function tick() {
-      ctx.clearRect(0, 0, state.width, state.height);
-
-      // Smoothly interpolate scroll changes (lerp) to create elastic drift
-      state.scrollYCurrent += (state.scrollYTarget - state.scrollYCurrent) * 0.08;
-      const deltaScroll = state.scrollYCurrent - state.lastScrollY;
-      state.lastScrollY = state.scrollYCurrent;
-
-      state.leaves.forEach((leaf, i) => {
-        // Continuous wind sway
-        leaf.swayAngle += leaf.swaySpeed;
-        const swayX = Math.sin(leaf.swayAngle) * leaf.swayAmp * 0.016;
-
-        // Apply motion vectors and parallax offset
-        leaf.x += leaf.speedX + swayX;
-        leaf.y += leaf.speedY - (deltaScroll * leaf.parallaxFactor);
-        leaf.rotation += leaf.rotSpeed;
-
-        // Boundary looping (wrap-around horizontal)
-        if (leaf.x < -40) {
-          leaf.x = state.width + 40;
-        } else if (leaf.x > state.width + 40) {
-          leaf.x = -40;
-        }
-
-        // Recycle leaf if it floats out of vertical bounds
-        // Floating above top or below bottom
-        if (leaf.y > state.height + 40) {
-          state.leaves[i] = createLeaf(state.width, state.height, false);
-        } else if (leaf.y < -40) {
-          // If scrolled down rapidly, place the leaf at the bottom to float back up/down
-          state.leaves[i] = createLeaf(state.width, state.height, false);
-          state.leaves[i].y = state.height + 30;
-        }
-
-        drawLeafInstance(ctx, leaf);
-      });
-
-      state.animId = requestAnimationFrame(tick);
+    // Seed initial batch of leaves (spread across the viewport vertically
+    // using bottom values so they appear already mid-flight on page load)
+    const initialCount = randInt(CONFIG.minLeaves, CONFIG.maxLeaves);
+    for (let i = 0; i < initialCount; i++) {
+      const leaf = spawnLeaf(container);
+      // Scatter initial leaves at different vertical positions by overriding
+      // the animation-delay to simulate leaves already in flight
+      const initialDelay = -rand(0, rand(CONFIG.minDuration, CONFIG.maxDuration));
+      leaf.style.animationDelay = `${initialDelay}s`;
     }
 
-    tick();
+    // Continuously spawn new leaves to replace the ones that have exited
+    const intervalId = setInterval(() => {
+      // Only spawn if current leaf count is below max
+      const currentLeaves = container.querySelectorAll('.ag-leaf').length;
+      if (currentLeaves < CONFIG.maxLeaves) {
+        spawnLeaf(container);
+      }
+    }, CONFIG.spawnInterval);
 
-    // Scroll and Resize Event Handlers
-    const handleScroll = () => {
-      state.scrollYTarget = window.scrollY;
-    };
-
-    const handleResize = () => {
-      resize();
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    window.addEventListener('resize', handleResize, { passive: true });
+    // Handle resize: update xStart for any future leaves automatically
+    // (no recalculation needed — each spawned leaf reads window.innerWidth)
 
     return () => {
-      cancelAnimationFrame(state.animId);
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', handleResize);
+      clearInterval(intervalId);
+      // Clean up all remaining leaf nodes
+      if (container) {
+        container.innerHTML = '';
+      }
     };
   }, []);
 
   return (
-    <canvas
-      ref={canvasRef}
-      style={{
-        position: 'fixed',
-        inset: 0,
-        width: '100vw',
-        height: '100vh',
-        pointerEvents: 'none',
-        zIndex: 10, // Renders on top of backgrounds but behind interactive text overlay
-      }}
+    <div
+      ref={containerRef}
       aria-hidden="true"
+      style={{
+        position:      'fixed',
+        inset:         0,
+        width:         '100vw',
+        height:        '100vh',
+        pointerEvents: 'none',
+        overflow:      'hidden',
+        zIndex:        9,      // above backgrounds, below interactive content
+      }}
     />
   );
 }

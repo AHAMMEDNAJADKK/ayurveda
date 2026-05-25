@@ -28,7 +28,7 @@ const Navbar = () => {
 
   const leftLinks = [
     { name: 'Story', path: '/about' },
-    { name: 'Treatments', path: '/#treatments' },
+    { name: 'Treatments', path: '/treatments' },
     { name: 'Products', path: '/products' }
   ];
 

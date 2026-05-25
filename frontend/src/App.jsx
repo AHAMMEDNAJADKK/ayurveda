@@ -13,6 +13,7 @@ import GlobalFallingLeaves from './components/effects/GlobalFallingLeaves';
 // Pages
 import Home from './pages/Home';
 import Products from './pages/Products';
+import Treatments from './pages/Treatments';
 import AboutUs from './pages/AboutUs';
 import ContactUs from './pages/ContactUs';
 import Appointment from './pages/Appointment';
@@ -77,6 +78,7 @@ function App() {
             <Route element={<PublicLayout />}>
               <Route path="/" element={<Home />} />
               <Route path="/products" element={<Products />} />
+              <Route path="/treatments" element={<Treatments />} />
               <Route path="/about" element={<AboutUs />} />
               <Route path="/contact" element={<ContactUs />} />
               <Route path="/appointment" element={<Appointment />} />

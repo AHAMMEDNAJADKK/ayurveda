@@ -1,41 +1,118 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&family=Lora:ital,wght@0,400;0,600;1,400;1,600&display=swap');
+/* ─── Ayurvedic Brand Typography ── loaded via <link> in index.html ──────── */
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  /* Primary greens — match HCA's forest green */
-  --primary:          #2B5219;   /* deep forest green  */
+  /* ── Primary greens — HCA forest green palette ──────────────────────────── */
+  --primary:          #2B5219;   /* deep forest green                          */
   --primary-light:    #3E7A2A;
   --primary-dark:     #182F0F;
-  --accent:           #7FB069;   /* sage leaf green    */
+  --accent:           #7FB069;   /* sage leaf green                            */
   --accent-light:     #A8C89A;
 
-  /* Warm neutrals — match HCA's cream/off-white */
-  --gold:             #C8A96E;   /* warm gold          */
+  /* ── Warm neutrals — HCA cream/off-white ──────────────────────────────── */
+  --gold:             #C8A96E;   /* warm gold                                  */
+  --gold-earthy:      #b8860b;   /* earthy gold for headings                   */
   --gold-light:       #E4D4A8;
-  --cream:            #F2EDE3;   /* warm parchment     */
-  --off-white:        #F9F6F0;   /* body background    */
+  --cream:            #F2EDE3;   /* warm parchment                             */
+  --off-white:        #F9F6F0;   /* body background                            */
   --warm-white:       #FFFDF8;
 
-  /* Text */
+  /* ── Text ───────────────────────────────────────────────────────────────── */
   --text-dark:        #1B2E14;
-  --text-body:        #3D4F35;
+  --text-body:        #3a3a3a;   /* warm charcoal — per brand spec             */
   --text-muted:       #7A8C72;
+  --heading-green:    #2d5a27;   /* deep forest green for headings             */
+  --heading-gold:     #b8860b;   /* earthy gold for accent headings            */
 
-  /* Functional */
+  /* ── Typography Scale ───────────────────────────────────────────────────── */
+  --font-h1:          clamp(52px, 6vw, 64px);
+  --font-h2:          clamp(36px, 4.5vw, 42px);
+  --font-h3:          clamp(26px, 3vw, 32px);
+  --font-h4:          clamp(20px, 2.2vw, 24px);
+  --font-body:        clamp(16px, 1.2vw, 18px);
+  --line-height-body: 1.8;
+
+  /* ── Functional ─────────────────────────────────────────────────────────── */
   --border-soft:      rgba(43, 82, 25, 0.12);
   --shadow-green:     0 8px 40px rgba(43, 82, 25, 0.15);
   --shadow-hover:     0 20px 60px rgba(43, 82, 25, 0.22);
 }
 
 body {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Poppins', system-ui, sans-serif;
+  font-size: var(--font-body);
+  font-weight: 400;
+  line-height: var(--line-height-body);
   background-color: var(--off-white);
   color: var(--text-body);
   overflow-x: hidden;
   scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Ayurvedic Brand Typography Hierarchy ───────────────────────────────────── */
+
+h1, .h1 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: var(--font-h1);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--heading-green);
+}
+
+h2, .h2 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: var(--font-h2);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.005em;
+  color: var(--heading-green);
+}
+
+h3, .h3 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: var(--font-h3);
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--heading-green);
+}
+
+h4, .h4 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: var(--font-h4);
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--heading-gold);
+  letter-spacing: 0.02em;
+}
+
+p, .body-text {
+  font-family: 'Poppins', system-ui, sans-serif;
+  font-size: var(--font-body);
+  font-weight: 300;
+  line-height: var(--line-height-body);
+  color: var(--text-body);
+}
+
+/* Accent / subheading italic style */
+.font-accent-heading {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  color: var(--heading-gold);
+}
+
+/* Button / CTA typography */
+button, .btn {
+  font-family: 'Poppins', system-ui, sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.04em;
 }
 
 /* Glassmorphism utility */
@@ -108,24 +185,47 @@ body {
   transform: translateY(0);
 }
 
-/* Animated particle leaves positioning */
-@keyframes float-leaf-1 {
-  0%, 100% { transform: translateY(0) rotate(0deg) translateX(0); }
-  33% { transform: translateY(-15px) rotate(15deg) translateX(8px); }
-  66% { transform: translateY(10px) rotate(-10deg) translateX(-5px); }
+/* ── Antigravity Leaf Keyframes (leaves rise upward) ──────────────────────── */
+@keyframes antigravity-rise {
+  0%   { transform: translateY(0)      translateX(0)    rotate(0deg);   opacity: 0; }
+  5%   { opacity: 1; }
+  50%  { transform: translateY(-50vh)  translateX(var(--drift-mid))  rotate(180deg); }
+  95%  { opacity: 0.7; }
+  100% { transform: translateY(-110vh) translateX(var(--drift-end))  rotate(360deg); opacity: 0; }
 }
 
-@keyframes float-leaf-2 {
-  0%, 100% { transform: translateY(0) rotate(0deg) translateX(0); }
-  50% { transform: translateY(-25px) rotate(-20deg) translateX(-10px); }
+/* Used by JS-spawned DOM leaves */
+.ag-leaf {
+  position: fixed;
+  bottom: -60px;
+  pointer-events: none;
+  will-change: transform, opacity;
+  filter: drop-shadow(1px 2px 3px rgba(0, 0, 0, 0.15));
+  animation: antigravity-rise linear forwards;
+  z-index: 9;
 }
 
+/* Static decorative leaf class used in hero/section backgrounds */
 .animate-leaf-1 {
-  animation: float-leaf-1 9s ease-in-out infinite;
+  animation: antigravity-rise 12s ease-in-out infinite;
+  --drift-mid: 20px;
+  --drift-end: 40px;
 }
 
 .animate-leaf-2 {
-  animation: float-leaf-2 12s ease-in-out infinite;
+  animation: antigravity-rise 16s ease-in-out infinite;
+  --drift-mid: -25px;
+  --drift-end: -50px;
+}
+
+/* Accessibility: disable all animations for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .ag-leaf,
+  .animate-leaf-1,
+  .animate-leaf-2 {
+    animation: none !important;
+    display: none !important;
+  }
 }
 
 /* Custom scrollbar styling */
@@ -200,17 +300,17 @@ section:first-child {
 
 /* Swiper Slide Transition Properties */
 .product-showcase-slider .swiper-slide {
-  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), filter 0.7s ease;
-  transform: scale(0.9);
-  opacity: 0.55;
-  filter: blur(1.5px);
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transform: scale(0.97);
+  opacity: 0.95;
+  filter: none;
 }
 
 .product-showcase-slider .swiper-slide-active {
-  transform: scale(1.05);
+  transform: scale(1.02);
   opacity: 1;
   z-index: 10;
-  filter: blur(0px);
+  filter: none;
 }
 
 /* Glassmorphism Card Soft Glow & Shimmer */

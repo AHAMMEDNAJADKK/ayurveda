@@ -191,7 +191,7 @@ const ProductShowcase = () => {
             {SHOWCASE_PRODUCTS.map((product) => (
               <SwiperSlide key={product.id} className="py-4">
                 {/* Product Card Container */}
-                <div className="luxury-card shimmer-border shine-hover rounded-3xl p-6 flex flex-col justify-between h-[510px] relative overflow-hidden group">
+                <div className="luxury-card shimmer-border shine-hover rounded-3xl p-6 flex flex-col justify-between h-[560px] relative overflow-hidden group">
                   
                   {/* Badge */}
                   {product.badge && (
