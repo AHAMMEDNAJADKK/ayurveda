@@ -8,25 +8,25 @@ export default {
     extend: {
       colors: {
         primary: {
-          DEFAULT: '#2B5219', // deep forest green
-          light: '#3E7A2A',
-          dark: '#182F0F',
+          DEFAULT: '#61aa45', // Primary Green
+          light: '#7dc45e',   // Light Green tint / variant
+          dark: '#4d9035',    // Darker Green
         },
         accent: {
-          DEFAULT: '#7FB069', // sage leaf green
-          light: '#A8C89A',
+          DEFAULT: '#00919e', // Primary Teal-Blue
+          light: '#e0f5f6',   // Light Blue tint
         },
         gold: {
-          DEFAULT: '#C8A96E', // warm gold
-          light: '#E4D4A8',
+          DEFAULT: '#00919e', // Primary Teal-Blue (replaces old gold)
+          light: '#e0f5f6',   // Light Blue tint
         },
-        cream: '#F2EDE3',     // warm parchment
-        offWhite: '#F9F6F0',  // body background
-        warmWhite: '#FFFDF8',
-        white: '#FFFDF8',     // Map standard white to warmWhite/off-white if appropriate
-        textDark: '#1B2E14',
-        textBody: '#3D4F35',
-        textMuted: '#7A8C72',
+        cream: '#edf7e8',     // Light Green tint
+        offWhite: '#edf7e8',  // Light Green tint background
+        warmWhite: '#ffffff', // Pure white
+        white: '#ffffff',     // Map to pure white
+        textDark: '#1a3d10',  // Dark text
+        textBody: '#1a3d10',  // Body text
+        textMuted: '#4d9035', // Muted green text
       },
       fontFamily: {
         display: ['"Playfair Display"', 'Georgia', 'serif'],

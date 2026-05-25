@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Calendar } from 'lucide-react';
 import { AuthContext } from '../../context/AuthContext';
+import logo from '../../assets/logo.png';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -50,9 +51,16 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           
-          {/* 1. Left Links Column (Desktop) */}
-          <div className="hidden md:flex items-center space-x-8 w-1/3 justify-start">
-            {leftLinks.map((link) => (
+          {/* Logo Brand Area (Left Aligned for all pages) */}
+          <div className="flex items-center">
+            <Link to="/" className="flex items-center">
+              <img src={logo} alt="Health Care Ayurveda" className="nav-logo-effect h-12 w-auto" />
+            </Link>
+          </div>
+
+          {/* Navigation Links Column (Desktop Center) */}
+          <div className="hidden md:flex items-center space-x-8">
+            {allLinks.map((link) => (
               <Link
                 key={link.name}
                 to={link.path}
@@ -64,102 +72,14 @@ const Navbar = () => {
               >
                 {link.name}
                 {isActive(link.path) && (
-                  <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-gold rounded-full" />
+                  <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-primary rounded-full" />
                 )}
               </Link>
             ))}
           </div>
 
-          {/* 2. Center Brand Area (Desktop/Mobile Logo on sub-pages) */}
-          <div className="flex justify-center md:w-1/3">
-            {/* Show logo on non-homepages; on homepage it remains transparent for the hero arch card */}
-            {location.pathname !== '/' ? (
-              <Link to="/" className="flex items-center space-x-3 group">
-                <svg
-                  className="w-10 h-10 text-primary transition-transform duration-500 group-hover:rotate-12"
-                  viewBox="0 0 100 100"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <circle cx="50" cy="50" r="45" stroke="currentColor" strokeWidth="1.5" strokeDasharray="3 3" className="opacity-70" />
-                  <path
-                    d="M52 28C52 28 35 28 35 43C35 55 52 52 52 64C52 74 41 74 38 74"
-                    stroke="currentColor"
-                    strokeWidth="4.5"
-                    strokeLinecap="round"
-                  />
-                  <path
-                    d="M52 28C55 20 48 16 42 22C38 26 44 32 52 28Z"
-                    fill="currentColor"
-                    fillOpacity="0.2"
-                    stroke="currentColor"
-                    strokeWidth="1"
-                  />
-                </svg>
-                <div className="text-left">
-                  <span className="font-display text-base font-bold tracking-wide text-primary block leading-none">
-                    HCA
-                  </span>
-                  <span className="font-accent text-[8px] tracking-widest text-gold uppercase block mt-1 leading-none">
-                    Health Care Ayurveda
-                  </span>
-                </div>
-              </Link>
-            ) : (
-              /* Logo for mobile view on homepage (hidden on desktop) */
-              <Link to="/" className="flex items-center space-x-3 group md:hidden">
-                <svg
-                  className="w-10 h-10 text-primary"
-                  viewBox="0 0 100 100"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <circle cx="50" cy="50" r="45" stroke="currentColor" strokeWidth="1.5" strokeDasharray="3 3" className="opacity-70" />
-                  <path
-                    d="M52 28C52 28 35 28 35 43C35 55 52 52 52 64C52 74 41 74 38 74"
-                    stroke="currentColor"
-                    strokeWidth="4.5"
-                    strokeLinecap="round"
-                  />
-                  <path
-                    d="M52 28C55 20 48 16 42 22C38 26 44 32 52 28Z"
-                    fill="currentColor"
-                    fillOpacity="0.2"
-                    stroke="currentColor"
-                    strokeWidth="1"
-                  />
-                </svg>
-                <div className="text-left">
-                  <span className="font-display text-base font-bold tracking-wide text-primary block leading-none">
-                    HCA
-                  </span>
-                  <span className="font-accent text-[8px] tracking-widest text-gold uppercase block mt-1 leading-none">
-                    Health Care Ayurveda
-                  </span>
-                </div>
-              </Link>
-            )}
-          </div>
-
-          {/* 3. Right Links & Action Buttons (Desktop) */}
-          <div className="hidden md:flex items-center space-x-6 w-1/3 justify-end">
-            {rightLinks.map((link) => (
-              <Link
-                key={link.name}
-                to={link.path}
-                className={`font-body text-sm font-medium tracking-wide transition-colors duration-300 relative py-1 ${
-                  isActive(link.path)
-                    ? 'text-primary font-semibold'
-                    : 'text-textMuted hover:text-primary'
-                }`}
-              >
-                {link.name}
-                {isActive(link.path) && (
-                  <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-gold rounded-full" />
-                )}
-              </Link>
-            ))}
-
+          {/* Action Buttons Column (Desktop Right) */}
+          <div className="hidden md:flex items-center space-x-6">
             {/* Auth Link / Status */}
             {!user ? (
               <Link

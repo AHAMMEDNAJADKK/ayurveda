@@ -60,9 +60,9 @@ function AnimatedLine({ item, index }) {
           maxHeight: '300px',
           objectFit: 'cover',
           borderRadius: '20px',
-          boxShadow: '0 12px 40px rgba(45,90,39,0.15)',
+          boxShadow: '0 12px 40px rgba(97, 170, 69, 0.15)',
           /* Subtle green border frame */
-          border: '3px solid rgba(138,184,122,0.25)',
+          border: '3px solid rgba(0, 145, 158, 0.25)',
         }}
       />
     </div>
@@ -87,7 +87,7 @@ function AnimatedLine({ item, index }) {
             ? 'clamp(1.8rem, 3.5vw, 2.8rem)'
             : 'clamp(0.95rem, 1.5vw, 1.1rem)',
           fontWeight: isHeading ? 400 : 300,
-          color:      isHeading ? '#2D5A27' : '#3D4F35',
+          color:      isHeading ? '#1a3d10' : '#1a3d10',
           lineHeight: isHeading ? 1.2 : 1.75,
           letterSpacing: isHeading ? '-0.01em' : '0.01em',
           /* Slide-up line reveal */
@@ -106,7 +106,7 @@ function AnimatedLine({ item, index }) {
 export default function AboutIntro() {
   return (
     <section style={{
-      backgroundColor: '#FAFAF7',
+      backgroundColor: '#edf7e8',
       padding: '80px 24px',
       position: 'relative',
       zIndex: 1,
@@ -117,7 +117,7 @@ export default function AboutIntro() {
         left: 'clamp(24px, 8vw, 120px)',
         top: '60px', bottom: '60px',
         width: '2px',
-        background: 'linear-gradient(180deg, transparent, #8AB87A 20%, #8AB87A 80%, transparent)',
+        background: 'linear-gradient(180deg, transparent, #00919e 20%, #00919e 80%, transparent)',
         opacity: 0.25,
       }} />
 

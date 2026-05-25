@@ -6,26 +6,26 @@
 
 :root {
   /* ── Primary greens — HCA forest green palette ──────────────────────────── */
-  --primary:          #2B5219;   /* deep forest green                          */
-  --primary-light:    #3E7A2A;
-  --primary-dark:     #182F0F;
-  --accent:           #7FB069;   /* sage leaf green                            */
-  --accent-light:     #A8C89A;
+  --primary:          #61aa45;   /* Primary Green */
+  --primary-light:    #7dc45e;   /* Light Green */
+  --primary-dark:     #4d9035;   /* Dark Green */
+  --accent:           #00919e;   /* Primary Teal-Blue */
+  --accent-light:     #e0f5f6;   /* Light Blue tint */
 
-  /* ── Warm neutrals — HCA cream/off-white ──────────────────────────────── */
-  --gold:             #C8A96E;   /* warm gold                                  */
-  --gold-earthy:      #b8860b;   /* earthy gold for headings                   */
-  --gold-light:       #E4D4A8;
-  --cream:            #F2EDE3;   /* warm parchment                             */
-  --off-white:        #F9F6F0;   /* body background                            */
-  --warm-white:       #FFFDF8;
+  /* ── Warm neutrals ─────────────────────────────────────────────────────── */
+  --gold:             #00919e;   /* Primary Teal-Blue */
+  --gold-earthy:      #00919e;   /* Primary Teal-Blue */
+  --gold-light:       #e0f5f6;   /* Light Blue tint */
+  --cream:            #edf7e8;   /* Light Green tint */
+  --off-white:        #edf7e8;   /* Light Green tint background */
+  --warm-white:       #ffffff;   /* Pure white */
 
   /* ── Text ───────────────────────────────────────────────────────────────── */
-  --text-dark:        #1B2E14;
-  --text-body:        #3a3a3a;   /* warm charcoal — per brand spec             */
-  --text-muted:       #7A8C72;
-  --heading-green:    #2d5a27;   /* deep forest green for headings             */
-  --heading-gold:     #b8860b;   /* earthy gold for accent headings            */
+  --text-dark:        #1a3d10;   /* Dark text */
+  --text-body:        #1a3d10;   /* Body text */
+  --text-muted:       #4d9035;   /* Muted green text */
+  --heading-green:    #1a3d10;   /* Dark text for headings */
+  --heading-gold:     #00919e;   /* Teal-Blue accent headings */
 
   /* ── Typography Scale ───────────────────────────────────────────────────── */
   --font-h1:          clamp(52px, 6vw, 64px);
@@ -36,9 +36,9 @@
   --line-height-body: 1.8;
 
   /* ── Functional ─────────────────────────────────────────────────────────── */
-  --border-soft:      rgba(43, 82, 25, 0.12);
-  --shadow-green:     0 8px 40px rgba(43, 82, 25, 0.15);
-  --shadow-hover:     0 20px 60px rgba(43, 82, 25, 0.22);
+  --border-soft:      rgba(97, 170, 69, 0.12);
+  --shadow-green:     0 8px 40px rgba(97, 170, 69, 0.15);
+  --shadow-hover:     0 20px 60px rgba(97, 170, 69, 0.22);
 }
 
 body {
@@ -220,6 +220,7 @@ button, .btn {
 
 /* Accessibility: disable all animations for users who prefer reduced motion */
 @media (prefers-reduced-motion: reduce) {
+  .ag-leaf-container,
   .ag-leaf,
   .animate-leaf-1,
   .animate-leaf-2 {
@@ -430,3 +431,48 @@ section:first-child {
   width: 24px;
   border-radius: 4px;
 }
+
+/* ─── Logo Transition Zoom & Pulse Effect ─────────────────────────────────── */
+.nav-logo-effect {
+  max-height: 60px;
+  width: auto;
+  object-fit: contain;
+  opacity: 0;
+  animation: logo-fade-in 0.8s ease forwards;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  will-change: transform, opacity;
+}
+
+.nav-logo-effect:hover {
+  transform: scale(1.08);
+  filter: drop-shadow(0 0 12px rgba(97, 170, 69, 0.3));
+}
+
+.nav-logo-effect:active {
+  animation: logo-pulse 320ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes logo-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes logo-pulse {
+  0% {
+    transform: scale(1.08);
+  }
+  30% {
+    transform: scale(0.95);
+  }
+  70% {
+    transform: scale(1.04);
+  }
+  100% {
+    transform: scale(1.0);
+  }
+}
+

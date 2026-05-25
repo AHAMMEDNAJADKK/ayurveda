@@ -7,14 +7,14 @@ const ProductCard = ({ product }) => {
   const handleEnquiry = () => {
     toast.success(`"${name}" added to enquiry! You can submit details in the Contact Form.`, {
       style: {
-        border: '1px solid #2D5A27',
+        border: '1px solid #61aa45',
         padding: '16px',
-        color: '#1A2E16',
-        backgroundColor: '#FAFAF7',
+        color: '#1a3d10',
+        backgroundColor: '#edf7e8',
       },
       iconTheme: {
-        primary: '#2D5A27',
-        secondary: '#FAFAF7',
+        primary: '#61aa45',
+        secondary: '#edf7e8',
       },
     });
   };
