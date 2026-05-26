@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Get API URL from env with a robust fallback
-let baseURL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+let baseURL = import.meta.env.VITE_API_URL || 'https://ayurveda-1-khyi.onrender.com/api';
 
 // Robust URL normalization:
 // If base URL starts with a colon (e.g. ":5000/api"), prepend "localhost".
