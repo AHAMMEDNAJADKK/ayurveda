@@ -5,7 +5,26 @@ const ProductCard = ({ product }) => {
   const { name, category, image, shortDesc, benefits, price, badge } = product;
 
   const handleEnquiry = () => {
-    toast.success(`"${name}" added to enquiry! You can submit details in the Contact Form.`, {
+    const adminPhone = "919539691757";
+    const benefitsList = benefits && benefits.length > 0
+      ? benefits.map(b => `• ${b}`).join('\n')
+      : 'N/A';
+    
+    const messageText = `🌿 *Product Inquiry - Health Care Ayurveda*
+━━━━━━━━━━━━━━━━
+📦 *Product Name:* ${name}
+🗂️ *Category:* ${category}
+💵 *Estimated Price:* ₹${price}
+📝 *Description:* ${shortDesc}
+✨ *Key Benefits:*
+${benefitsList}
+━━━━━━━━━━━━━━━━
+Please check availability and details.`;
+    
+    const encodedText = encodeURIComponent(messageText);
+    const whatsappUrl = `https://wa.me/${adminPhone}?text=${encodedText}`;
+    
+    toast.success(`Redirecting to WhatsApp for "${name}" enquiry...`, {
       style: {
         border: '1px solid #61aa45',
         padding: '16px',
@@ -17,6 +36,10 @@ const ProductCard = ({ product }) => {
         secondary: '#edf7e8',
       },
     });
+
+    setTimeout(() => {
+      window.open(whatsappUrl, '_blank');
+    }, 800);
   };
 
   return (
@@ -41,7 +64,7 @@ const ProductCard = ({ product }) => {
 
       {/* Details Container */}
       <div className="p-5 flex-grow flex flex-col justify-between">
-        <div className="space-y-2">
+        <div className="space-y-3">
           {/* Category */}
           <span className="text-[10px] font-body font-semibold tracking-widest text-gold uppercase block">
             {category}
@@ -53,47 +76,36 @@ const ProductCard = ({ product }) => {
           </h3>
 
           {/* Description */}
-          <p className="font-body text-xs text-textMuted leading-relaxed line-clamp-2">
+          <p className="font-body text-xs text-textMuted leading-relaxed">
             {shortDesc}
           </p>
 
           {/* Benefits */}
-          <div className="pt-2 space-y-1">
-            {benefits.slice(0, 2).map((benefit, i) => (
-              <div key={i} className="flex items-center space-x-1.5 text-[11px] text-textDark/80">
-                <Check size={10} className="text-accent shrink-0" />
-                <span className="line-clamp-1">{benefit}</span>
+          <div className="pt-2 space-y-1.5">
+            {benefits.map((benefit, i) => (
+              <div key={i} className="flex items-start space-x-1.5 text-[11px] text-textDark/80">
+                <Check size={11} className="text-accent shrink-0 mt-0.5" />
+                <span>{benefit}</span>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Bottom actions (Price + Enquiry Slide-up) */}
-        <div className="mt-5 pt-3 border-t border-cream flex items-center justify-between relative overflow-hidden h-10">
-          {/* Standard Price view */}
-          <div className="transition-transform duration-300 group-hover:-translate-y-12">
-            <span className="text-xs text-textMuted block leading-none">Price estimate</span>
+        {/* Bottom actions (Price + Enquiry static and always visible) */}
+        <div className="mt-5 pt-4 border-t border-cream flex items-center justify-between gap-4">
+          <div>
+            <span className="text-[10px] text-textMuted block font-body uppercase tracking-wider">Price Estimate</span>
             <span className="font-display text-base font-bold text-primary mt-1 block">
               ₹{price}
             </span>
           </div>
 
-          {/* Static Shopping Bag icon */}
           <button
             onClick={handleEnquiry}
-            className="p-2 text-primary/70 hover:text-primary transition-colors group-hover:opacity-0"
-            title="Enquire Product"
+            className="bg-primary hover:bg-primary-light text-white text-xs font-semibold px-4 py-2.5 rounded-xl shadow-md hover:shadow-lg hover:shadow-primary/20 flex items-center space-x-1.5 transition-all duration-300 transform active:scale-95 shrink-0"
           >
-            <ShoppingBag size={20} />
-          </button>
-
-          {/* Slide-Up CTA Button on Hover */}
-          <button
-            onClick={handleEnquiry}
-            className="absolute inset-x-0 bottom-0 w-full bg-primary hover:bg-primary-light text-white text-xs font-semibold py-2.5 rounded-lg shadow-md transition-all duration-300 translate-y-12 group-hover:translate-y-0 flex items-center justify-center space-x-2"
-          >
-            <ShoppingBag size={14} />
-            <span>Add to Enquiry</span>
+            <ShoppingBag size={13} />
+            <span>Add Enquiry</span>
           </button>
         </div>
 

@@ -52,8 +52,6 @@ const AppointmentForm = () => {
     
     if (!timeSlot) return "Please select a preferred time slot";
     
-    if (healthDetails.trim().length < 20) return "Health details must be at least 20 characters long";
-    
     return null;
   };
 
@@ -81,6 +79,32 @@ const AppointmentForm = () => {
       if (response.data.success) {
         toast.success("Appointment booked successfully!", { id: toastId });
         setBookingSuccess(response.data.data);
+
+        // WhatsApp redirection to notify the admin
+        const appt = response.data.data;
+        const formattedDate = new Date(appt.date).toLocaleDateString('en-US', {
+          weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+        });
+        
+        const messageText = `🌿 *New Appointment Booking - Health Care Ayurveda*
+━━━━━━━━━━━━━━━━
+👤 *Patient Name:* ${appt.name}
+📞 *Patient Phone:* ${formData.phone}
+🎂 *Age:* ${formData.age}
+📅 *Date:* ${formattedDate}
+🕒 *Time Slot:* ${appt.timeSlot}
+🩺 *Health Details:* ${formData.healthDetails}
+🆔 *Confirmation ID:* ${appt.confirmationId}
+━━━━━━━━━━━━━━━━
+Please confirm this appointment.`;
+
+        const encodedText = encodeURIComponent(messageText);
+        const adminPhone = "919539691757";
+        const whatsappUrl = `https://wa.me/${adminPhone}?text=${encodedText}`;
+
+        setTimeout(() => {
+          window.open(whatsappUrl, '_blank');
+        }, 1200);
       } else {
         toast.error(response.data.message || "Failed to book appointment", { id: toastId });
       }
@@ -287,16 +311,10 @@ const AppointmentForm = () => {
             rows="4"
             value={formData.healthDetails}
             onChange={handleChange}
-            placeholder="Please detail your symptoms, duration, and health goals... (Minimum 20 characters)"
+            placeholder="Please detail your symptoms, duration, and health goals..."
             className="w-full px-4 py-2.5 rounded-xl border border-cream focus:outline-none focus:border-primary text-sm font-body bg-cream/10 resize-none"
             required
           />
-          <div className="flex justify-between items-center text-[10px] text-textMuted px-1">
-            <span>Minimum 20 characters</span>
-            <span className={formData.healthDetails.length >= 20 ? 'text-primary font-bold' : 'text-red-500'}>
-              {formData.healthDetails.length} characters
-            </span>
-          </div>
         </div>
 
         {/* Submit */}
