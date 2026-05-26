@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Calendar, Compass } from 'lucide-react';
+import logo from '../../assets/logo.png';
 
 const HeroSection = () => {
   const [scrollY, setScrollY] = useState(0);
@@ -91,18 +92,12 @@ const HeroSection = () => {
           
           {/* Logo Monogram */}
           <div className="flex justify-center mb-6">
-            <div className="p-3 bg-white rounded-full shadow-md border border-primary/5">
-              <svg
-                className="w-16 h-16 text-primary"
-                viewBox="0 0 100 100"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <circle cx="50" cy="50" r="45" stroke="currentColor" strokeWidth="1" strokeDasharray="3 3" />
-                <path d="M52 28C52 28 35 28 35 43C35 55 52 52 52 64C52 74 41 74 38 74" stroke="currentColor" strokeWidth="4.5" strokeLinecap="round" />
-                <path d="M52 28C55 20 48 16 42 22C38 26 44 32 52 28Z" fill="currentColor" fillOpacity="0.2" stroke="currentColor" strokeWidth="1.2" />
-              </svg>
-            </div>
+            <img
+              src={logo}
+              alt="Health Care Ayurveda"
+              className="logo-fade-in-effect max-h-[100px] w-auto object-contain"
+              style={{ mixBlendMode: 'multiply' }}
+            />
           </div>
 
           {/* Sub-tagline */}

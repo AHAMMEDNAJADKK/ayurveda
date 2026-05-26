@@ -50,7 +50,7 @@ const BRANCHES = [
     email:    'kochi@healthcareayurveda.com',
     hours:    'Mon – Sat: 9:00 AM – 6:00 PM\nSunday: 10:00 AM – 2:00 PM',
     image:    'https://images.unsplash.com/photo-1519823551278-64ac92734fb1?w=700&q=80',
-    mapUrl:   'https://maps.google.com/?q=Kochi+Kerala',
+    mapUrl:   'https://maps.app.goo.gl/p3n2pCFwT8mFHEK3A?g_st=aw',
     highlight: 'Our flagship centre — fully equipped with all Panchakarma facilities, consultation rooms, and herbal pharmacy.',
     features: ['Panchakarma Suite', 'Herbal Pharmacy', 'Consultation Rooms', 'Relaxation Lounge'],
     color:    '#61aa45',
@@ -64,10 +64,10 @@ const BRANCHES = [
     email:    'infopark@healthcareayurveda.com',
     hours:    'Mon – Sat: 9:00 AM – 6:00 PM\nSunday: Closed',
     image:    'https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?w=700&q=80',
-    mapUrl:   'https://maps.google.com/?q=Infopark+Kakkanad+Kerala',
+    mapUrl:   '',
     highlight: 'Serving the Infopark tech community with convenient weekday appointments and express wellness programs.',
     features: ['Express Consultations', 'Stress Relief Programs', 'Herbal Products', 'Online Booking'],
-    color:    '#4d9035',
+    color:    '#61aa45',
   },
 ]
 
@@ -465,25 +465,27 @@ export default function OurStory() {
                     </div>
 
                     {/* Direction CTA */}
-                    <a
-                      href={branch.mapUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{
-                        display: 'inline-flex', alignItems: 'center', gap: '6px',
-                        marginTop: '20px',
-                        padding: '10px 22px',
-                        background: branch.color, color: '#fff',
-                        fontFamily: '"DM Sans", sans-serif',
-                        fontSize: '0.82rem', fontWeight: 500,
-                        borderRadius: '50px', textDecoration: 'none',
-                        transition: 'opacity 0.3s',
-                      }}
-                      onMouseEnter={e => e.currentTarget.style.opacity = '0.85'}
-                      onMouseLeave={e => e.currentTarget.style.opacity = '1'}
-                    >
-                      Get Directions →
-                    </a>
+                    {branch.mapUrl && (
+                      <a
+                        href={branch.mapUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          display: 'inline-flex', alignItems: 'center', gap: '6px',
+                          marginTop: '20px',
+                          padding: '10px 22px',
+                          background: branch.color, color: '#fff',
+                          fontFamily: '"DM Sans", sans-serif',
+                          fontSize: '0.82rem', fontWeight: 500,
+                          borderRadius: '50px', textDecoration: 'none',
+                          transition: 'opacity 0.3s',
+                        }}
+                        onMouseEnter={e => e.currentTarget.style.opacity = '0.85'}
+                        onMouseLeave={e => e.currentTarget.style.opacity = '1'}
+                      >
+                        Get Directions →
+                      </a>
+                    )}
                   </div>
                 </div>
               </Reveal>
@@ -609,7 +611,7 @@ export default function OurStory() {
                   <div style={{
                     width: '80px', height: '80px',
                     borderRadius: '50%',
-                    background: 'linear-gradient(135deg, #61aa45, #4d9035)',
+                    background: 'linear-gradient(135deg, #61aa45, #00919e)',
                     color: '#FFF',
                     fontSize: '1.5rem', fontWeight: 300,
                     fontFamily: '"Cormorant Garamond", serif',

@@ -162,20 +162,20 @@ const Treatments = () => {
         </div>
 
         {/* Global CTA Banner at Bottom */}
-        <div className="mt-20 bg-textDark text-white rounded-3xl p-10 md:p-14 text-center relative overflow-hidden shadow-lg">
+        <div className="mt-20 bg-primary text-white rounded-3xl p-10 md:p-14 text-center relative overflow-hidden shadow-lg">
           <div className="absolute inset-0 bg-[radial-gradient(#8AB87A_1px,transparent_1px)] [background-size:24px_24px] opacity-10" />
           <div className="relative z-10 max-w-2xl mx-auto space-y-6">
-            <Leaf className="w-10 h-10 text-accent mx-auto animate-pulse" />
+            <Leaf className="w-10 h-10 text-white mx-auto animate-pulse" />
             <h3 className="font-display text-3xl font-semibold tracking-wide !text-white">
               Not Sure Which Treatment You Need?
             </h3>
-            <p className="font-body text-sm text-white/70 leading-relaxed">
+            <p className="font-body text-sm text-white/90 leading-relaxed">
               Schedule a personalized pulse diagnosis and holistic health consultation with our expert Ayurvedic doctors. We will create a custom therapy plan aligned with your body rhythms.
             </p>
             <div className="pt-2">
               <Link
                 to="/appointment"
-                className="inline-flex items-center space-x-2 bg-accent hover:bg-accent/80 text-textDark font-body font-semibold px-8 py-3.5 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+                className="inline-flex items-center space-x-2 bg-white hover:bg-white/90 text-primary font-body font-semibold px-8 py-3.5 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
               >
                 <span>Book Doctor Consultation</span>
                 <ArrowRight size={16} />

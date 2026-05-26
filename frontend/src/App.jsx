@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Outlet, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Outlet, useLocation, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 
 // Layout
@@ -18,7 +18,6 @@ import AboutUs from './pages/AboutUs';
 import ContactUs from './pages/ContactUs';
 import Appointment from './pages/Appointment';
 import Admin from './pages/Admin';
-import Login from './pages/Login';
 
 // Auth
 import { AuthProvider } from './context/AuthContext';
@@ -45,6 +44,9 @@ function PublicLayout() {
 
   return (
     <>
+      {/* Global Immersive Falling Leaves Canvas Overlay */}
+      <GlobalFallingLeaves />
+
       {/* Navigation Sticky Header */}
       <Navbar />
 
@@ -70,10 +72,11 @@ function App() {
           {/* Global Toast Notifications Container */}
           <Toaster position="top-right" reverseOrder={false} />
 
-          {/* Global Immersive Falling Leaves Canvas Overlay */}
-          <GlobalFallingLeaves />
-
           <Routes>
+            {/* Redirect old login URLs to /admin */}
+            <Route path="/login" element={<Navigate to="/admin" replace />} />
+            <Route path="/signin" element={<Navigate to="/admin" replace />} />
+
             {/* Public Layout Wrapping Regular Website Pages */}
             <Route element={<PublicLayout />}>
               <Route path="/" element={<Home />} />
@@ -82,7 +85,6 @@ function App() {
               <Route path="/about" element={<AboutUs />} />
               <Route path="/contact" element={<ContactUs />} />
               <Route path="/appointment" element={<Appointment />} />
-              <Route path="/login" element={<Login />} />
             </Route>
 
             {/* Admin Section - Fully Isolated layout */}

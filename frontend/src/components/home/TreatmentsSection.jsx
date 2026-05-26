@@ -1,5 +1,10 @@
 import { Link } from 'react-router-dom';
-import { Leaf, ArrowRight } from 'lucide-react';
+import { Leaf, ArrowRight, ArrowLeft } from 'lucide-react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, Pagination, Navigation } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
 
 const TreatmentsSection = () => {
   const treatments = [
@@ -60,89 +65,145 @@ const TreatmentsSection = () => {
           </p>
         </div>
 
-        {/* 3D Flip Card Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {treatments.map((treatment) => (
-            <div key={treatment.id} className="flip-card h-[400px] w-full rounded-2xl cursor-pointer">
-              <div className="flip-card-inner h-full w-full">
-                
-                {/* CARD FRONT */}
-                <div className="flip-card-front rounded-2xl overflow-hidden shadow-md flex flex-col justify-end p-6 text-white relative">
-                  {/* Background Image */}
-                  <img
-                    src={treatment.image}
-                    alt={treatment.title}
-                    className="absolute inset-0 w-full h-full object-cover z-0 transition-transform duration-700 hover:scale-105"
-                  />
-                  {/* Dark overlay gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-textDark/90 via-textDark/45 to-transparent z-10" />
-                  
-                  {/* Text Details */}
-                  <div className="relative z-20">
-                    <span className="font-accent text-xs text-accent italic tracking-wide block mb-1">
-                      {treatment.tagline}
-                    </span>
-                    <h3 className="font-display text-xl md:text-2xl font-semibold tracking-wide leading-tight">
-                      {treatment.title}
-                    </h3>
+        {/* Carousel Slider Wrapper */}
+        <div className="relative px-4 sm:px-12">
+          <Swiper
+            modules={[Autoplay, Pagination, Navigation]}
+            spaceBetween={30}
+            slidesPerView={1}
+            centeredSlides={true}
+            loop={true}
+            autoplay={{
+              delay: 3500,
+              disableOnInteraction: false,
+              pauseOnHover: true
+            }}
+            pagination={{ 
+              clickable: true,
+              el: '.treatment-swiper-pagination-custom',
+            }}
+            navigation={{
+              nextEl: '.treatment-swiper-button-next-custom',
+              prevEl: '.treatment-swiper-button-prev-custom',
+            }}
+            breakpoints={{
+              640: {
+                slidesPerView: 1.3,
+                spaceBetween: 20
+              },
+              768: {
+                slidesPerView: 2,
+                spaceBetween: 30
+              },
+              1024: {
+                slidesPerView: 3,
+                spaceBetween: 40
+              }
+            }}
+            className="treatment-showcase-slider !pb-16"
+          >
+            {treatments.map((treatment) => (
+              <SwiperSlide key={treatment.id} className="py-4">
+                <div className="flip-card h-[400px] w-full rounded-2xl cursor-pointer">
+                  <div className="flip-card-inner h-full w-full">
                     
-                    {/* Hover indicator */}
-                    <div className="mt-4 flex items-center space-x-1.5 text-xs text-gold/80 font-medium">
-                      <span>Hover to reveal</span>
-                      <ArrowRight size={12} className="animate-pulse" />
+                    {/* CARD FRONT */}
+                    <div className="flip-card-front rounded-2xl overflow-hidden shadow-md flex flex-col justify-end p-6 text-white relative">
+                      {/* Background Image */}
+                      <img
+                        src={treatment.image}
+                        alt={treatment.title}
+                        className="absolute inset-0 w-full h-full object-cover z-0 transition-transform duration-700 hover:scale-105"
+                      />
+                      {/* Dark overlay gradient */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-textDark/90 via-textDark/45 to-transparent z-10" />
+                      
+                      {/* Text Details */}
+                      <div className="relative z-20">
+                        <span className="font-accent text-xs text-accent italic tracking-wide block mb-1">
+                          {treatment.tagline}
+                        </span>
+                        <h3 className="font-display text-xl md:text-2xl font-semibold tracking-wide leading-tight">
+                          {treatment.title}
+                        </h3>
+                        
+                        {/* Hover indicator */}
+                        <div className="mt-4 flex items-center space-x-1.5 text-xs text-gold/80 font-medium">
+                          <span>Hover to reveal</span>
+                          <ArrowRight size={12} className="animate-pulse" />
+                        </div>
+                      </div>
                     </div>
+
+                    {/* CARD BACK */}
+                    <div className="flip-card-back rounded-2xl bg-cream border border-primary/10 shadow-lg flex flex-col justify-between p-6 text-left relative overflow-hidden">
+                      {/* Subtle leafy background watermark */}
+                      <div className="absolute -right-8 -bottom-8 opacity-5 text-primary pointer-events-none">
+                        <Leaf size={120} />
+                      </div>
+
+                      <div className="space-y-4">
+                        <div>
+                          <span className="font-accent text-xs text-gold tracking-widest uppercase block">
+                            {treatment.tagline}
+                          </span>
+                          <h3 className="font-display text-lg font-bold text-textDark mt-0.5">
+                            {treatment.title}
+                          </h3>
+                        </div>
+                        
+                        <p className="font-body text-xs text-textMuted leading-relaxed">
+                          {treatment.desc}
+                        </p>
+                        
+                        <div className="space-y-2">
+                          <span className="font-body text-[10px] font-bold uppercase tracking-wider text-primary block">
+                            Key Benefits:
+                          </span>
+                          <ul className="space-y-1">
+                            {treatment.benefits.map((b, idx) => (
+                              <li key={idx} className="flex items-center space-x-1.5 text-xs text-textDark/80">
+                                <span className="w-1 h-1 rounded-full bg-gold shrink-0" />
+                                <span>{b}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+
+                      <Link
+                        to="/appointment"
+                        className="flex items-center justify-between text-xs text-primary font-bold hover:text-primary-light transition-colors py-2 border-t border-primary/10 mt-2"
+                      >
+                        <span>Book Healing Session</span>
+                        <ArrowRight size={14} />
+                      </Link>
+
+                    </div>
+
                   </div>
                 </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
 
-                {/* CARD BACK */}
-                <div className="flip-card-back rounded-2xl bg-cream border border-primary/10 shadow-lg flex flex-col justify-between p-6 text-left relative overflow-hidden">
-                  {/* Subtle leafy background watermark */}
-                  <div className="absolute -right-8 -bottom-8 opacity-5 text-primary pointer-events-none">
-                    <Leaf size={120} />
-                  </div>
+          {/* Custom Navigation Arrows */}
+          <button
+            className="treatment-swiper-button-prev-custom absolute left-0 top-[45%] -translate-y-1/2 z-20 w-11 h-11 bg-white hover:bg-cream border border-primary/10 hover:border-gold/50 rounded-full flex items-center justify-center text-primary hover:text-gold shadow-md hover:shadow-lg transition-all duration-300 -translate-x-2 sm:-translate-x-6 cursor-pointer focus:outline-none"
+            aria-label="Previous Treatment"
+          >
+            <ArrowLeft size={18} />
+          </button>
+          
+          <button
+            className="treatment-swiper-button-next-custom absolute right-0 top-[45%] -translate-y-1/2 z-20 w-11 h-11 bg-white hover:bg-cream border border-primary/10 hover:border-gold/50 rounded-full flex items-center justify-center text-primary hover:text-gold shadow-md hover:shadow-lg transition-all duration-300 translate-x-2 sm:translate-x-6 cursor-pointer focus:outline-none"
+            aria-label="Next Treatment"
+          >
+            <ArrowRight size={18} />
+          </button>
 
-                  <div className="space-y-4">
-                    <div>
-                      <span className="font-accent text-xs text-gold tracking-widest uppercase block">
-                        {treatment.tagline}
-                      </span>
-                      <h3 className="font-display text-lg font-bold text-textDark mt-0.5">
-                        {treatment.title}
-                      </h3>
-                    </div>
-                    
-                    <p className="font-body text-xs text-textMuted leading-relaxed">
-                      {treatment.desc}
-                    </p>
-                    
-                    <div className="space-y-2">
-                      <span className="font-body text-[10px] font-bold uppercase tracking-wider text-primary block">
-                        Key Benefits:
-                      </span>
-                      <ul className="space-y-1">
-                        {treatment.benefits.map((b, idx) => (
-                          <li key={idx} className="flex items-center space-x-1.5 text-xs text-textDark/80">
-                            <span className="w-1 h-1 rounded-full bg-gold shrink-0" />
-                            <span>{b}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-
-                  <Link
-                    to="/appointment"
-                    className="flex items-center justify-between text-xs text-primary font-bold hover:text-primary-light transition-colors py-2 border-t border-primary/10 mt-2"
-                  >
-                    <span>Book Healing Session</span>
-                    <ArrowRight size={14} />
-                  </Link>
-
-                </div>
-
-              </div>
-            </div>
-          ))}
+          {/* Custom Pagination Bullets */}
+          <div className="treatment-swiper-pagination-custom flex justify-center gap-2 mt-8 z-20" />
         </div>
 
       </div>

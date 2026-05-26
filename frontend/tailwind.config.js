@@ -10,7 +10,7 @@ export default {
         primary: {
           DEFAULT: '#61aa45', // Primary Green
           light: '#7dc45e',   // Light Green tint / variant
-          dark: '#4d9035',    // Darker Green
+          dark: '#4b8e30',    // Darker Green
         },
         accent: {
           DEFAULT: '#00919e', // Primary Teal-Blue
@@ -26,7 +26,7 @@ export default {
         white: '#ffffff',     // Map to pure white
         textDark: '#1a3d10',  // Dark text
         textBody: '#1a3d10',  // Body text
-        textMuted: '#4d9035', // Muted green text
+        textMuted: '#61aa45', // Muted green text
       },
       fontFamily: {
         display: ['"Playfair Display"', 'Georgia', 'serif'],
