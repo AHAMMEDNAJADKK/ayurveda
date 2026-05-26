@@ -135,7 +135,7 @@ const AppointmentList = ({ token, onLogout }) => {
 
         {/* Today's Appointments */}
         <div className="bg-white p-5 rounded-2xl border border-primary/5 shadow-sm flex items-center gap-4">
-          <div className="p-3 bg-green-50 text-green-700 rounded-xl shrink-0">
+          <div className="p-3 bg-[#e0f5f6] text-[#00919e] rounded-xl shrink-0">
             <Clock size={22} />
           </div>
           <div>
@@ -157,7 +157,7 @@ const AppointmentList = ({ token, onLogout }) => {
 
         {/* Confirmed Slots */}
         <div className="bg-white p-5 rounded-2xl border border-primary/5 shadow-sm flex items-center gap-4">
-          <div className="p-3 bg-blue-50 text-blue-600 rounded-xl shrink-0">
+          <div className="p-3 bg-[#e0f5f6] text-[#00919e] rounded-xl shrink-0">
             <UserCheck size={22} />
           </div>
           <div>
@@ -245,7 +245,7 @@ const AppointmentList = ({ token, onLogout }) => {
             {/* Export CSV button */}
             <button
               onClick={handleCSVExport}
-              className="flex items-center space-x-1.5 bg-accent hover:bg-accent/80 text-textDark text-xs px-3.5 py-2 rounded-xl font-bold transition ml-auto"
+              className="flex items-center space-x-1.5 bg-[#00919e] hover:bg-[#00919e]/90 text-white text-xs px-3.5 py-2 rounded-xl font-bold transition ml-auto"
             >
               <Download size={13} />
               <span>Export CSV</span>
@@ -311,9 +311,9 @@ const AppointmentList = ({ token, onLogout }) => {
                       <span
                         className={`inline-block px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wide uppercase ${
                           app.status === 'completed'
-                            ? 'bg-green-50 text-green-700 border border-green-200'
+                            ? 'bg-[#edf7e8] text-[#61aa45] border border-[#61aa45]/20'
                             : app.status === 'confirmed'
-                            ? 'bg-blue-50 text-blue-700 border border-blue-200'
+                            ? 'bg-[#e0f5f6] text-[#00919e] border border-[#00919e]/20'
                             : 'bg-amber-50 text-amber-700 border border-amber-200'
                         }`}
                       >
@@ -327,7 +327,7 @@ const AppointmentList = ({ token, onLogout }) => {
                         {app.status === 'pending' && (
                           <button
                             onClick={() => handleStatusUpdate(app._id, 'confirmed')}
-                            className="bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-100 p-1.5 rounded-lg transition"
+                            className="bg-[#e0f5f6] hover:bg-[#00919e]/20 text-[#00919e] border border-[#00919e]/20 p-1.5 rounded-lg transition"
                             title="Confirm Appointment"
                           >
                             <UserCheck size={14} />
@@ -336,7 +336,7 @@ const AppointmentList = ({ token, onLogout }) => {
                         {app.status !== 'completed' && (
                           <button
                             onClick={() => handleStatusUpdate(app._id, 'completed')}
-                            className="bg-green-50 hover:bg-green-100 text-green-700 border border-green-100 p-1.5 rounded-lg transition"
+                            className="bg-[#edf7e8] hover:bg-primary/20 text-primary border border-primary/20 p-1.5 rounded-lg transition"
                             title="Mark Completed"
                           >
                             <CheckCircle2 size={14} />

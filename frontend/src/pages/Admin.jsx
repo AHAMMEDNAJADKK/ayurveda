@@ -4,7 +4,8 @@ import AppointmentList from '../components/admin/AppointmentList';
 import ProductsManager from '../components/admin/ProductsManager';
 import TreatmentsManager from '../components/admin/TreatmentsManager';
 import { AuthContext } from '../context/AuthContext';
-import { Calendar, PackageOpen, Stethoscope, LogOut, ArrowLeft, Leaf } from 'lucide-react';
+import { Calendar, PackageOpen, Stethoscope, LogOut, ArrowLeft } from 'lucide-react';
+import logo from '../assets/logo.png';
 
 const TABS = [
   { id: 'appointments', label: 'Appointments', Icon: Calendar },
@@ -27,17 +28,14 @@ const Admin = () => {
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           {/* Logo Brand Signature */}
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-primary/10 rounded-xl">
-              <Leaf className="w-6 h-6 text-primary" />
-            </div>
-            <div>
-              <h1 className="font-display font-bold text-lg md:text-xl text-textDark leading-tight">
-                Health Care Ayurveda
-              </h1>
-              <span className="text-[10px] font-bold text-gold uppercase tracking-wider block">
-                Administrative Control Panel
-              </span>
-            </div>
+            <Link to="/" className="flex items-center bg-white p-2 rounded-xl shadow-sm hover:shadow-md transition-all duration-300">
+              <img
+                src={logo}
+                alt="Health Care Ayurveda"
+                className="logo-fade-in-effect max-h-[50px] w-auto object-contain"
+                style={{ mixBlendMode: 'normal' }}
+              />
+            </Link>
           </div>
           
           {/* Navigation Action Buttons */}
@@ -70,7 +68,7 @@ const Admin = () => {
               onClick={() => setActiveTab(id)}
               className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 ${
                 activeTab === id
-                  ? 'bg-primary text-white shadow-md'
+                  ? 'bg-gradient-to-r from-primary to-accent text-white shadow-md'
                   : 'text-textMuted hover:text-primary hover:bg-cream'
               }`}
             >

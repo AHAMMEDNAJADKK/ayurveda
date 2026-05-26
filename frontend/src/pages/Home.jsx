@@ -80,20 +80,20 @@ const Home = () => {
       </div>
 
       {/* 6. Direct CTA Banner */}
-      <section className="reveal-on-scroll py-16 bg-textDark text-white relative">
+      <section className="reveal-on-scroll py-16 bg-primary text-white relative">
         <div className="absolute inset-0 bg-[radial-gradient(#8AB87A_1px,transparent_1px)] [background-size:24px_24px] opacity-10" />
         <div className="max-w-4xl mx-auto px-4 text-center relative z-10 space-y-6">
-          <Leaf className="w-10 h-10 text-accent mx-auto animate-pulse" />
+          <Leaf className="w-10 h-10 text-white mx-auto animate-pulse" />
           <h2 className="font-display text-3xl md:text-4xl font-semibold tracking-wide">
             Ready to Begin Your Healing Journey?
           </h2>
-          <p className="font-body text-sm text-white/70 max-w-md mx-auto leading-relaxed">
+          <p className="font-body text-sm text-white/90 max-w-md mx-auto leading-relaxed">
             Schedule a personalized pulse diagnosis and health consultation with our expert Ayurvedic doctors today.
           </p>
           <div className="pt-4">
             <Link
               to="/appointment"
-              className="inline-flex items-center space-x-2 bg-accent hover:bg-accent/80 text-textDark font-body font-semibold px-8 py-3.5 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+              className="inline-flex items-center space-x-2 bg-white hover:bg-white/90 text-primary font-body font-semibold px-8 py-3.5 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
             >
               <Calendar size={18} />
               <span>Book Appointment Now</span>

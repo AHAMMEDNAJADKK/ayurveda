@@ -89,9 +89,14 @@ const ContactUs = () => {
               <ul className="space-y-4 font-body text-sm text-textDark/80">
                 <li className="flex items-start space-x-3.5">
                   <MapPin size={18} className="text-primary mt-1 shrink-0" />
-                  <span className="leading-relaxed">
+                  <a
+                    href="https://maps.app.goo.gl/p3n2pCFwT8mFHEK3A?g_st=aw"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="leading-relaxed hover:text-primary transition-colors hover:underline"
+                  >
                     Health Care Ayurveda Clinic, Kochi, Kerala, India - 682016
-                  </span>
+                  </a>
                 </li>
                 <li className="flex items-center space-x-3.5">
                   <Phone size={18} className="text-primary shrink-0" />
@@ -121,11 +126,11 @@ const ContactUs = () => {
               </div>
             </div>
 
-            {/* Embedded Google Map (Placeholder layout) */}
+            {/* Embedded Google Map (Actual Location) */}
             <div className="rounded-2xl overflow-hidden shadow-sm h-[280px] border border-primary/5 relative">
               <iframe
                 title="Health Care Ayurveda Clinic Location"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.752317188179!2d77.62241697592474!3d12.923626387386663!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1m3!1d3888.75!2d77.625!3d12.923!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
+                src="https://maps.google.com/maps?q=Healthcare%20Ayurvedic%20Center,%20Plot%20No%2020,%20Sancharapuri%20Colony,%20New%20Bowenpally,%20Secunderabad&t=&z=15&ie=UTF8&iwloc=&output=embed"
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}

@@ -13,7 +13,7 @@ import { useEffect, useRef } from 'react';
 // ────────────────────────────────────────────────────────────────────────────
 
 // 5 distinct Ayurvedic herb colors
-const LEAF_COLORS = ['#61aa45', '#4d9035', '#7dc45e', '#00919e', '#a8dba2'];
+const LEAF_COLORS = ['#61aa45', '#7dc45e', '#00919e', '#e0f5f6', '#72b957'];
 
 // 5 distinct detailed herb SVGs
 const LEAF_SVGS = [
@@ -33,14 +33,10 @@ const LEAF_SVGS = [
     <path d="M50,95 C45,70 41,45 48,10" stroke="rgba(255,255,255,0.25)" stroke-width="2" fill="none" />
   </svg>`,
   
-  // 3. Ashwagandha - broader, egg-shaped (ovate) smooth leaf
+  // 3. Simple teardrop herb leaf - smooth curved teardrop leaf silhouette
   (color) => `<svg viewBox="0 0 100 100" fill="${color}" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-    <path d="M50,10 C72,30 78,58 70,78 C64,88 50,92 50,92 C50,92 36,88 30,78 C22,58 28,30 50,10 Z" />
-    <path d="M50,12 L50,92" stroke="rgba(255,255,255,0.3)" stroke-width="2.5" fill="none" />
-    <path d="M50,30 Q65,35 68,45" stroke="rgba(255,255,255,0.18)" stroke-width="1.5" fill="none" />
-    <path d="M50,30 Q35,35 32,45" stroke="rgba(255,255,255,0.18)" stroke-width="1.5" fill="none" />
-    <path d="M50,52 Q68,58 72,70" stroke="rgba(255,255,255,0.18)" stroke-width="1.5" fill="none" />
-    <path d="M50,52 Q32,58 28,70" stroke="rgba(255,255,255,0.18)" stroke-width="1.5" fill="none" />
+    <path d="M50,15 C68,42 68,75 50,90 C32,75 32,42 50,15 Z" />
+    <path d="M50,17 L50,90" stroke="rgba(255,255,255,0.25)" stroke-width="2" fill="none" />
   </svg>`,
   
   // 4. Banyan - large heart-shaped leaf with thick vein details
@@ -60,7 +56,7 @@ const LEAF_SVGS = [
   </svg>`
 ];
 
-const LEAF_COUNT = 18; // pool size between 14-20
+const LEAF_COUNT = 16; // pool size exactly 16 leaves
 
 export default function GlobalFallingLeaves() {
   const containerRef = useRef(null);
@@ -79,17 +75,17 @@ export default function GlobalFallingLeaves() {
 
     // Helper to generate fresh random parameters for a leaf
     const randomizeLeaf = (leaf, isInitial = false) => {
-      const duration = Math.random() * 9 + 9; // float duration 9s to 18s
-      leaf.size = Math.random() * 34 + 18; // sizes between 18px and 52px
-      leaf.opacity = Math.random() * 0.27 + 0.55; // opacity between 0.55 and 0.82
+      const duration = Math.random() * 10 + 10; // float speed: 10s to 20s
+      leaf.size = Math.random() * 32 + 18; // sizes: 18px to 50px
+      leaf.opacity = Math.random() * 0.30 + 0.50; // opacity: 0.50 to 0.80
       leaf.duration = duration;
-      leaf.speed = 130 / duration; // distance is 130% vh (from 110 to -20)
+      leaf.speed = 125 / duration; // distance is 125% vh (from 110vh to -15vh)
       
-      // Spawn at random X across the screen width (represented in percentage)
+      // Spawn at random X across the screen width (0% to 100%)
       leaf.baseX = Math.random() * 100;
       
-      // Side-to-side sine drift: translateX oscillates ±60px to ±90px
-      leaf.waveAmplitude = Math.random() * 30 + 60;
+      // Side-to-side sine drift: translateX amplitude ±55px to ±90px
+      leaf.waveAmplitude = Math.random() * 35 + 55;
       leaf.waveFrequency = Math.random() * 1.5 + 1.5; // cycles over height
       leaf.wavePhase = Math.random() * Math.PI * 2;
       
@@ -99,11 +95,11 @@ export default function GlobalFallingLeaves() {
       // If initial page load, spread leaves randomly vertically to simulate mid-flight
       // Else, start from the bottom (110vh) with a staggered spawn delay
       if (isInitial) {
-        leaf.y = Math.random() * 130 - 20; // anywhere between -20 and 110
+        leaf.y = Math.random() * 125 - 15; // anywhere between -15vh and 110vh
         leaf.delay = 0;
       } else {
         leaf.y = 110;
-        leaf.delay = Math.random() * 8; // spawn delay 0s to 8s
+        leaf.delay = Math.random() * 9; // spawn delay 0s to 9s
       }
 
       // Pick random color and random shape
@@ -116,7 +112,7 @@ export default function GlobalFallingLeaves() {
       element.style.width = `${leaf.size}px`;
       element.style.height = `${leaf.size}px`;
       element.style.opacity = '0'; // Hidden initially if delayed
-      element.style.filter = 'drop-shadow(1px 3px 6px rgba(0,0,0,0.12))';
+      element.style.filter = 'drop-shadow(1px 3px 5px rgba(0,0,0,0.10))';
     };
 
     // Create the pool of leaves
@@ -155,7 +151,7 @@ export default function GlobalFallingLeaves() {
         leaf.y -= leaf.speed * deltaTime;
 
         // Calculate horizontal sine drift
-        const progress = (110 - leaf.y) / 130; // 0 at bottom, 1 at top
+        const progress = (110 - leaf.y) / 125; // 0 at bottom (110vh), 1 at top (-15vh)
         const waveAngle = progress * leaf.waveFrequency * Math.PI * 2 + leaf.wavePhase;
         const driftX = Math.sin(waveAngle) * leaf.waveAmplitude;
 
@@ -165,11 +161,11 @@ export default function GlobalFallingLeaves() {
         // Fade in gently near the bottom, and fade out near the top
         let opacity = leaf.opacity;
         if (leaf.y > 100) {
-          // Fade in as it rises from 110 to 100
+          // Fade in as it rises from 110vh to 100vh
           opacity = leaf.opacity * (110 - leaf.y) / 10;
         } else if (leaf.y < 0) {
-          // Fade out as it exits from 0 to -20
-          opacity = leaf.opacity * (leaf.y - (-20)) / 20;
+          // Fade out as it exits from 0vh to -15vh
+          opacity = leaf.opacity * (leaf.y - (-15)) / 15;
         }
         
         // Ensure bounds
@@ -179,8 +175,8 @@ export default function GlobalFallingLeaves() {
         leaf.element.style.transform = `translate3d(calc(${leaf.baseX}vw + ${driftX}px), ${leaf.y}vh, 0) rotate(${rot}deg)`;
         leaf.element.style.opacity = String(opacity);
 
-        // Recycle leaf if it exits the top (-20vh)
-        if (leaf.y <= -20) {
+        // Recycle leaf if it exits the top (-15vh)
+        if (leaf.y <= -15) {
           randomizeLeaf(leaf, false);
         }
       }

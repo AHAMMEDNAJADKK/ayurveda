@@ -54,7 +54,7 @@ const Navbar = () => {
           {/* Logo Brand Area (Left Aligned for all pages) */}
           <div className="flex items-center">
             <Link to="/" className="flex items-center">
-              <img src={logo} alt="Health Care Ayurveda" className="nav-logo-effect h-12 w-auto" />
+              <img src={logo} alt="Health Care Ayurveda" className="logo-fade-in-effect max-h-[60px] w-auto" />
             </Link>
           </div>
 
@@ -81,14 +81,7 @@ const Navbar = () => {
           {/* Action Buttons Column (Desktop Right) */}
           <div className="hidden md:flex items-center space-x-6">
             {/* Auth Link / Status */}
-            {!user ? (
-              <Link
-                to="/login"
-                className="font-body text-sm font-semibold text-textMuted hover:text-primary transition-colors py-2 px-3 border border-transparent hover:border-primary/10 rounded-full"
-              >
-                Log In
-              </Link>
-            ) : (
+            {user && (
               <div className="flex items-center space-x-4">
                 {isAdmin ? (
                   <Link
@@ -156,15 +149,7 @@ const Navbar = () => {
           ))}
           
           <div className="pt-4 border-t border-cream flex flex-col space-y-3">
-            {!user ? (
-              <Link
-                to="/login"
-                onClick={() => setIsOpen(false)}
-                className="flex items-center justify-center font-body text-base font-semibold text-textMuted hover:text-primary transition-colors py-2"
-              >
-                Log In
-              </Link>
-            ) : (
+            {user && (
               <div className="flex flex-col items-center space-y-2 py-1">
                 <span className="font-body text-sm text-textMuted font-semibold">
                   {isAdmin ? 'Logged in as Admin' : `Phone: +91 ${user.phone.substring(user.phone.length - 10)}`}
