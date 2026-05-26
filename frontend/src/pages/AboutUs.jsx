@@ -20,7 +20,7 @@ function useReveal(threshold = 0.15) {
 }
 
 // ── Reveal wrapper ────────────────────────────────────────────────────────
-function Reveal({ children, delay = 0, direction = 'up' }) {
+function Reveal({ children, delay = 0, direction = 'up', style = {} }) {
   const [ref, visible] = useReveal()
   const transforms = {
     up:    visible ? 'translateY(0)'   : 'translateY(40px)',
@@ -33,6 +33,7 @@ function Reveal({ children, delay = 0, direction = 'up' }) {
       opacity:    visible ? 1 : 0,
       transform:  transforms[direction],
       transition: `opacity 0.85s ease ${delay}s, transform 0.85s cubic-bezier(0.22,1,0.36,1) ${delay}s`,
+      ...style,
     }}>
       {children}
     </div>
@@ -340,7 +341,7 @@ export default function OurStory() {
             gap: '32px',
           }}>
             {BRANCHES.map((branch, i) => (
-              <Reveal key={branch.id} direction={i === 0 ? 'left' : 'right'} delay={i * 0.15}>
+              <Reveal key={branch.id} direction={i === 0 ? 'left' : 'right'} delay={i * 0.15} style={{ height: '100%' }}>
                 <div style={{
                   background: '#edf7e8',
                   borderRadius: '24px',
@@ -348,6 +349,9 @@ export default function OurStory() {
                   boxShadow: '0 8px 40px rgba(26,61,16,0.10)',
                   border: '1px solid rgba(97,170,69,0.07)',
                   transition: 'transform 0.4s ease, box-shadow 0.4s ease',
+                  height: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
                 }}
                   onMouseEnter={e => {
                     e.currentTarget.style.transform = 'translateY(-6px)'
@@ -359,7 +363,7 @@ export default function OurStory() {
                   }}
                 >
                   {/* Branch image */}
-                  <div style={{ position: 'relative', height: '220px', overflow: 'hidden' }}>
+                  <div style={{ position: 'relative', height: '220px', overflow: 'hidden', flexShrink: 0 }}>
                     <img
                       src={branch.image}
                       alt={branch.name}
@@ -398,94 +402,104 @@ export default function OurStory() {
                   </div>
 
                   {/* Branch details */}
-                  <div style={{ padding: '24px 28px 28px' }}>
-                    <p style={{
-                      fontFamily: '"Lora", serif', fontStyle: 'italic',
-                      fontSize: '0.9rem', color: '#1a3d10',
-                      lineHeight: 1.7, marginBottom: '20px',
-                      borderLeft: `3px solid ${branch.color}`,
-                      paddingLeft: '14px',
-                    }}>
-                      {branch.highlight}
-                    </p>
-
-                    {/* Info rows */}
-                    {[
-                      { icon: '📍', label: 'Address', value: branch.address },
-                      { icon: '📞', label: 'Phone',   value: branch.phone },
-                      { icon: '✉️', label: 'Email',   value: branch.email },
-                      { icon: '🕐', label: 'Hours',   value: branch.hours },
-                    ].map(row => (
-                      <div key={row.label} style={{
-                        display: 'flex', gap: '12px', marginBottom: '12px',
-                        alignItems: 'flex-start',
+                  <div style={{
+                    padding: '24px 28px 28px',
+                    flexGrow: 1,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                  }}>
+                    <div>
+                      <p style={{
+                        fontFamily: '"Lora", serif', fontStyle: 'italic',
+                        fontSize: '0.9rem', color: '#1a3d10',
+                        lineHeight: 1.7, marginBottom: '20px',
+                        borderLeft: `3px solid ${branch.color}`,
+                        paddingLeft: '14px',
                       }}>
-                        <span style={{ fontSize: '0.9rem', marginTop: '2px', flexShrink: 0 }}>
-                          {row.icon}
-                        </span>
-                        <div>
-                          <p style={{
-                            fontFamily: '"DM Sans", sans-serif',
-                            fontSize: '0.68rem', fontWeight: 600,
-                            color: '#61aa45', textTransform: 'uppercase',
-                            letterSpacing: '0.08em', marginBottom: '2px',
-                          }}>
-                            {row.label}
-                          </p>
-                          <p style={{
-                            fontFamily: '"DM Sans", sans-serif',
-                            fontSize: '0.88rem', color: '#1a3d10',
-                            lineHeight: 1.55, whiteSpace: 'pre-line',
-                          }}>
-                            {row.value}
-                          </p>
-                        </div>
-                      </div>
-                    ))}
+                        {branch.highlight}
+                      </p>
 
-                    {/* Feature tags */}
-                    <div style={{
-                      display: 'flex', flexWrap: 'wrap', gap: '8px',
-                      marginTop: '16px', paddingTop: '16px',
-                      borderTop: '1px solid rgba(97,170,69,0.08)',
-                    }}>
-                      {branch.features.map(f => (
-                        <span key={f} style={{
-                          fontFamily: '"DM Sans", sans-serif',
-                          fontSize: '0.72rem', fontWeight: 500,
-                          padding: '5px 12px',
-                          background: 'rgba(97,170,69,0.07)',
-                          color: '#61aa45',
-                          borderRadius: '50px',
-                          border: '1px solid rgba(97,170,69,0.12)',
+                      {/* Info rows */}
+                      {[
+                        { icon: '📍', label: 'Address', value: branch.address },
+                        { icon: '📞', label: 'Phone',   value: branch.phone },
+                        { icon: '✉️', label: 'Email',   value: branch.email },
+                        { icon: '🕐', label: 'Hours',   value: branch.hours },
+                      ].map(row => (
+                        <div key={row.label} style={{
+                          display: 'flex', gap: '12px', marginBottom: '12px',
+                          alignItems: 'flex-start',
                         }}>
-                          {f}
-                        </span>
+                          <span style={{ fontSize: '0.9rem', marginTop: '2px', flexShrink: 0 }}>
+                            {row.icon}
+                          </span>
+                          <div>
+                            <p style={{
+                              fontFamily: '"DM Sans", sans-serif',
+                              fontSize: '0.68rem', fontWeight: 600,
+                              color: '#61aa45', textTransform: 'uppercase',
+                              letterSpacing: '0.08em', marginBottom: '2px',
+                            }}>
+                              {row.label}
+                            </p>
+                            <p style={{
+                              fontFamily: '"DM Sans", sans-serif',
+                              fontSize: '0.88rem', color: '#1a3d10',
+                              lineHeight: 1.55, whiteSpace: 'pre-line',
+                            }}>
+                              {row.value}
+                            </p>
+                          </div>
+                        </div>
                       ))}
                     </div>
 
-                    {/* Direction CTA */}
-                    {branch.mapUrl && (
-                      <a
-                        href={branch.mapUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        style={{
-                          display: 'inline-flex', alignItems: 'center', gap: '6px',
-                          marginTop: '20px',
-                          padding: '10px 22px',
-                          background: branch.color, color: '#fff',
-                          fontFamily: '"DM Sans", sans-serif',
-                          fontSize: '0.82rem', fontWeight: 500,
-                          borderRadius: '50px', textDecoration: 'none',
-                          transition: 'opacity 0.3s',
-                        }}
-                        onMouseEnter={e => e.currentTarget.style.opacity = '0.85'}
-                        onMouseLeave={e => e.currentTarget.style.opacity = '1'}
-                      >
-                        Get Directions →
-                      </a>
-                    )}
+                    <div>
+                      {/* Feature tags */}
+                      <div style={{
+                        display: 'flex', flexWrap: 'wrap', gap: '8px',
+                        marginTop: '16px', paddingTop: '16px',
+                        borderTop: '1px solid rgba(97,170,69,0.08)',
+                      }}>
+                        {branch.features.map(f => (
+                          <span key={f} style={{
+                            fontFamily: '"DM Sans", sans-serif',
+                            fontSize: '0.72rem', fontWeight: 500,
+                            padding: '5px 12px',
+                            background: 'rgba(97,170,69,0.07)',
+                            color: '#61aa45',
+                            borderRadius: '50px',
+                            border: '1px solid rgba(97,170,69,0.12)',
+                          }}>
+                            {f}
+                          </span>
+                        ))}
+                      </div>
+
+                      {/* Direction CTA */}
+                      {branch.mapUrl && (
+                        <a
+                          href={branch.mapUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{
+                            display: 'inline-flex', alignItems: 'center', gap: '6px',
+                            marginTop: '20px',
+                            padding: '10px 22px',
+                            background: branch.color, color: '#fff',
+                            fontFamily: '"DM Sans", sans-serif',
+                            fontSize: '0.82rem', fontWeight: 500,
+                            borderRadius: '50px', textDecoration: 'none',
+                            transition: 'opacity 0.3s',
+                          }}
+                          onMouseEnter={e => e.currentTarget.style.opacity = '0.85'}
+                          onMouseLeave={e => e.currentTarget.style.opacity = '1'}
+                        >
+                          Get Directions →
+                        </a>
+                      )}
+                    </div>
                   </div>
                 </div>
               </Reveal>

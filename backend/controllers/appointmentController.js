@@ -26,9 +26,7 @@ const createAppointment = async (req, res) => {
     return respond(res, 400, false, 'Please provide all required fields');
   }
 
-  if (healthDetails.length < 20) {
-    return respond(res, 400, false, 'Health details must be at least 20 characters long');
-  }
+
 
   try {
     // Normalize date to 00:00:00 local time to prevent timezone offsets causing double booking or slot conflicts

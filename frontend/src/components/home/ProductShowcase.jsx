@@ -74,7 +74,8 @@ const SHOWCASE_PRODUCTS = [
 ];
 
 // Reusable Custom Magnetic Button
-const MagneticBuyButton = ({ productName, price }) => {
+const MagneticBuyButton = ({ product }) => {
+  const { name, category, shortDesc, benefits, price } = product;
   const buttonRef = useRef(null);
   const [coords, setCoords] = useState({ x: 0, y: 0 });
 
@@ -92,7 +93,26 @@ const MagneticBuyButton = ({ productName, price }) => {
   };
 
   const handlePurchase = () => {
-    toast.success(`"${productName}" added to order enquiry! Proceed to checkout or contact us via WhatsApp to complete purchase.`, {
+    const adminPhone = "919539691757";
+    const benefitsList = benefits && benefits.length > 0
+      ? benefits.map(b => `• ${b}`).join('\n')
+      : 'N/A';
+    
+    const messageText = `🌿 *Product Order Inquiry - Health Care Ayurveda*
+━━━━━━━━━━━━━━━━
+📦 *Product Name:* ${name}
+🗂️ *Category:* ${category}
+💵 *Estimated Price:* ₹${price}
+📝 *Description:* ${shortDesc}
+✨ *Key Benefits:*
+${benefitsList}
+━━━━━━━━━━━━━━━━
+Please check availability and purchase process.`;
+    
+    const encodedText = encodeURIComponent(messageText);
+    const whatsappUrl = `https://wa.me/${adminPhone}?text=${encodedText}`;
+    
+    toast.success(`Redirecting to WhatsApp for "${name}" purchase inquiry...`, {
       style: {
         border: '1px solid #61aa45',
         padding: '16px',
@@ -104,6 +124,10 @@ const MagneticBuyButton = ({ productName, price }) => {
         secondary: '#edf7e8',
       },
     });
+
+    setTimeout(() => {
+      window.open(whatsappUrl, '_blank');
+    }, 800);
   };
 
   return (
@@ -222,7 +246,7 @@ const ProductShowcase = () => {
                       <h3 className="font-display text-xl font-bold text-textDark group-hover:text-primary transition-colors duration-300">
                         {product.name}
                       </h3>
-                      <p className="font-body text-xs text-textMuted leading-relaxed line-clamp-2">
+                      <p className="font-body text-xs text-textMuted leading-relaxed">
                         {product.shortDesc}
                       </p>
                       
@@ -231,7 +255,7 @@ const ProductShowcase = () => {
                         {product.benefits.map((benefit, idx) => (
                           <div key={idx} className="flex items-center space-x-2 text-[11px] text-textDark/80">
                             <Check size={11} className="text-accent shrink-0" />
-                            <span className="line-clamp-1">{benefit}</span>
+                            <span>{benefit}</span>
                           </div>
                         ))}
                       </div>
@@ -248,7 +272,7 @@ const ProductShowcase = () => {
                       
                       {/* Magnetic Buy Now button */}
                       <div className="w-[140px] shrink-0">
-                        <MagneticBuyButton productName={product.name} price={product.price} />
+                        <MagneticBuyButton product={product} />
                       </div>
                     </div>
                   </div>

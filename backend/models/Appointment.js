@@ -24,8 +24,7 @@ const AppointmentSchema = new mongoose.Schema({
   },
   healthDetails: {
     type: String,
-    required: [true, 'Please add health details'],
-    minlength: [20, 'Health details must be at least 20 characters']
+    required: [true, 'Please add health details']
   },
   status: {
     type: String,
