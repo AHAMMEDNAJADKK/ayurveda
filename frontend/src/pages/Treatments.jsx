@@ -122,7 +122,7 @@ const Treatments = () => {
                     </h3>
                   </div>
                   
-                  <p className="font-body text-xs text-textMuted leading-relaxed">
+                  <p className="font-body text-xs text-textDark/85 leading-relaxed">
                     {t.desc}
                   </p>
 

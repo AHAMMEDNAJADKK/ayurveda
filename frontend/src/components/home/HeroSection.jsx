@@ -95,7 +95,7 @@ const HeroSection = () => {
             <img
               src={logo}
               alt="Health Care Ayurveda"
-              className="logo-fade-in-effect max-h-[100px] w-auto object-contain"
+              className="logo-fade-in-effect max-h-[140px] w-auto object-contain"
               style={{ mixBlendMode: 'multiply' }}
             />
           </div>

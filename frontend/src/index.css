@@ -9,12 +9,12 @@
   --primary:          #61aa45;   /* Primary Green */
   --primary-light:    #7dc45e;   /* Light Green */
   --primary-dark:     #4b8e30;   /* Dark Green */
-  --accent:           #00919e;   /* Primary Teal-Blue */
+  --accent:           #00909d;   /* Primary Teal-Blue */
   --accent-light:     #e0f5f6;   /* Light Blue tint */
 
   /* ── Warm neutrals ─────────────────────────────────────────────────────── */
-  --gold:             #00919e;   /* Primary Teal-Blue */
-  --gold-earthy:      #00919e;   /* Primary Teal-Blue */
+  --gold:             #00909d;   /* Primary Teal-Blue */
+  --gold-earthy:      #00909d;   /* Primary Teal-Blue */
   --gold-light:       #e0f5f6;   /* Light Blue tint */
   --cream:            #edf7e8;   /* Light Green tint */
   --off-white:        #edf7e8;   /* Light Green tint background */
@@ -25,7 +25,7 @@
   --text-body:        #1a3d10;   /* Body text */
   --text-muted:       #61aa45;   /* Muted green text */
   --heading-green:    #1a3d10;   /* Dark text for headings */
-  --heading-gold:     #00919e;   /* Teal-Blue accent headings */
+  --heading-gold:     #00909d;   /* Teal-Blue accent headings */
 
   /* ── Typography Scale ───────────────────────────────────────────────────── */
   --font-h1:          clamp(52px, 6vw, 64px);
@@ -453,4 +453,24 @@ section:first-child {
     opacity: 1;
   }
 }
+
+/* --- Equal Height Swiper Cards in Testimonials Section --- */
+.testimonial-slider-container .swiper-wrapper {
+  display: flex !important;
+  align-items: stretch !important;
+}
+
+.testimonial-slider-container .swiper-slide {
+  height: auto !important;
+  display: flex !important;
+}
+
+.testimonial-slider-container .swiper-slide > div {
+  width: 100% !important;
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+}
+
 

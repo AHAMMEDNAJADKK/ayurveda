@@ -32,7 +32,7 @@ const Admin = () => {
               <img
                 src={logo}
                 alt="Health Care Ayurveda"
-                className="logo-fade-in-effect max-h-[50px] w-auto object-contain"
+                className="logo-fade-in-effect max-h-[70px] w-auto object-contain"
                 style={{ mixBlendMode: 'normal' }}
               />
             </Link>

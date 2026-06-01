@@ -11,12 +11,11 @@ const Footer = () => {
           {/* Brand Col */}
           <div className="space-y-4">
             <div className="flex items-center">
-              <Link to="/" className="inline-block bg-white px-6 py-4 rounded-3xl shadow-sm hover:shadow-md transition-all duration-300">
+              <Link to="/" className="inline-block transition-all duration-300 hover:opacity-85">
                 <img
                   src={logo}
                   alt="Health Care Ayurveda"
-                  className="logo-fade-in-effect max-h-[80px] w-auto object-contain"
-                  style={{ mixBlendMode: 'normal' }}
+                  className="logo-fade-in-effect max-h-[110px] w-auto object-contain"
                 />
               </Link>
             </div>

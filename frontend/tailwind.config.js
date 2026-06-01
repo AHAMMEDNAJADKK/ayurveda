@@ -13,11 +13,11 @@ export default {
           dark: '#4b8e30',    // Darker Green
         },
         accent: {
-          DEFAULT: '#00919e', // Primary Teal-Blue
+          DEFAULT: '#00909d', // Primary Teal-Blue
           light: '#e0f5f6',   // Light Blue tint
         },
         gold: {
-          DEFAULT: '#00919e', // Primary Teal-Blue (replaces old gold)
+          DEFAULT: '#00909d', // Primary Teal-Blue (replaces old gold)
           light: '#e0f5f6',   // Light Blue tint
         },
         cream: '#edf7e8',     // Light Green tint

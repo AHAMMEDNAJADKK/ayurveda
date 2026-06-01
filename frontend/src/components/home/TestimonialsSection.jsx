@@ -98,11 +98,14 @@ const TestimonialsSection = () => {
             className="pb-16"
           >
             {reviews.map((review) => (
-              <SwiperSlide key={review.id} className="h-auto">
-                <div className="glass-panel p-8 md:p-10 rounded-2xl h-full flex flex-col justify-between border border-primary/5 hover:border-primary/20 transition-all duration-300 shadow-sm hover:shadow-md">
+              <SwiperSlide key={review.id} className="flex h-auto">
+                <div className="glass-panel p-8 md:p-10 rounded-2xl w-full h-full flex flex-col justify-between border border-primary/5 hover:border-primary/20 transition-all duration-300 shadow-sm hover:shadow-md relative overflow-hidden">
                   
+                  {/* Decorative quote mark */}
+                  <span className="absolute top-2 right-4 text-7xl font-display text-primary/10 select-none pointer-events-none">“</span>
+
                   {/* Review Text */}
-                  <div className="space-y-4">
+                  <div className="space-y-4 relative z-10">
                     {/* Stars */}
                     <div className="flex space-x-1">
                       {[...Array(review.rating)].map((_, i) => (
@@ -110,13 +113,13 @@ const TestimonialsSection = () => {
                       ))}
                     </div>
                     
-                    <p className="font-body text-sm md:text-base text-textDark/80 italic leading-relaxed">
-                      "{review.text}"
+                    <p className="font-body text-sm md:text-base text-textDark/85 italic leading-relaxed">
+                      {review.text}
                     </p>
                   </div>
 
                   {/* Customer Info */}
-                  <div className="flex items-center space-x-4 mt-8 pt-4 border-t border-primary/5">
+                  <div className="flex items-center space-x-4 mt-8 pt-4 border-t border-primary/5 relative z-10">
                     <img
                       src={review.avatar}
                       alt={review.name}
@@ -126,7 +129,7 @@ const TestimonialsSection = () => {
                       <h4 className="font-display text-base font-bold text-textDark leading-none">
                         {review.name}
                       </h4>
-                      <span className="font-body text-xs text-textMuted mt-1 block">
+                      <span className="font-body text-xs text-textDark/70 mt-1 block">
                         {review.role}
                       </span>
                     </div>

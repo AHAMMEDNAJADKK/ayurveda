@@ -74,7 +74,7 @@ const AdminLogin = () => {
               <img
                 src={logo}
                 alt="Health Care Ayurveda"
-                className="logo-fade-in-effect max-h-[80px] w-auto object-contain"
+                className="logo-fade-in-effect max-h-[110px] w-auto object-contain"
                 style={{ mixBlendMode: 'normal' }}
               />
             </div>
