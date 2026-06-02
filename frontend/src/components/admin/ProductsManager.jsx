@@ -173,7 +173,7 @@ export default function ProductsManager() {
                   <p className="font-semibold text-textDark text-sm leading-tight">{p.name}</p>
                   <p className="text-xs text-primary mt-0.5">{p.category}</p>
                 </div>
-                <p className="text-primary font-bold text-sm shrink-0">₹{p.price}</p>
+                <p className="text-primary font-bold text-base shrink-0">₹{p.price}</p>
               </div>
               <p className="text-xs text-textMuted leading-relaxed line-clamp-2">{p.shortDesc}</p>
               <div className="flex gap-2 pt-1">

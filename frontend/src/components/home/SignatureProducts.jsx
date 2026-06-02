@@ -95,7 +95,7 @@ const ProductCard = ({ product }) => {
           {product.name}
         </h4>
         <div className="flex justify-between items-center pt-2">
-          <span className="text-primary font-bold font-serif text-sm">
+          <span className="text-primary font-bold font-body text-lg">
             ₹{product.price}
           </span>
           <span className="text-xs text-textMuted flex items-center gap-1 group-hover:text-gold transition-colors">

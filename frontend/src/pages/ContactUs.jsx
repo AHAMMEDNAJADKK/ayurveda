@@ -115,12 +115,8 @@ const ContactUs = () => {
                 </h3>
                 <div className="text-xs font-body text-textMuted space-y-1">
                   <p className="flex justify-between">
-                    <span>Monday – Saturday:</span>
+                    <span>Monday – Sunday:</span>
                     <span className="font-semibold text-textDark">09:00 AM – 06:00 PM</span>
-                  </p>
-                  <p className="flex justify-between text-red-500">
-                    <span>Sunday:</span>
-                    <span className="font-semibold">Closed (Weekly Holiday)</span>
                   </p>
                 </div>
               </div>

@@ -120,15 +120,15 @@ const TreatmentsSection = () => {
                       
                       {/* Text Details */}
                       <div className="relative z-20">
-                        <span className="font-accent text-xs text-accent italic tracking-wide block mb-1">
+                        <span className="font-accent text-sm text-cream font-medium italic tracking-wider block mb-1">
                           {treatment.tagline}
                         </span>
-                        <h3 className="font-display text-xl md:text-2xl font-semibold tracking-wide leading-tight">
+                        <h3 className="font-display text-xl md:text-2xl font-bold tracking-wide leading-tight text-white">
                           {treatment.title}
                         </h3>
                         
                         {/* Hover indicator */}
-                        <div className="mt-4 flex items-center space-x-1.5 text-xs text-gold/80 font-medium">
+                        <div className="mt-4 flex items-center space-x-1.5 text-xs text-primary-light font-semibold">
                           <span>Hover to reveal</span>
                           <ArrowRight size={12} className="animate-pulse" />
                         </div>
@@ -152,7 +152,7 @@ const TreatmentsSection = () => {
                           </h3>
                         </div>
                         
-                        <p className="font-body text-xs text-textMuted leading-relaxed">
+                        <p className="font-body text-xs text-textDark/85 leading-relaxed">
                           {treatment.desc}
                         </p>
                         

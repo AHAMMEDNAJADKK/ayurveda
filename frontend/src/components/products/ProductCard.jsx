@@ -95,7 +95,7 @@ Please check availability and details.`;
         <div className="mt-5 pt-4 border-t border-cream flex items-center justify-between gap-4">
           <div>
             <span className="text-[10px] text-textMuted block font-body uppercase tracking-wider">Price Estimate</span>
-            <span className="font-display text-base font-bold text-primary mt-1 block">
+            <span className="font-body text-lg font-bold text-primary mt-1 block">
               ₹{price}
             </span>
           </div>

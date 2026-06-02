@@ -11,12 +11,11 @@ const Footer = () => {
           {/* Brand Col */}
           <div className="space-y-4">
             <div className="flex items-center">
-              <Link to="/" className="inline-block bg-white px-6 py-4 rounded-3xl shadow-sm hover:shadow-md transition-all duration-300">
+              <Link to="/" className="inline-block transition-all duration-300 hover:opacity-85">
                 <img
                   src={logo}
                   alt="Health Care Ayurveda"
-                  className="logo-fade-in-effect max-h-[80px] w-auto object-contain"
-                  style={{ mixBlendMode: 'normal' }}
+                  className="logo-fade-in-effect max-h-[110px] w-auto object-contain"
                 />
               </Link>
             </div>
@@ -58,15 +57,8 @@ const Footer = () => {
               <div className="flex items-start space-x-2.5">
                 <Clock size={16} className="text-white mt-0.5 shrink-0" />
                 <div>
-                  <p className="font-semibold text-white">Monday – Saturday</p>
+                  <p className="font-semibold text-white">Monday – Sunday</p>
                   <p className="text-xs mt-0.5 text-white/70">09:00 AM – 06:00 PM</p>
-                </div>
-              </div>
-              <div className="flex items-start space-x-2.5">
-                <Clock size={16} className="text-red-200 mt-0.5 shrink-0" />
-                <div>
-                  <p className="font-semibold text-red-200">Sunday</p>
-                  <p className="text-xs mt-0.5 text-red-200/80">Closed / Weekly Holiday</p>
                 </div>
               </div>
             </div>
