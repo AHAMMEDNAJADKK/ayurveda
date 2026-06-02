@@ -2,7 +2,7 @@ import { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import toast from 'react-hot-toast';
 import api from '../../services/api';
-import { Calendar, User, Phone, Info, Clock, CheckCircle2, Copy, FileText } from 'lucide-react';
+import { Calendar, User, Phone, Info, Clock, CheckCircle2, Copy, FileText, MapPin } from 'lucide-react';
 
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -11,6 +11,7 @@ const AppointmentForm = () => {
     name: '',
     phone: '',
     age: '',
+    branch: 'AYITT Main Branch',
     timeSlot: '',
     healthDetails: ''
   });
@@ -37,9 +38,10 @@ const AppointmentForm = () => {
   };
 
   const validateForm = () => {
-    const { name, phone, age, timeSlot, healthDetails } = formData;
+    const { name, phone, age, branch, timeSlot } = formData;
     
     if (!name.trim()) return "Please enter your name";
+    if (!branch || !branch.trim()) return "Please select a branch";
     
     // 10-digit validation
     const phoneRegex = /^[0-9]{10}$/;
@@ -72,6 +74,7 @@ const AppointmentForm = () => {
         ...formData,
         age: parseInt(formData.age),
         date: appointmentDate,
+        healthDetails: `[Branch: ${formData.branch}] ${formData.healthDetails}`
       };
 
       const response = await api.post('/appointments', payload);
@@ -167,6 +170,10 @@ Please confirm this appointment.`;
             </span>
           </p>
           <p className="flex justify-between">
+            <span className="text-textMuted">Branch:</span>
+            <span className="font-semibold text-primary">{formData.branch}</span>
+          </p>
+          <p className="flex justify-between">
             <span className="text-textMuted">Patient Name:</span>
             <span className="font-semibold">{bookingSuccess.name}</span>
           </p>
@@ -187,7 +194,7 @@ Please confirm this appointment.`;
         <button
           onClick={() => {
             setBookingSuccess(null);
-            setFormData({ name: '', phone: '', age: '', timeSlot: '', healthDetails: '' });
+            setFormData({ name: '', phone: '', age: '', branch: 'AYITT Main Branch', timeSlot: '', healthDetails: '' });
             setAppointmentDate(null);
           }}
           className="bg-primary hover:bg-primary-light text-white text-sm font-semibold py-3 px-8 rounded-full shadow-md hover:shadow-lg transition-all"
@@ -203,6 +210,24 @@ Please confirm this appointment.`;
     <div className="bg-white p-8 md:p-10 rounded-3xl border border-primary/5 shadow-lg max-w-2xl mx-auto">
       <form onSubmit={handleSubmit} className="space-y-6">
         
+        {/* Branch Selector */}
+        <div className="space-y-1.5">
+          <label className="text-xs font-bold text-textDark flex items-center gap-1.5">
+            <MapPin size={14} className="text-primary" />
+            <span>Select Branch *</span>
+          </label>
+          <select
+            name="branch"
+            value={formData.branch}
+            onChange={handleChange}
+            className="w-full px-4 py-2.5 rounded-xl border border-cream focus:outline-none focus:border-primary text-sm font-body bg-cream/10"
+            required
+          >
+            <option value="AYITT Main Branch">AYITT Main Branch</option>
+            <option value="AYITT Kakkanad Branch">AYITT Kakkanad Branch</option>
+          </select>
+        </div>
+
         {/* Two cols for Name and Phone */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
           {/* Full Name */}

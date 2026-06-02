@@ -57,15 +57,8 @@ const Footer = () => {
               <div className="flex items-start space-x-2.5">
                 <Clock size={16} className="text-white mt-0.5 shrink-0" />
                 <div>
-                  <p className="font-semibold text-white">Monday – Saturday</p>
+                  <p className="font-semibold text-white">Monday – Sunday</p>
                   <p className="text-xs mt-0.5 text-white/70">09:00 AM – 06:00 PM</p>
-                </div>
-              </div>
-              <div className="flex items-start space-x-2.5">
-                <Clock size={16} className="text-red-200 mt-0.5 shrink-0" />
-                <div>
-                  <p className="font-semibold text-red-200">Sunday</p>
-                  <p className="text-xs mt-0.5 text-red-200/80">Closed / Weekly Holiday</p>
                 </div>
               </div>
             </div>

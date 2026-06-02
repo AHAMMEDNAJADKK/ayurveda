@@ -265,7 +265,7 @@ const ProductShowcase = () => {
                     <div className="pt-4 border-t border-cream flex items-center justify-between gap-4">
                       <div>
                         <span className="text-[10px] text-textMuted block font-body uppercase tracking-wider">Price</span>
-                        <span className="font-display text-lg font-bold text-primary block leading-none mt-1">
+                        <span className="font-body text-lg font-bold text-primary block leading-none mt-1">
                           ₹{product.price}
                         </span>
                       </div>
